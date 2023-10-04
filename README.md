@@ -16,10 +16,10 @@ The tech recruiting system is broken, non-transparent, and inefficient, especial
 We address these issues by providing transparency, security, and confidence in candidate data through Blockchain-based Attestation, utilizing Ethereum Attestation Service.
 
 ### Problems We Solve
-Fewer Recruiting Rounds
+Fewer Recruiting Rounds  
 
-No Need for ATS (Applicant Tracking Systems)
+No Need for ATS (Applicant Tracking Systems)  
 
-No Need for Referrals
+No Need for Referrals  
 
-No Need for Third Parties
+No Need for Third Parties  
