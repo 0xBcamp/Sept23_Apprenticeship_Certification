@@ -17,6 +17,9 @@ We address these issues by providing transparency, security, and confidence in c
 
 ### Problems We Solve
 Fewer Recruiting Rounds
+
 No Need for ATS (Applicant Tracking Systems)
+
 No Need for Referrals
+
 No Need for Third Parties
