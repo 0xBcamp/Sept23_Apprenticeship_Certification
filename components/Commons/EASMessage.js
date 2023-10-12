@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 export default ({ Message }) => {
   return (
     <p>
@@ -6,12 +5,3 @@ export default ({ Message }) => {
     </p>
   );
 };
-=======
-export default ({ Message }) => {
-  return (
-    <p>
-      <b>{Message}</b>
-    </p>
-  );
-};
->>>>>>> origin/alfaqi
