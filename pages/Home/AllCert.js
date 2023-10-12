@@ -2,7 +2,11 @@ import { useState } from "react";
 import { Card } from "web3uikit";
 import { useQuery, gql } from "@apollo/client";
 import Link from "next/link";
-import { SkeletonModal, ErrorPage, TypeWriterOnce } from "@/components/Commons";
+import {
+  SkeletonTextModal,
+  ErrorPage,
+  TypeWriterOnce,
+} from "@/components/Commons";
 import SingleCard from "@/components/ProfilePart/SingleCard";
 
 export default () => {
@@ -48,9 +52,9 @@ export default () => {
       <Card>
         {loading ? (
           <div className="space-y-2">
-            <SkeletonModal />
-            <SkeletonModal />
-            <SkeletonModal />
+            <SkeletonTextModal />
+            <SkeletonTextModal />
+            <SkeletonTextModal />
           </div>
         ) : (
           <>

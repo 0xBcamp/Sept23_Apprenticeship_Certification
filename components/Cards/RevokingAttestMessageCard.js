@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
 export default () => {
-  const [attestUID, setAttestUID] = useState("");
+  const [schemaUID, setSchemaUID] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,7 +22,7 @@ export default () => {
     eas.connect(signer);
 
     const tx = await eas.revoke({
-      uid: attestUID,
+      uid: schemaUID,
     });
 
     setIsLoading(true);
@@ -39,8 +39,8 @@ export default () => {
           className="w-72 p-2 mt-4 Primary__Text"
           type="text"
           placeholder="Enter Schema UID..."
-          value={attestUID}
-          onChange={(e) => setAttestUID(e.target.value)}
+          value={schemaUID}
+          onChange={(e) => setSchemaUID(e.target.value)}
         />
         <button
           onClick={revokingAttestationButton}

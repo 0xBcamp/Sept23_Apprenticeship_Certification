@@ -1,11 +1,16 @@
 import { Card } from "web3uikit";
 import { useQuery, gql } from "@apollo/client";
 import Link from "next/link";
-import { SkeletonModal, ErrorPage, TypeWriterOnce } from "@/components/Commons";
+import {
+  SkeletonImageModal,
+  ErrorPage,
+  TypeWriterOnce,
+} from "@/components/Commons";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { useMoralis } from "react-moralis";
+import OverallBigCard from "@/components/ProfilePart/OverallBigCard";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -77,19 +82,7 @@ export default () => {
       <h1 className="text-xl font-bold">
         <TypeWriterOnce text="Overall" />
       </h1>
-      <Card style={{ width: "20%" }}>
-        {attesterCount.loading ? (
-          <div className="space-y-2">
-            <SkeletonModal />
-            <SkeletonModal />
-            <SkeletonModal />
-          </div>
-        ) : (
-          <div>
-            <Pie data={data} style={{ width: "20%" }} />
-          </div>
-        )}
-      </Card>
+      <OverallBigCard account={account} />
     </>
   );
 };
