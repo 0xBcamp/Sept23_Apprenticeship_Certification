@@ -1,106 +1,92 @@
-import { expect } from "chai";
-import { ethers } from "hardhat";
+const { expect } = require("chai");
+const { ethers } = require("hardhat");
 
-describe("BlockBadge", function () {
-  let owner, mentor, anotherMentor, apprentice, blockBadge, schemaResolver;
-  const bcampValue = ethers.utils.parseEther("1"); // 1 Ether
-  const customStringValue = ethers.utils.parseEther("0.5"); // 0.5 Ether
+describe("OrganizationResolver", function () {
+  let OrganizationResolver,
+    organizationResolver,
+    owner,
+    addr1,
+    addr2,
+    addr3,
+    IEAS;
 
-  beforeEach(async () => {
-    [owner, mentor, anotherMentor, apprentice] = await ethers.getSigners();
+  beforeEach(async function () {
+    // Assuming you also have an IEAS mock or actual contract to deploy.
+    IEAS = await ethers.getContractFactory("IEAS");
+    const ieasInstance = await IEAS.deploy();
+    await ieasInstance.deployed();
 
-    const BlockBadge = await ethers.getContractFactory("BlockBadge");
-    blockBadge = await BlockBadge.deploy(
-      schemaResolver.address,
-      "someURI",
-      bcampValue,
-      customStringValue
+    OrganizationResolver = await ethers.getContractFactory(
+      "OrganizationResolver"
     );
+    [owner, addr1, addr2, addr3, ...addrs] = await ethers.getSigners();
+
+    // Deploying contract with initial members
+    organizationResolver = await OrganizationResolver.deploy(
+      ieasInstance.address,
+      "TestOrganization",
+      [addr1.address, addr2.address]
+    );
+    await organizationResolver.deployed();
   });
 
-  describe("Mentor Management", function () {
-    it("Should allow owner to remove a mentor", async function () {
-      await blockBadge.addMentor(mentor.address);
-      await blockBadge.removeMentor(mentor.address);
-      expect(await blockBadge.isMentor(mentor.address)).to.equal(false);
+  describe("Deployment", function () {
+    it("Should set the right owner", async function () {
+      expect(await organizationResolver.owner()).to.equal(owner.address);
     });
 
-    it("Should not allow non-owners to add or remove mentors", async function () {
+    it("Should set the organization name correctly", async function () {
+      expect(await organizationResolver.organizationName()).to.equal(
+        "TestOrganization"
+      );
+    });
+
+    it("Should have initial members correctly set", async function () {
+      expect(
+        await organizationResolver.isOrganizationMember(addr1.address)
+      ).to.equal(true);
+      expect(
+        await organizationResolver.isOrganizationMember(addr2.address)
+      ).to.equal(true);
+      expect(
+        await organizationResolver.isOrganizationMember(addr3.address)
+      ).to.equal(false);
+    });
+  });
+
+  describe("Manage Members", function () {
+    it("Should allow owner to add members", async function () {
+      await organizationResolver.addToMembers(addr3.address);
+      expect(
+        await organizationResolver.isOrganizationMember(addr3.address)
+      ).to.equal(true);
+    });
+
+    it("Should allow owner to remove members", async function () {
+      await organizationResolver.removeFromMembers(addr1.address);
+      expect(
+        await organizationResolver.isOrganizationMember(addr1.address)
+      ).to.equal(false);
+    });
+
+    it("Should not allow non-owner to add or remove members", async function () {
       await expect(
-        blockBadge.connect(mentor).addMentor(anotherMentor.address)
+        organizationResolver.connect(addr1).addToMembers(addrs[0].address)
       ).to.be.revertedWith("Only the owner can call this function");
       await expect(
-        blockBadge.connect(mentor).removeMentor(anotherMentor.address)
+        organizationResolver.connect(addr1).removeFromMembers(addr2.address)
       ).to.be.revertedWith("Only the owner can call this function");
     });
   });
 
-  describe("Certification Registration", function () {
-    beforeEach(async () => {
-      await blockBadge.addMentor(mentor.address);
-    });
-
-    it("Should allow mentors to register a BCamp certification", async function () {
-      const certificationName = "BCamp";
-      await expect(
-        blockBadge
-          .connect(mentor)
-          .registerCertification("Alice", certificationName, Date.now(), {
-            value: bcampValue,
-          })
-      ).to.emit(blockBadge, "TransferSingle"); // ERC1155 event
-    });
-
-    it("Should allow mentors to register custom certifications", async function () {
-      const certificationName = "CustomCert";
-      await expect(
-        blockBadge
-          .connect(mentor)
-          .registerCertification("Alice", certificationName, Date.now(), {
-            value: customStringValue,
-          })
-      ).to.emit(blockBadge, "TransferSingle");
-    });
-
-    it("Should not allow non-mentors to register certifications", async function () {
-      await expect(
-        blockBadge
-          .connect(apprentice)
-          .registerCertification("Alice", "BCamp", Date.now(), {
-            value: bcampValue,
-          })
-      ).to.be.revertedWith("Not a mentor");
-    });
-  });
-
-  describe("SchemaResolver Implementation", function () {
-    // test the onAttest and onRevoke functions
-
-    // example:
-    it("Should return true in onAttest if attester is a mentor", async function () {
-      // simplistic test and might need to be refined
-      const mockAttestation = {
-        attester: mentor.address,
-        recipient: apprentice.address,
-        schema: "someSchema",
-        data: "someData",
-        nonce: 1,
-      };
-      const result = await blockBadge.onAttest(mockAttestation, 0);
-      expect(result).to.equal(true);
-    });
-
-    it("Should return true in onRevoke", async function () {
-      // test for the onRevoke function
-      const mockAttestation = {
-        attester: mentor.address,
-        recipient: apprentice.address,
-        schema: "someSchema",
-        data: "someData",
-        nonce: 1,
-      };
-      const result = await blockBadge.onRevoke(mockAttestation, 0);
-      expect(result).to.equal(true);
+  describe("Check Membership", function () {
+    it("Should return true for members and false for non-members", async function () {
+      expect(
+        await organizationResolver.isOrganizationMember(addr1.address)
+      ).to.equal(true);
+      expect(
+        await organizationResolver.isOrganizationMember(addrs[0].address)
+      ).to.equal(false);
     });
   });
 });

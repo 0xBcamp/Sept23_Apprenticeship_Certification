@@ -1,96 +1,98 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.9;
+// SPDX-License-Identifier: MIT-LICENSED
+pragma solidity 0.8.21;
 
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "./SchemaResolver.sol";
+import {IEAS, Attestation as EASAttestation} from "@ethereum-attestation-service/eas-contracts/contracts/IEAS.sol";
+import {SchemaResolver} from "@ethereum-attestation-service/eas-contracts/contracts/resolver/SchemaResolver.sol";
 
-contract BlockBadge is ERC1155, SchemaResolver {
-    struct Certification {
-        string apprenticeName;
-        string certificationName;
-        uint256 completedOnDate;
-    }
+contract OrganizationResolver is SchemaResolver {
+    address[] private members;
+    mapping(address => bool) private isMember;
+    mapping(address => uint256) private memberIndex;
+    address private owner;
+    string public organizationName;
 
-    mapping(uint256 => Certification) public certifications;
-    mapping(address => bool) public isMentor;
-
-    uint256 private _currentTokenID;
-    uint256 private bcampValue;
-    uint256 private customStringValue;
-
-    modifier onlyMentor() {
-        require(isMentor[msg.sender], "Not a mentor");
-        _;
+    struct Attestation {
+        EASAttestation easAttestation;
+        string description;
     }
 
     constructor(
-        address easAddress,
-        string memory uri,
-        uint256 _bcampValue,
-        uint256 _customStringValue
-    ) ERC1155(uri) SchemaResolver(easAddress) {
-        bcampValue = _bcampValue;
-        customStringValue = _customStringValue;
-    }
+        IEAS eas,
+        string memory _organizationName,
+        address[] memory initialMembers
+    ) SchemaResolver(eas) {
+        require(
+            initialMembers.length > 0,
+            "Must provide at least one member address"
+        );
+        organizationName = _organizationName;
 
-    function registerCertification(
-        string memory apprenticeName,
-        string memory certificationName,
-        uint256 completedOnDate
-    ) external payable onlyMentor returns (uint256) {
-        uint256 certificationCost = getCertificationCost(certificationName);
-        require(msg.value == certificationCost, "Incorrect Ether sent");
+        for (uint256 i = 0; i < initialMembers.length; i++) {
+            address member = initialMembers[i];
+            require(!isMember[member], "Duplicate member address provided");
 
-        _currentTokenID++;
-
-        certifications[_currentTokenID] = Certification({
-            apprenticeName: apprenticeName,
-            certificationName: certificationName,
-            completedOnDate: completedOnDate
-        });
-
-        _mint(msg.sender, _currentTokenID, 1, "0x");
-
-        return _currentTokenID;
-    }
-
-    function getCertificationCost(
-        string memory certificationName
-    ) public view returns (uint256) {
-        if (
-            keccak256(abi.encodePacked(certificationName)) ==
-            keccak256(abi.encodePacked("BCamp"))
-        ) {
-            return bcampValue;
-        } else {
-            return customStringValue;
+            members.push(member);
+            isMember[member] = true;
+            memberIndex[member] = members.length - 1;
         }
+
+        owner = msg.sender;
     }
 
-    function addMentor(address mentor) public onlyOwner {
-        isMentor[mentor] = true;
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only the owner can call this function");
+        _;
     }
 
-    function removeMentor(address mentor) public onlyOwner {
-        isMentor[mentor] = false;
-    }
-
-    // schemaresolver abstract method
     function onAttest(
-        Attestation calldata attestation,
-        uint256 value
-    ) internal override returns (bool) {
-        if (isMentor[attestation.attester]) {
-            // logic to mint nft
-            return true;
-        }
-        return false;
+        EASAttestation calldata easAttestation,
+        uint256 /*value*/
+    ) internal view override returns (bool) {
+        require(
+            isMember[easAttestation.attester],
+            "Not listed, please whitelist the address"
+        );
+        // Here we can handle the description if needed, for now, it's just ensuring that the attester is whitelisted.
+        return true;
     }
 
     function onRevoke(
-        Attestation calldata /*attestation*/,
+        EASAttestation calldata /*easAttestation*/,
         uint256 /*value*/
     ) internal pure override returns (bool) {
-        return true; // for now allowing revocations
+        return true;
+    }
+
+    function addToMembers(address _address) external onlyOwner {
+        require(_address != address(0), "Cannot add zero address");
+        require(!isMember[_address], "Address is already a member");
+
+        members.push(_address);
+        isMember[_address] = true;
+        memberIndex[_address] = members.length - 1;
+    }
+
+    function removeFromMembers(address _address) external onlyOwner {
+        require(isMember[_address], "Address is not a member");
+
+        uint256 indexToRemove = memberIndex[_address];
+        address lastMember = members[members.length - 1];
+
+        members[indexToRemove] = lastMember;
+        memberIndex[lastMember] = indexToRemove;
+
+        members.pop();
+        delete isMember[_address];
+        delete memberIndex[_address];
+    }
+
+    function getAllMembers() external view returns (address[] memory) {
+        return members;
+    }
+
+    function isOrganizationMember(
+        address _address
+    ) external view returns (bool) {
+        return isMember[_address];
     }
 }
