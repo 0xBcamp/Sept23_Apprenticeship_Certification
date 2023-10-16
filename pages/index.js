@@ -25,7 +25,7 @@ const Home = () => {
         <Link href="/Home" className="Primary__Click">
           Get Started
         </Link>
-        <Link href="/Home/AttestCertification" className="Primary__Click">
+        <Link href="/Registration/" className="Primary__Click">
           Register Now
         </Link>
       </div>

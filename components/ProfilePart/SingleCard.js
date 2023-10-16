@@ -18,7 +18,7 @@ export default ({ item }) => {
   return (
     <>
       <Card style={{ padding: "10px", border: "1px solid #ddd" }}>
-        <div className="flex grid-cols-3 text-center space-x-1">
+        <div className="flex text-center justify-around space-x-1">
           <div>
             <ENSAvatar address={attester} size={50} />
           </div>

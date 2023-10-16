@@ -14,45 +14,33 @@ export default () => {
   const [attestUID, setAttestUID] = useState("");
 
   const handleSubmit = async () => {
-    if (!address) {
-      alert("Please enter an address!");
-      return;
-    }
-    if (!message) {
-      alert("Please enter a message!");
-      return;
-    }
+    // if (!address) {
+    //   alert("Please enter an address!");
+    //   return;
+    // }
+    // if (!message) {
+    //   alert("Please enter a message!");
+    //   return;
+    // }
     setIsLoading(false);
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const provider = new ethers.BrowserProvider(window.ethereum);
     const signer = provider.getSigner();
 
     const eas = new EAS(EASContractAddress);
 
-    eas.connect(signer);
+    eas.connect(provider);
+    const uid =
+      "0x78b53af05a9ab1ac5ec5a3f9fe7e977a96a2a6e1b32b9f1504d6b1459dab1f43";
 
-    const schemaEncoder = new SchemaEncoder("string Message");
-    const encodeData = schemaEncoder.encodeData([
-      { name: "Message", value: message, type: "string" },
-    ]);
-
-    const tx = await eas.attest({
-      schema:
-        "0xef178a6053ee7a49ae4fa1fc43585f6bc5f88818f13248cd26a2587df0af5b10",
-      data: {
-        recipient: address,
-        expirationTime: 0,
-        revocable: false,
-        data: encodeData,
-      },
-    });
+    const attestation = await eas.getAttestation(uid);
 
     setIsLoading(true);
-    const newAttest = await tx.wait();
+    // const newAttest = await tx.wait();
     setIsLoading(false);
-    setAttestUID(newAttest);
-    setAddress();
-    setMessage();
+    setAttestUID(attestation);
+    // setAddress();
+    // setMessage();
   };
 
   return (

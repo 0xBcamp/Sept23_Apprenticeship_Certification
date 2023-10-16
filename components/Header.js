@@ -28,7 +28,7 @@ export default () => {
         <Link className="mr-4 p-6" href="/Profile">
           Profile
         </Link>
-        <DarkModeToggle />
+        {/* <DarkModeToggle /> */}
         <ConnectButton moralisAuth={false} />
       </div>
     </nav>
