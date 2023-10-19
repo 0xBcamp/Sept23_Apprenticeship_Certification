@@ -4,8 +4,9 @@ import { ENSAvatar } from "web3uikit";
 import { useMoralis } from "react-moralis";
 
 export default () => {
-  const { account } = useMoralis();
-  const a = <ENSAvatar address={account} size={50} />;
+  // const { account } = useMoralis();
+  // const a = <ENSAvatar address={account} size={50} />;
 
-  console.log(a);
+  // console.log(a);
+  return <p>BlockSurvey Card</p>;
 };
