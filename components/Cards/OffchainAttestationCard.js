@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { ethers } from "ethers";
 import Link from "next/link";
 import { useMoralis } from "react-moralis";
+import { ContractContext } from "@/Context/ContractContext";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
 export default () => {
+  const { makeOffChainAttestation } = useContext(ContractContext);
   const { isWeb3Enabled } = useMoralis();
   const [message, setMessage] = useState("");
   const [address, setAddress] = useState("");
@@ -28,44 +30,24 @@ export default () => {
 
     setIsLoading();
 
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    const PV_KEY = "";
-
-    const signer = new ethers.Wallet(PV_KEY, provider);
-
-    const eas = new EAS(EASContractAddress);
-
-    eas.connect(provider);
-
-    const offchain = await eas.getOffchain();
-
     const schemaEncoder = new SchemaEncoder("string message");
 
     const encodedData = schemaEncoder.encodeData([
       { name: "message", value: message, type: "string" },
     ]);
 
-    const offchainAttestation = await offchain.signOffchainAttestation(
-      {
-        recipient: address,
-        expirationTime: 0,
-        time: Math.floor(new Date() / 1000),
-        revocable: true,
-        version: 1,
-        nonce: 0,
-        schema:
-          "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f",
-        refUID:
-          "0x0000000000000000000000000000000000000000000000000000000000000000",
-        data: encodedData,
-      },
-      signer
+    const tx = await makeOffChainAttestation(
+      "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f",
+      address,
+      false,
+      encodedData
     );
-    console.log(offchainAttestation);
-    setIsLoading(true);
-    // const newAttest = await offchainAttestation.wait();
-    setIsLoading(false);
-    setAttestUID(offchainAttestation);
+
+    console.log(tx);
+    // setIsLoading(true);
+    // // const newAttest = await offchainAttestation.wait();
+    // setIsLoading(false);
+    setAttestUID(tx);
   };
 
   return (

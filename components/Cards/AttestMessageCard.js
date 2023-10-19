@@ -1,19 +1,27 @@
-import { useState } from "react";
-import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { ethers } from "ethers";
+import { useContext, useState } from "react";
+import { SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { useMoralis } from "react-moralis";
 import Link from "next/link";
-
-const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
+import { ContractContext } from "@/Context/ContractContext";
 
 export default () => {
+  const { makeOnChainAttestation, getOnChainAttestation } =
+    useContext(ContractContext);
   const { isWeb3Enabled } = useMoralis();
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState(
+    "0x728e124340b2807eD0cc5B2104eD5c07cceFa0Ec"
+  );
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [attestUID, setAttestUID] = useState("");
 
   const handleSubmit = async () => {
+    // console.log(
+    //   await getOnChainAttestation(
+    //     "0x78b53af05a9ab1ac5ec5a3f9fe7e977a96a2a6e1b32b9f1504d6b1459dab1f43"
+    //   )
+    // );
+    // return;
     if (!address) {
       alert("Please enter an address!");
       return;
@@ -24,35 +32,22 @@ export default () => {
     }
     setIsLoading(false);
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-
-    const eas = new EAS(EASContractAddress);
-
-    eas.connect(signer);
-
     const schemaEncoder = new SchemaEncoder("string Message");
     const encodeData = schemaEncoder.encodeData([
       { name: "Message", value: message, type: "string" },
     ]);
 
-    const tx = await eas.attest({
-      schema:
-        "0xef178a6053ee7a49ae4fa1fc43585f6bc5f88818f13248cd26a2587df0af5b10",
-      data: {
-        recipient: address,
-        expirationTime: 0,
-        revocable: false,
-        data: encodeData,
-      },
-    });
+    const tx = await makeOnChainAttestation(
+      "0xef178a6053ee7a49ae4fa1fc43585f6bc5f88818f13248cd26a2587df0af5b10",
+      address,
+      false,
+      encodeData
+    );
 
-    setIsLoading(true);
-    const newAttest = await tx.wait();
-    setIsLoading(false);
-    setAttestUID(newAttest);
-    setAddress();
-    setMessage();
+    console.log(tx);
+    setAttestUID(tx);
+    // setAddress();
+    // setMessage();
   };
 
   return (
