@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/client";
 import { SkeletonImageModal, ErrorPage } from "@/components/Commons";
 import { useMoralis } from "react-moralis";
 import { useContext, useEffect, useState } from "react";
-import { ContractContext } from "@/pages/Context/ContractContext";
+import { ContractContext } from "@/Context/ContractContext";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 export default () => {

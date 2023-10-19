@@ -4,7 +4,7 @@ import Head from "next/head";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { MoralisProvider } from "react-moralis";
 import { NotificationProvider } from "web3uikit";
-import { ContractContextProvider } from "./Context/ContractContext";
+import { ContractContextProvider } from "../Context/ContractContext";
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),

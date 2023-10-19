@@ -6,7 +6,7 @@ import { SkeletonTextModal, ErrorPage } from "@/components/Commons";
 import SingleCard from "./SingleCard";
 import { useMoralis } from "react-moralis";
 import { ethers } from "ethers";
-import { ContractContext } from "@/pages/Context/ContractContext";
+import { ContractContext } from "@/Context/ContractContext";
 const seeMore = 3;
 
 export default () => {

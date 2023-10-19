@@ -8,7 +8,7 @@ import {
   TypeWriterOnce,
 } from "@/components/Commons";
 import SingleCard from "@/components/ProfilePart/SingleCard";
-import { ContractContext } from "../Context/ContractContext";
+import { ContractContext } from "../../Context/ContractContext";
 import { useMoralis } from "react-moralis";
 
 export default () => {
