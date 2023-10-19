@@ -1,162 +1,164 @@
-import { useEffect } from "react";
+// This is for reference
 
-import dotenv from "dotenv";
-dotenv.config();
+// import { useEffect } from "react";
 
-import { Web3Storage } from "web3.storage";
-import { Modal, useNotification } from "web3uikit";
+// import dotenv from "dotenv";
+// dotenv.config();
 
-import networkMapping from "@/constants/networkMapping.json";
-import eventConnectAbi from "@/constants/EventConnect.json";
-import { useMoralis, useWeb3Contract } from "react-moralis";
+// import { Web3Storage } from "web3.storage";
+// import { Modal, useNotification } from "web3uikit";
 
-export default ({
-  name,
-  date,
-  duration,
-  description,
-  stream,
-  account,
-  uploadFile,
-  poapID,
-  isVisible,
-  onClose,
-}) => {
-  //   const { chainId } = useMoralis();
+// import networkMapping from "@/constants/networkMapping.json";
+// import eventConnectAbi from "@/constants/EventConnect.json";
+// import { useMoralis, useWeb3Contract } from "react-moralis";
 
-  //   const chainIdString = chainId ? parseInt(chainId).toString() : "31337";
-  //   const eventConnectAddress = networkMapping[chainIdString].EventConnect[0];
+// export default ({
+//   name,
+//   date,
+//   duration,
+//   description,
+//   stream,
+//   account,
+//   uploadFile,
+//   poapID,
+//   isVisible,
+//   onClose,
+// }) => {
+//   //   const { chainId } = useMoralis();
 
-  // Get the last Event index
-  const { runContractFunction: getEventIndex } = useWeb3Contract({
-    abi: eventConnectAbi,
-    contractAddress: eventConnectAddress,
-    functionName: "getEventIndex",
-  });
+//   //   const chainIdString = chainId ? parseInt(chainId).toString() : "31337";
+//   //   const eventConnectAddress = networkMapping[chainIdString].EventConnect[0];
 
-  //   const { runContractFunction } = useWeb3Contract();
+//   // Get the last Event index
+//   const { runContractFunction: getEventIndex } = useWeb3Contract({
+//     abi: eventConnectAbi,
+//     contractAddress: eventConnectAddress,
+//     functionName: "getEventIndex",
+//   });
 
-  const dispatch = useNotification();
+//   //   const { runContractFunction } = useWeb3Contract();
 
-  // Add Event
-  //   async function addEvent(fullCID) {
-  //     const addEventOptions = {
-  //       abi: eventConnectAbi,
-  //       contractAddress: eventConnectAddress,
-  //       functionName: "addEvent",
-  //       params: {
-  //         eventURI: fullCID,
-  //         streamKey: stream.streamKey,
-  //         poapID: poapID,
-  //       },
-  //     };
+//   const dispatch = useNotification();
 
-  //     await runContractFunction({
-  //       params: addEventOptions,
-  //       onSuccess: (tx) => handleSuccess(tx),
-  //       onError: (error) => {
-  //         console.log(error);
-  //       },
-  //     });
+//   // Add Event
+//   //   async function addEvent(fullCID) {
+//   //     const addEventOptions = {
+//   //       abi: eventConnectAbi,
+//   //       contractAddress: eventConnectAddress,
+//   //       functionName: "addEvent",
+//   //       params: {
+//   //         eventURI: fullCID,
+//   //         streamKey: stream.streamKey,
+//   //         poapID: poapID,
+//   //       },
+//   //     };
 
-  //     console.log("Event Added!");
-  //   }
+//   //     await runContractFunction({
+//   //       params: addEventOptions,
+//   //       onSuccess: (tx) => handleSuccess(tx),
+//   //       onError: (error) => {
+//   //         console.log(error);
+//   //       },
+//   //     });
 
-  //   const handleSuccess = async (tx) => {
-  //     await tx.wait(1);
-  //     dispatch({
-  //       type: "success",
-  //       message: "The operation was successful",
-  //       title: "Successful",
-  //       position: "topR",
-  //     });
-  //     onClose && onClose();
-  //     alert("Done!");
-  //     window.location.reload();
-  //   };
+//   //     console.log("Event Added!");
+//   //   }
 
-  /**
-   * CID Section
-   */
-  const token = process.env.NEXT_PUBLIC_WEB3_STORAGE_API_TOKEN;
-  const client = new Web3Storage({ token });
+//   //   const handleSuccess = async (tx) => {
+//   //     await tx.wait(1);
+//   //     dispatch({
+//   //       type: "success",
+//   //       message: "The operation was successful",
+//   //       title: "Successful",
+//   //       position: "topR",
+//   //     });
+//   //     onClose && onClose();
+//   //     alert("Done!");
+//   //     window.location.reload();
+//   //   };
 
-  const prefix = "https://";
-  const suffix = ".ipfs.w3s.link";
+//   /**
+//    * CID Section
+//    */
+//   const token = process.env.NEXT_PUBLIC_WEB3_STORAGE_API_TOKEN;
+//   const client = new Web3Storage({ token });
 
-  let cid;
-  const metadataTemplate = {
-    eventID: "",
-    name: "",
-    date: "",
-    duration: "",
-    description: "",
-    banner: "",
-    playbackId: "",
-  };
+//   const prefix = "https://";
+//   const suffix = ".ipfs.w3s.link";
 
-  async function createNewEvent() {
-    /*
-     * Storing Files (Uploading to IPFS)
-     */
-    console.log(`Uploading ${uploadFile.name}...`);
+//   let cid;
+//   const metadataTemplate = {
+//     eventID: "",
+//     name: "",
+//     date: "",
+//     duration: "",
+//     description: "",
+//     banner: "",
+//     playbackId: "",
+//   };
 
-    cid = await client.put([uploadFile], {
-      wrapWithDirectory: false,
-    });
-    console.log(`Getting files of ${cid}`);
+//   async function createNewEvent() {
+//     /*
+//      * Storing Files (Uploading to IPFS)
+//      */
+//     console.log(`Uploading ${uploadFile.name}...`);
 
-    await setMetadata();
-  }
+//     cid = await client.put([uploadFile], {
+//       wrapWithDirectory: false,
+//     });
+//     console.log(`Getting files of ${cid}`);
 
-  async function setMetadata() {
-    let metadata = { ...metadataTemplate };
+//     await setMetadata();
+//   }
 
-    console.log(`Working on ${uploadFile.name}...`);
-    console.log(uploadFile.name);
+//   async function setMetadata() {
+//     let metadata = { ...metadataTemplate };
 
-    metadata.eventID = `${await getEventIndex()}`;
-    metadata.name = name;
-    metadata.date = date;
-    metadata.duration = duration;
-    metadata.description = description;
-    metadata.banner = `${prefix}${cid}${suffix}`;
-    metadata.playbackId = stream.playbackId;
+//     console.log(`Working on ${uploadFile.name}...`);
+//     console.log(uploadFile.name);
 
-    await setJsonFile(metadata);
-  }
+//     metadata.eventID = `${await getEventIndex()}`;
+//     metadata.name = name;
+//     metadata.date = date;
+//     metadata.duration = duration;
+//     metadata.description = description;
+//     metadata.banner = `${prefix}${cid}${suffix}`;
+//     metadata.playbackId = stream.playbackId;
 
-  async function setJsonFile(metadata) {
-    console.log(`Writing JSON file: ${metadata.name}.json`);
-    const buffer = Buffer.from(JSON.stringify(metadata));
-    const files = [new File([buffer], `${metadata.name}.json`)];
-    cid = await client.put(files, { wrapWithDirectory: false });
-    console.log(`Done writing JSON file: ${metadata.name}.json`);
+//     await setJsonFile(metadata);
+//   }
 
-    addEvent(`${prefix}${cid}${suffix}`);
-    onClose && onClose();
-  }
+//   async function setJsonFile(metadata) {
+//     console.log(`Writing JSON file: ${metadata.name}.json`);
+//     const buffer = Buffer.from(JSON.stringify(metadata));
+//     const files = [new File([buffer], `${metadata.name}.json`)];
+//     cid = await client.put(files, { wrapWithDirectory: false });
+//     console.log(`Done writing JSON file: ${metadata.name}.json`);
 
-  useEffect(() => {
-    createNewEvent();
-  }, []);
-  return (
-    <>
-      <Modal
-        isVisible={isVisible}
-        onCancel={onClose}
-        onOk={onClose}
-        onCloseButtonPressed={onClose}
-        title="Last step, Check a Banner for your Event"
-        okText="Done"
-        cancelText="Close"
-      >
-        <p>Name: {name}</p>
-        <p>Date: {date}</p>
-        <p>Duration: {duration}</p>
-        <p>Description: {description}</p>
-        <p>Event By: {account}</p>
-      </Modal>
-    </>
-  );
-};
+//     addEvent(`${prefix}${cid}${suffix}`);
+//     onClose && onClose();
+//   }
+
+//   useEffect(() => {
+//     createNewEvent();
+//   }, []);
+//   return (
+//     <>
+//       <Modal
+//         isVisible={isVisible}
+//         onCancel={onClose}
+//         onOk={onClose}
+//         onCloseButtonPressed={onClose}
+//         title="Last step, Check a Banner for your Event"
+//         okText="Done"
+//         cancelText="Close"
+//       >
+//         <p>Name: {name}</p>
+//         <p>Date: {date}</p>
+//         <p>Duration: {duration}</p>
+//         <p>Description: {description}</p>
+//         <p>Event By: {account}</p>
+//       </Modal>
+//     </>
+//   );
+// };

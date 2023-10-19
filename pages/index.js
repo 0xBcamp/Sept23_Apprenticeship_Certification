@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import { TypeWriter } from "@/components/Commons";
 
@@ -9,7 +8,7 @@ const Home = () => {
       <p className="text-2xl font-bold"> Welcome to</p>
       <header className="text-6xl font-bold mb-4 text-center">
         <TypeWriter
-          text="BlockBadge"
+          text="BlockBadge Platform"
           speed="100"
           restartDelay={2000}
         />
