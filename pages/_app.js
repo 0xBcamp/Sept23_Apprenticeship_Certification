@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }) {
   return (
     <div>
       <Head>
-        <title>BlockBadge Platform</title>
+        <title>BlockBadge</title>
         <meta name="description" content="" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
       </Head>
