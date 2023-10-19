@@ -4,4 +4,4 @@ const nextConfig = {
   reactStrictMode: true,
 };
 
-module.exports = { nextConfig, images: { loader: "custom" } };
+module.exports = nextConfig;
