@@ -16,10 +16,19 @@ export default () => {
         </div>
         <br />
         <hr />
-        <h1 className="H1__Header">Attetst a Meesage (feedback)</h1>
+        <h1 className="H1__Header">Attetst a Meesage (feedback) OnChain</h1>
         <p className="m-2">What is your evaluation of this apprentice?</p>
         <div className="m-2">
           <Link href="/Home/AttestMessage" className="Primary__Click">
+            Attest now
+          </Link>
+        </div>
+        <br />
+        <hr />
+        <h1 className="H1__Header">Attetst a Meesage (feedback) OffChain</h1>
+        <p className="m-2">What is your evaluation of this apprentice?</p>
+        <div className="m-2">
+          <Link href="/Home/OffChainAttestMessage" className="Primary__Click">
             Attest now
           </Link>
         </div>

@@ -33,7 +33,10 @@ export default ({ item }) => {
                 return (
                   <EASMessage
                     key={i}
-                    Message={item.value.name == "message" && item.value.value}
+                    Message={
+                      item.value.name.toLowerCase() == "message" &&
+                      item.value.value
+                    }
                   />
                 );
               })}
