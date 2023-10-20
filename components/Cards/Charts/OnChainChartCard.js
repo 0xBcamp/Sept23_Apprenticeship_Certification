@@ -6,7 +6,7 @@ import { SkeletonImageModal, ErrorPage } from "@/components/Commons";
 import { useContext, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { useMoralis } from "react-moralis";
-import { ContractContext } from "@/pages/Context/ContractContext";
+import { ContractContext } from "@/Context/ContractContext";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 export default () => {

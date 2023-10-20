@@ -12,7 +12,7 @@ export default () => {
             name={"Logo"}
             imageSrc={IMG}
             ImgWidth={"80"}
-            // ImgHeight={"80"}
+            ImgHeight={"80"}
           />
         </Link>
       </h1>

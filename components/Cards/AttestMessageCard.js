@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { useMoralis } from "react-moralis";
 import Link from "next/link";
-import { ContractContext } from "@/pages/Context/ContractContext";
+import { ContractContext } from "@/Context/ContractContext";
 
 export default () => {
   const { makeOnChainAttestation, getOnChainAttestation } =
