@@ -1,9 +1,5 @@
-import { Skeleton } from "web3uikit";
+import Skeleton from "@mui/material/Skeleton";
 
 export default () => {
-  return (
-    <div className="space-x-2 Skeleton__Card flex">
-      <Skeleton theme="image" width="300px" height="300px" />
-    </div>
-  );
+  return <Skeleton variant="circular" width={100} height={100} />;
 };

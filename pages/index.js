@@ -1,17 +1,18 @@
 import Link from "next/link";
 import { TypeWriter } from "@/components/Commons";
+import { useEffect } from "react";
 
 const Home = () => {
+  useEffect(() => {
+    document.documentElement.scrollTop = 0;
+    document.scrollingElement.scrollTop = 0;
+  });
+
   return (
-    // <div className="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
     <div className=" min-h-screen flex flex-col justify-center items-center">
       <p className="text-2xl font-bold"> Welcome to</p>
       <header className="text-6xl font-bold mb-4 text-center">
-        <TypeWriter
-          text="BlockBadge"
-          speed="100"
-          restartDelay={2000}
-        />
+        <TypeWriter text="BlockBadge" speed="100" restartDelay={2000} />
       </header>
       <p className="text-lg mb-6 text-center flex-wrap">
         BlockBadge Platform is a cutting-edge blockchain-based system designed

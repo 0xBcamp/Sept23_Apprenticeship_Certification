@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { ethers } from "ethers";
-import { DatePicker } from "web3uikit";
+// import { DatePicker } from "web3uikit";
 import Link from "next/link";
-import { useMoralis } from "react-moralis";
+// import { useMoralis } from "react-moralis";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
 export default () => {
-  const { isWeb3Enabled } = useMoralis();
+  // const { isWeb3Enabled } = useMoralis();
   const [apprenticeName, setApprenticeName] = useState("");
   const [certificationName, setCertificationName] = useState("");
   const [customFeedback, setCustomFeedback] = useState("");
@@ -87,45 +87,45 @@ export default () => {
 
   return (
     <>
-      {isWeb3Enabled ? (
-        <div className="flex flex-col grid-cols-1 gap-4 items-center">
-          <div className="space-x-3">
-            <input
-              className="w-72 p-2  Primary__Text"
-              type="text"
-              placeholder="Enter apprentice name..."
-              value={apprenticeName}
-              onChange={(e) => setApprenticeName(e.target.value)}
-            />
-          </div>
-          <div>
-            <input
-              className="w-72 p-2 Primary__Text"
-              type="text"
-              placeholder="Enter certification name..."
-              value={certificationName}
-              onChange={(e) => setCertificationName(e.target.value)}
-            />
-          </div>
+      {/* {isWeb3Enabled ? ( */}
+      <div className="flex flex-col grid-cols-1 gap-4 items-center">
+        <div className="space-x-3">
+          <input
+            className="w-72 p-2  Primary__Text"
+            type="text"
+            placeholder="Enter apprentice name..."
+            value={apprenticeName}
+            onChange={(e) => setApprenticeName(e.target.value)}
+          />
+        </div>
+        <div>
+          <input
+            className="w-72 p-2 Primary__Text"
+            type="text"
+            placeholder="Enter certification name..."
+            value={certificationName}
+            onChange={(e) => setCertificationName(e.target.value)}
+          />
+        </div>
 
-          <div className="space-x-3">
-            <input
-              className="w-72 p-2  Primary__Text"
-              type="text"
-              placeholder="Enter address..."
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </div>
-          <div>
-            <input
-              className="w-72 p-2  Primary__Text"
-              type="text"
-              placeholder="Your Feedback..."
-              value={customFeedback}
-              onChange={(e) => setCustomFeedback(e.target.value)}
-            />
-            {/* <DatePicker
+        <div className="space-x-3">
+          <input
+            className="w-72 p-2  Primary__Text"
+            type="text"
+            placeholder="Enter address..."
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </div>
+        <div>
+          <input
+            className="w-72 p-2  Primary__Text"
+            type="text"
+            placeholder="Your Feedback..."
+            value={customFeedback}
+            onChange={(e) => setCustomFeedback(e.target.value)}
+          />
+          {/* <DatePicker
           className="w-72 p-7 "
           label="Completed on date"
           value={completedOnDate}
@@ -134,31 +134,28 @@ export default () => {
             console.log(e.date / 1000);
           }}
         /> */}
-          </div>
-
-          <button
-            onClick={handleSubmit}
-            className="w-72 p-2 mt-4 Primary__Click"
-          >
-            Submit Attestation
-          </button>
-          {isLoading && <p className="mt-4">Wait...</p>}
-          {attestUID && (
-            <p className="mt-4">
-              New Attest UID:
-              <Link
-                href={`https://sepolia.easscan.org/attestation/view/${attestUID}`}
-                target="_blank"
-                className="underline"
-              >
-                {`https://sepolia.easscan.org/attestation/view/${attestUID}`}
-              </Link>
-            </p>
-          )}
         </div>
-      ) : (
+
+        <button onClick={handleSubmit} className="w-72 p-2 mt-4 Primary__Click">
+          Submit Attestation
+        </button>
+        {isLoading && <p className="mt-4">Wait...</p>}
+        {attestUID && (
+          <p className="mt-4">
+            New Attest UID:
+            <Link
+              href={`https://sepolia.easscan.org/attestation/view/${attestUID}`}
+              target="_blank"
+              className="underline"
+            >
+              {`https://sepolia.easscan.org/attestation/view/${attestUID}`}
+            </Link>
+          </p>
+        )}
+      </div>
+      {/* ) : (
         <>Please connect your wallet</>
-      )}
+      )} */}
     </>
   );
 };

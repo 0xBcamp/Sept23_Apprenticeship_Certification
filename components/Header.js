@@ -1,12 +1,22 @@
 import Link from "next/link";
-import { ConnectButton } from "web3uikit";
+// import { ConnectButton } from "web3uikit";
 import { EASImage } from "./Commons";
 import DarkModeToggle from "./DarkLightMode";
+import Headroom from "headroom.js";
+import { useEffect } from "react";
 const IMG = "/logo2.png";
 export default () => {
+  useEffect(() => {
+    let headroom = new Headroom(document.getElementById("navbar-main"));
+    // initialise
+    headroom.init();
+  });
   return (
-    <nav className=" head p-5 border-b-2 flex flex-row justify-between items-center">
-      <h1>
+    <nav
+      id="navbar-main"
+      className="navbar-transparent navbar-light headroom head border-b-2 flex flex-row justify-between items-center"
+    >
+      <h1 className="mr-4 p-3">
         <Link href={"/"}>
           <EASImage
             name={"Logo"}
@@ -17,19 +27,19 @@ export default () => {
         </Link>
       </h1>
       <div className="flex font-bold flex-row items-center space-x-4">
-        <Link className="mr-4 p-6" href="/Home/">
+        <Link className="mr-4 p-3 text-white" href="/BBP/">
           Home
         </Link>
 
-        <Link className="mr-4 p-6" href="/Home/Attestations">
+        <Link className="mr-4 p-3 text-white" href="/BBP/Attestations">
           Attestations
         </Link>
 
-        <Link className="mr-4 p-6" href="/Profile">
+        <Link className="mr-4 p-3 text-white" href="/Profile">
           Profile
         </Link>
         {/* <DarkModeToggle /> */}
-        <ConnectButton moralisAuth={false} />
+        {/* <ConnectButton moralisAuth={false} /> */}
       </div>
     </nav>
   );

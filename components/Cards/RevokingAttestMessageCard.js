@@ -14,7 +14,7 @@ export default () => {
   const revokingAttestationButton = async () => {
     setIsLoading();
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const provider = new ethers.BrowserProvider(window.ethereum);
     const signer = provider.getSigner();
 
     const eas = new EAS(EASContractAddress);

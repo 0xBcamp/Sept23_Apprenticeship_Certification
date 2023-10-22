@@ -1,37 +1,20 @@
-import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const Section0 = dynamic(() => import("./Section0"));
+const Section1 = dynamic(() => import("./Section1"));
+const Section2 = dynamic(() => import("./Section2"));
+const Section3 = dynamic(() => import("./Section3"));
+const Section4 = dynamic(() => import("./Section4"));
 
 export default () => {
   return (
-    <div className="container mx-auto">
-      {/* <h1 className="H1__Header">Register for Certificate</h1>
-          <p className="m-2">Live in transparent</p>
-          <div className="m-2">
-            <Link href="/Registration" className="Primary__Click">
-              Register Now
-            </Link>
-          </div>
-          <br />
-          <hr /> */}
-      <h1 className="H1__Header">Make Attestation</h1>
-      <p className="m-2">Attest your friends</p>
-      <div className="m-2">
-        <Link href="/Home/Attestations" className="Primary__Click">
-          Attest now
-        </Link>
-      </div>
-      <br />
-      <hr />
-      <h1 className="H1__Header">Check Attestation</h1>
-      <p className="m-2">
-        Check who attested to you and whom you have attested
-      </p>
-      <div className="m-2">
-        <Link href="/Profile" className="Primary__Click">
-          Check Attestation
-        </Link>
-      </div>
-      <br />
-      <hr />
-    </div>
+    <>
+      <Section0 />
+      <Section1 />
+      <Section2 />
+      <Section3 />
+      <Section4 />
+      {/* </div> */}
+    </>
   );
 };

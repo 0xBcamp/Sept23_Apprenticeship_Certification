@@ -1,16 +1,13 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { SkeletonImageModal, ErrorPage } from "@/components/Commons";
 import { useContext, useEffect, useState } from "react";
-import { ethers } from "ethers";
-import { useMoralis } from "react-moralis";
-import { ContractContext } from "@/pages/Context/ContractContext";
+import { ContractContext } from "@/Context/ContractContext";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 export default () => {
-  const { account } = useMoralis();
   const [accountAddress, setAccountAddress] = useState("");
   const { GET_ATTESTER_QUERY, GET_RECIPIENT_QUERY, getMyAddress } =
     useContext(ContractContext);
@@ -19,7 +16,7 @@ export default () => {
       setAccountAddress(await getMyAddress());
     };
     func();
-  }, [account]);
+  }, []);
 
   // const account = accountAddress
   //   ? accountAddress
@@ -64,9 +61,7 @@ export default () => {
   return (
     <>
       {attesterCount.loading && recipientCount.loading ? (
-        <div>
-          <SkeletonImageModal />
-        </div>
+        <SkeletonImageModal />
       ) : (
         <div
           className="flex flex-col justify-center items-center "

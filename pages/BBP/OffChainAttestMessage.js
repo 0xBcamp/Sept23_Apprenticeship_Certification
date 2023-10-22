@@ -1,10 +1,11 @@
-import AttestMessageCard from "@/components/Cards/AttestMessageCard";
+// import AttestMessageCard from "@/components/Cards/AttestMessageCard";
 import Link from "next/link";
 import { TypeWriterOnce } from "@/components/Commons";
+import OffchainAttestationCard from "@/components/Cards/OffchainAttestationCard";
 export default () => {
   return (
     <>
-      <Link href={"/Home/Attestations"} className="Link__Back">
+      <Link href={"/BBP/Attestations"} className="Link__Back">
         Back
       </Link>
       <main className="flex flex-col gap-2 items-center p-12 ">
@@ -17,7 +18,7 @@ export default () => {
         <h1 className="text-xl font-bold">
           <TypeWriterOnce text="What's your feedback" />
         </h1>
-        <AttestMessageCard />
+        <OffchainAttestationCard />
       </main>
     </>
   );

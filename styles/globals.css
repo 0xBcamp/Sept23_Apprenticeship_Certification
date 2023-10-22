@@ -72,6 +72,12 @@ body {
   gap: "5px";
 }
 
+.box {
+  width: 100px;
+  height: 100px;
+  background: white;
+}
+
 
 .H1__Header {
   font-size: 1.5rem

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { ethers } from "ethers";
-import { useMoralis } from "react-moralis";
+// import { useMoralis } from "react-moralis";
 import Link from "next/link";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
 export default () => {
-  const { isWeb3Enabled } = useMoralis();
+  // const { isWeb3Enabled } = useMoralis();
   const [address, setAddress] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -45,9 +45,9 @@ export default () => {
 
   return (
     <>
-      {isWeb3Enabled ? (
-        <div className="flex flex-col grid-cols-2 items-center">
-          {/* <p>
+      {/* {isWeb3Enabled ? ( */}
+      <div className="flex flex-col grid-cols-2 items-center">
+        {/* <p>
         Schema id:
         <b>
           {" "}
@@ -57,43 +57,40 @@ export default () => {
       <p>
         Schema:<b> string message</b>
       </p> */}
-          <input
-            className="w-72 p-2 mt-4 Primary__Text border"
-            type="text"
-            placeholder="Enter an address to attest..."
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <input
-            className="w-72 p-2 mt-4 Primary__Text"
-            type="text"
-            placeholder="Your Message..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <button
-            onClick={handleSubmit}
-            className="w-72 p-2 mt-4 Primary__Click"
-          >
-            Submit
-          </button>
-          {isLoading && <p className="mt-4">Wait...</p>}
-          {attestUID && (
-            <p className="mt-4">
-              New Attest UID:
-              <Link
-                href={`https://sepolia.easscan.org/attestation/view/${attestUID}`}
-                target="_blank"
-                className="underline"
-              >
-                {`https://sepolia.easscan.org/attestation/view/${attestUID}`}
-              </Link>
-            </p>
-          )}
-        </div>
-      ) : (
+        <input
+          className="w-72 p-2 mt-4 Primary__Text border"
+          type="text"
+          placeholder="Enter an address to attest..."
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
+        <input
+          className="w-72 p-2 mt-4 Primary__Text"
+          type="text"
+          placeholder="Your Message..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <button onClick={handleSubmit} className="w-72 p-2 mt-4 Primary__Click">
+          Submit
+        </button>
+        {isLoading && <p className="mt-4">Wait...</p>}
+        {attestUID && (
+          <p className="mt-4">
+            New Attest UID:
+            <Link
+              href={`https://sepolia.easscan.org/attestation/view/${attestUID}`}
+              target="_blank"
+              className="underline"
+            >
+              {`https://sepolia.easscan.org/attestation/view/${attestUID}`}
+            </Link>
+          </p>
+        )}
+      </div>
+      {/* ) : (
         <>Please connect your wallet</>
-      )}
+      )} */}
     </>
   );
 };

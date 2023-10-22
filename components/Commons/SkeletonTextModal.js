@@ -1,13 +1,6 @@
-import { Skeleton } from "web3uikit";
+import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
 
 export default () => {
-  return (
-    <div className="space-x-2 Skeleton__Card flex">
-      <Skeleton theme="image" />
-      <div style={{ width: "100%", height: "100%" }}>
-        <Skeleton theme="text" />
-        <Skeleton theme="text" />
-      </div>
-    </div>
-  );
+  return <Skeleton variant="text" width={"100%"} />;
 };

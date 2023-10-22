@@ -2,14 +2,16 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
 import { useQuery } from "@apollo/client";
-import { SkeletonImageModal, ErrorPage } from "@/components/Commons";
-import { useMoralis } from "react-moralis";
+import {
+  SkeletonImageModal,
+  ErrorPage,
+  SkeletonTextModal,
+} from "@/components/Commons";
 import { useContext, useEffect, useState } from "react";
-import { ContractContext } from "@/pages/Context/ContractContext";
+import { ContractContext } from "@/Context/ContractContext";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 export default () => {
-  const { account } = useMoralis();
   const [accountAddress, setAccountAddress] = useState("");
   const {
     GET_ATTESTER_REPUTATION_QUERY,
@@ -21,7 +23,7 @@ export default () => {
       setAccountAddress(await getMyAddress());
     };
     func();
-  }, [account]);
+  }, []);
 
   // const account = "0x728e124340b2807eD0cc5B2104eD5c07cceFa0Ec";
   const schema =

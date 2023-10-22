@@ -1,16 +1,16 @@
 import { useContext, useEffect, useState } from "react";
-import { Card } from "web3uikit";
 import { useQuery, gql } from "@apollo/client";
 import Link from "next/link";
 import { SkeletonTextModal, ErrorPage } from "@/components/Commons";
 import SingleCard from "./SingleCard";
-import { useMoralis } from "react-moralis";
-import { ethers } from "ethers";
-import { ContractContext } from "@/pages/Context/ContractContext";
+import { ContractContext } from "@/Context/ContractContext";
+
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+
 const seeMore = 3;
 export default () => {
   const { GET_ATTESTATIONS_QUERY, getMyAddress } = useContext(ContractContext);
-  const { account } = useMoralis();
   const [accountAddress, setAccountAddress] = useState("");
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default () => {
       setAccountAddress(await getMyAddress());
     };
     func();
-  }, [account]);
+  }, []);
   const schema =
     "0xef178a6053ee7a49ae4fa1fc43585f6bc5f88818f13248cd26a2587df0af5b10";
   // const schema =
@@ -36,32 +36,37 @@ export default () => {
     },
   });
 
+  console.log(loading);
   if (error) return <ErrorPage CardName="Certifications" />;
 
   return (
-    <Card style={{ height: "100%" }}>
-      <h1 className="text-2xl">Certifications</h1>
-      {loading ? (
-        <div className="space-y-2">
-          <SkeletonTextModal />
-          <SkeletonTextModal />
-          <SkeletonTextModal />
-        </div>
-      ) : (
-        <div className="flex flex-col justify-center items-center">
-          {eas.attestations.slice(0, seeMore).map((item, index) => {
-            return <SingleCard key={index} item={item} />;
-          })}
-          {eas.attestations?.length === 0 && (
-            <div>There are no any certificates.</div>
-          )}
-          {eas.attestations?.length > seeMore && (
-            <Link href="/Home/AllCert" className="underline">
+    <Card style={{ width: "100%" }}>
+      <CardContent>
+        <h1 className="text-2xl">Certifications</h1>
+        {loading ? (
+          <div className="space-y-2">
+            <SkeletonTextModal />
+            <SkeletonTextModal />
+            <SkeletonTextModal />
+          </div>
+        ) : (
+          <div className="flex flex-col justify-center items-center">
+            {eas.attestations.slice(0, seeMore).map((item, index) => {
+              return <SingleCard key={index} item={item} />;
+            })}
+            {eas.attestations?.length === 0 && (
+              <div>There are no any certificates.</div>
+            )}
+          </div>
+        )}
+        {eas?.attestations?.length > seeMore && (
+          <>
+            <Link href="/BBP/AllCert" className="underline">
               More Certificates
             </Link>
-          )}
-        </div>
-      )}
+          </>
+        )}
+      </CardContent>
     </Card>
   );
 };
