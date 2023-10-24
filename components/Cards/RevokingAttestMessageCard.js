@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { EAS } from "@ethereum-attestation-service/eas-sdk";
 import { ethers } from "ethers";
+import { useAccount } from "wagmi";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
 export default () => {
+  const { isConnected } = useAccount();
+
   const [schemaUID, setSchemaUID] = useState("");
-
   const [isLoading, setIsLoading] = useState(false);
-
   const [attestInfo, setAttestInfo] = useState("");
 
   const revokingAttestationButton = async () => {
@@ -33,26 +34,32 @@ export default () => {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="space-x-3">
-        <input
-          className="w-72 p-2 mt-4 Primary__Text"
-          type="text"
-          placeholder="Enter Schema UID..."
-          value={schemaUID}
-          onChange={(e) => setSchemaUID(e.target.value)}
-        />
-        <button
-          onClick={revokingAttestationButton}
-          className="w-72 p-2 mt-4 Primary__Click"
-        >
-          Revoking Attestation
-        </button>
-      </div>
-      {isLoading && <p className="mt-4">Wait...</p>}
+    <>
+      {isConnected ? (
+        <div className="flex flex-col items-center">
+          <div className="space-x-3">
+            <input
+              className="w-72 p-2 mt-4 Primary__Text"
+              type="text"
+              placeholder="Enter Schema UID..."
+              value={schemaUID}
+              onChange={(e) => setSchemaUID(e.target.value)}
+            />
+            <button
+              onClick={revokingAttestationButton}
+              className="w-72 p-2 mt-4 Primary__Click"
+            >
+              Revoking Attestation
+            </button>
+          </div>
+          {isLoading && <p className="mt-4">Wait...</p>}
 
-      {attestInfo && <p className="mt-4">Attest Info: {attestInfo}</p>}
-    </div>
+          {attestInfo && <p className="mt-4">Attest Info: {attestInfo}</p>}
+        </div>
+      ) : (
+        <>Please connect your wallet</>
+      )}
+    </>
   );
 };
 

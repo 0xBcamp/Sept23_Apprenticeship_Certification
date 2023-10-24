@@ -2,46 +2,40 @@ import CertificationBigCard from "@/components/ProfilePart/CertificationBigCard"
 import OverallBigCard from "@/components/ProfilePart/OverviewBigCard";
 import ReputationBigCard from "@/components/ProfilePart/ReputationBigCard";
 import SidebarBigCard from "@/components/ProfilePart/SidebarPart/SidebarBigCard";
-import { useContext, useEffect, useState } from "react";
-import { ContractContext } from "../../Context/ContractContext";
-// import { useMoralis } from "react-moralis";
+import Sidebar from "@/components/Sidebar";
+import { useEffect } from "react";
+import { useEnsAddress } from "wagmi";
 
 export default () => {
-  // const { isWeb3Enabled, account } = useMoralis();
-  const { getMyAddress } = useContext(ContractContext);
-  // const { account } = useMoralis();
-  const [accountAddress, setAccountAddress] = useState("");
-
-  useEffect(() => {
-    const func = async () => {
-      setAccountAddress(await getMyAddress());
-    };
-    func();
-  }, []);
+  const { name } = useEnsAddress({
+    name: "0xB0739AaF97B5F12D3529ec6C109fbE1A9c9F6bAe",
+  });
+  console.log(name);
+  // useEffect(() => {
+  //   document.getElementById("navbar-main").style.display = "none";
+  // }, []);
+  const accountAddress = "0xB0739AaF97B5F12D3529ec6C109fbE1A9c9F6bAe";
   return (
     <>
       {/* {isWeb3Enabled ? ( */}
       <>
-        <table
-          style={{
-            width: "80%",
-            height: "100%",
-          }}
-        >
+        <table className="table h-full">
           <tbody>
             <tr>
-              <td style={{ width: "20%", height: "100%" }} rowSpan="2">
-                <SidebarBigCard account={accountAddress} />
+              <td className="w-1/5 h-full" rowSpan="2">
+                <Sidebar>
+                  <SidebarBigCard account={accountAddress} />
+                </Sidebar>
               </td>
-              <td colSpan="2">
+              <td colSpan="2" className=" h-full justify-center">
                 <OverallBigCard account={accountAddress} />
               </td>
             </tr>
             <tr>
-              <td style={{ width: "40%", height: "50%" }}>
+              <td className=" justify-center h-full items-center">
                 <CertificationBigCard account={accountAddress} />
               </td>
-              <td style={{ width: "40%", height: "50%" }}>
+              <td className=" justify-center h-full items-center">
                 <ReputationBigCard account={accountAddress} />
               </td>
             </tr>

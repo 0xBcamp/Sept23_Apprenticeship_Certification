@@ -99,7 +99,25 @@ body {
 
 }
 
+/* 
+.Sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 250px;
+  background: var(--sidebar-color);
+}
 
+.Sidebar .image-text img {
+  width: 40px;
+  border-radius: 6px;
+} */
+
+.Table__Card {
+  --tw-bg-opacity: 1;
+  background-color: #1B1B2E;
+}
 
 .Link__Click {
   color: aliceblue;

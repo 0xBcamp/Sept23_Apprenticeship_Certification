@@ -2,30 +2,16 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
 import { useQuery } from "@apollo/client";
-import {
-  SkeletonImageModal,
-  ErrorPage,
-  SkeletonTextModal,
-} from "@/components/Commons";
-import { useContext, useEffect, useState } from "react";
+import { SkeletonImageModal, ErrorPage } from "@/components/Commons";
+import { useContext } from "react";
 import { ContractContext } from "@/Context/ContractContext";
+import { useAccount } from "wagmi";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 export default () => {
-  const [accountAddress, setAccountAddress] = useState("");
-  const {
-    GET_ATTESTER_REPUTATION_QUERY,
-    GET_RECIPIENT_REPUTATION_QUERY,
-    getMyAddress,
-  } = useContext(ContractContext);
-  useEffect(() => {
-    const func = async () => {
-      setAccountAddress(await getMyAddress());
-    };
-    func();
-  }, []);
-
-  // const account = "0x728e124340b2807eD0cc5B2104eD5c07cceFa0Ec";
+  const { address } = useAccount();
+  const { GET_ATTESTER_REPUTATION_QUERY, GET_RECIPIENT_REPUTATION_QUERY } =
+    useContext(ContractContext);
   const schema =
     "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f";
   const by = "id";
@@ -33,7 +19,7 @@ export default () => {
   const attesterCount = useQuery(GET_ATTESTER_REPUTATION_QUERY, {
     variables: {
       by: by,
-      account: accountAddress,
+      account: address,
       schema: schema,
     },
   });
@@ -43,7 +29,7 @@ export default () => {
   const recipientCount = useQuery(GET_RECIPIENT_REPUTATION_QUERY, {
     variables: {
       by: by,
-      account: accountAddress,
+      account: address,
       schema: schema,
     },
   });
@@ -74,7 +60,7 @@ export default () => {
           style={{ width: "22%" }}
         >
           <Pie data={data} />
-          {recipient === 0 && <p>There is no data</p>}
+          {recipient === 0 && attester === 0 && <p>There is no data</p>}
           <p>
             <b>Reuptation Attestation</b>
           </p>

@@ -7,19 +7,13 @@ import {
   ErrorPage,
   TypeWriterOnce,
 } from "@/components/Commons";
-import SingleCard from "@/components/ProfilePart/SingleCard";
+import SingleCard from "@/components/ProfilePart/SingleReputationCard";
 import { ContractContext } from "../../Context/ContractContext";
-// import { useMoralis } from "react-moralis";
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Divider,
-} from "@nextui-org/react";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 export default () => {
   const { GET_ATTESTATIONS_QUERY, getMyAddress } = useContext(ContractContext);
-  // const { account } = useMoralis();
+
   const [accountAddress, setAccountAddress] = useState("");
 
   useEffect(() => {
@@ -49,32 +43,25 @@ export default () => {
       <Link href={"/Profile"} className="Link__Back">
         Back
       </Link>
-      <Card>
-        <CardHeader>
-          <h1 className="text-xl font-bold">
-            <TypeWriterOnce text="Reputations" />
-          </h1>
-        </CardHeader>
-        <Divider />
-        <CardBody>
-          {loading ? (
-            <div className="space-y-2">
-              <SkeletonTextModal />
-              <SkeletonTextModal />
-              <SkeletonTextModal />
-            </div>
-          ) : (
-            <>
-              {eas.attestations.map((item) => {
-                return <SingleCard item={item} />;
-              })}
-              {eas.attestations.length === 0 && (
-                <div>There are no any feekback.</div>
-              )}
-            </>
+      <h1 className="text-xl font-bold">
+        <TypeWriterOnce text="Reputations" />
+      </h1>
+      {loading ? (
+        <div className="space-y-2">
+          <SkeletonTextModal />
+          <SkeletonTextModal />
+          <SkeletonTextModal />
+        </div>
+      ) : (
+        <>
+          {eas.attestations.map((item) => {
+            return <SingleCard item={item} />;
+          })}
+          {eas.attestations.length === 0 && (
+            <div>There are no any feekback.</div>
           )}
-        </CardBody>
-      </Card>
+        </>
+      )}
     </>
   );
 };

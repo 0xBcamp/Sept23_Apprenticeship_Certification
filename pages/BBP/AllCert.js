@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-// import { Card } from "web3uikit";
 import { useQuery, gql } from "@apollo/client";
 import Link from "next/link";
 import {
@@ -7,15 +6,13 @@ import {
   ErrorPage,
   TypeWriterOnce,
 } from "@/components/Commons";
-import SingleCard from "@/components/ProfilePart/SingleCard";
+import SingleCard from "@/components/ProfilePart/SingleReputationCard";
 import { ContractContext } from "../../Context/ContractContext";
-// import { useMoralis } from "react-moralis";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
 export default () => {
   const { GET_ATTESTATIONS_QUERY, getMyAddress } = useContext(ContractContext);
-  // const { account } = useMoralis();
   const [accountAddress, setAccountAddress] = useState("");
 
   useEffect(() => {

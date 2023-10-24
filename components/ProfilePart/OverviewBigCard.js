@@ -6,15 +6,13 @@ import CardContent from "@mui/material/CardContent";
 
 export default () => {
   return (
-    <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-        <h1 className="text-2xl">Overall</h1>
-        <div className="flex justify-around items-center">
-          <OnChainChartCard />
-          <CertificationChartCard />
-          <ReputationChartCard />
-        </div>
-      </CardContent>
-    </Card>
+    <div className="bigCard h-full w-full text-white ">
+      <h1 className="text-2xl">Overview</h1>
+      <div className="flex justify-around items-center">
+        <OnChainChartCard />
+        <CertificationChartCard />
+        <ReputationChartCard />
+      </div>
+    </div>
   );
 };

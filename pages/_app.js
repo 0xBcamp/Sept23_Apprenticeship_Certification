@@ -3,9 +3,26 @@ import "@/styles/globals.css";
 import "@/styles/argon-design-system-react.css";
 import Head from "next/head";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-// import { MoralisProvider } from "react-moralis";
-// import { NotificationProvider } from "web3uikit";
 import { ContractContextProvider } from "../Context/ContractContext";
+import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react";
+
+import { WagmiConfig } from "wagmi";
+import { sepolia, mainnet } from "wagmi/chains";
+import Sidebar from "@/components/Sidebar";
+
+const projectId = "2af24b72969c73477047998d06c8dff1";
+
+const metadata = {
+  name: "Web3Modal",
+  description: "Web3Modal",
+  url: "https://web3modal.com",
+  icons: ["https://avatars.githubusercontent.com/u/37784886"],
+};
+
+const chains = [mainnet, sepolia];
+const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
+
+createWeb3Modal({ wagmiConfig, projectId, chains });
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -20,21 +37,19 @@ export default function App({ Component, pageProps }) {
         <meta name="description" content="" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
       </Head>
-      {/* <MoralisProvider initializeOnMount={false}> */}
-      <ApolloProvider client={client}>
-        {/* <NotificationProvider> */}
-        <ContractContextProvider>
-          <Header />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <Component {...pageProps} />
-        </ContractContextProvider>
-        {/* </NotificationProvider> */}
-      </ApolloProvider>
-      {/* </MoralisProvider> */}
+      <WagmiConfig config={wagmiConfig}>
+        <ApolloProvider client={client}>
+          <ContractContextProvider>
+            <Header />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <Component {...pageProps} />
+          </ContractContextProvider>
+        </ApolloProvider>
+      </WagmiConfig>
     </div>
   );
 }

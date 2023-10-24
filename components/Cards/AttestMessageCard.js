@@ -1,13 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-// import { useMoralis } from "react-moralis";
 import Link from "next/link";
 import { ContractContext } from "@/Context/ContractContext";
+import { useAccount } from "wagmi";
+import { TypeWriterOnce } from "../Commons";
 
 export default () => {
-  const { makeOnChainAttestation, getOnChainAttestation } =
-    useContext(ContractContext);
-  // const { isWeb3Enabled } = useMoralis();
+  const { isConnected } = useAccount();
+  const [connectionStat, setConnectionStat] = useState(false);
+
+  const { makeOnChainAttestation } = useContext(ContractContext);
   const [address, setAddress] = useState(
     "0x728e124340b2807eD0cc5B2104eD5c07cceFa0Ec"
   );
@@ -16,12 +18,6 @@ export default () => {
   const [attestUID, setAttestUID] = useState("");
 
   const handleSubmit = async () => {
-    // console.log(
-    //   await getOnChainAttestation(
-    //     "0x78b53af05a9ab1ac5ec5a3f9fe7e977a96a2a6e1b32b9f1504d6b1459dab1f43"
-    //   )
-    // );
-    // return;
     if (!address) {
       alert("Please enter an address!");
       return;
@@ -49,12 +45,18 @@ export default () => {
     // setAddress();
     // setMessage();
   };
-
+  useEffect(() => {
+    setConnectionStat(isConnected);
+  }, [isConnected]);
   return (
     <>
-      {/* {isWeb3Enabled ? ( */}
-      <div className="flex flex-col grid-cols-2 items-center">
-        {/* <p>
+      {connectionStat ? (
+        <div className="flex flex-col grid-cols-2 items-center">
+          <p className="text-xl font-bold text-white">
+            <TypeWriterOnce text="What's your feedback" />
+          </p>
+
+          {/* <p>
         Schema id:
         <b>
           {" "}
@@ -64,40 +66,43 @@ export default () => {
       <p>
         Schema:<b> string message</b>
       </p> */}
-        <input
-          className="w-72 p-2 mt-4 Primary__Text border"
-          type="text"
-          placeholder="Enter an address to attest..."
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        />
-        <input
-          className="w-72 p-2 mt-4 Primary__Text"
-          type="text"
-          placeholder="Your Message..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <button onClick={handleSubmit} className="w-72 p-2 mt-4 Primary__Click">
-          Submit
-        </button>
-        {isLoading && <p className="mt-4">Wait...</p>}
-        {attestUID && (
-          <p className="mt-4">
-            New Attest UID:
-            <Link
-              href={`https://sepolia.easscan.org/attestation/view/${attestUID}`}
-              target="_blank"
-              className="underline"
-            >
-              {`https://sepolia.easscan.org/attestation/view/${attestUID}`}
-            </Link>
-          </p>
-        )}
-      </div>
-      {/* ) : (
+          <input
+            className="w-72 p-2 mt-4 Primary__Text border"
+            type="text"
+            placeholder="Enter an address to attest..."
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+          <input
+            className="w-72 p-2 mt-4 Primary__Text"
+            type="text"
+            placeholder="Your Message..."
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <button
+            onClick={handleSubmit}
+            className="w-72 p-2 mt-4 Primary__Click"
+          >
+            Submit
+          </button>
+          {isLoading && <p className="mt-4">Wait...</p>}
+          {attestUID && (
+            <p className="mt-4">
+              New Attest UID:
+              <Link
+                href={`https://sepolia.easscan.org/attestation/view/${attestUID}`}
+                target="_blank"
+                className="underline"
+              >
+                {`https://sepolia.easscan.org/attestation/view/${attestUID}`}
+              </Link>
+            </p>
+          )}
+        </div>
+      ) : (
         <>Please connect your wallet</>
-      )} */}
+      )}
     </>
   );
 };

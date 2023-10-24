@@ -1,22 +1,24 @@
 import Link from "next/link";
 import AttestCertificationCard from "@/components/Cards/AttestCertificationCard";
-import { TypeWriterOnce } from "@/components/Commons";
+import GreetingLottie from "@/components/DisplayLottie";
 export default () => {
   return (
     <>
       <Link href={"/BBP/Attestations"} className="Link__Back">
         Back
       </Link>
-      <main className="flex flex-col gap-2 items-center p-12 ">
-        {/* <main> */}
-        {/* <h2 className="flex items-center justify-center gap-2">
-          <EASImage name={"Logo"} imageSrc={IMG} ImgWidth={200} />
-        </h2>
-        */}
-        <h1 className="text-xl font-bold">
-          <TypeWriterOnce text="Attest a Certificate" />
-        </h1>
-        <AttestCertificationCard />
+      <main className="flex flex-col gap-3 justify-center items-center">
+        <div className="grid grid-cols-2">
+          <div>
+            <AttestCertificationCard />
+          </div>
+          <div
+            className="flex flex-col grid-cols-1 items-center"
+            style={{ width: "70%" }}
+          >
+            <GreetingLottie animationPath="/lottie/AddDocument.json" />
+          </div>
+        </div>
       </main>
     </>
   );
