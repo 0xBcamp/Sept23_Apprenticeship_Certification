@@ -16,7 +16,7 @@ module.exports = {
         "green-custom": "#38a169",
       },
       textColor: {
-        "white-custom": "#fff",
+        "white-custom": "#ffffff",
       },
     },
   },

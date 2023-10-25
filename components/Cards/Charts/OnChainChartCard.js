@@ -40,7 +40,7 @@ export default () => {
 
   const recipient = recipientCount.data?.groupByAttestation.length;
 
-  if (attesterCount.error) return <ErrorPage CardName="Overall" />;
+  if (attesterCount.error) return <ErrorPage />;
   const data = {
     labels: ["Me", "Others"],
     datasets: [
@@ -49,7 +49,7 @@ export default () => {
         data: [attester, recipient],
         backgroundColor: ["rgb(239, 157, 0)", "rgb(16, 98, 255)"],
         // borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
-        // borderWidth: 10,
+        borderWidth: 0,
       },
     ],
   };

@@ -1,16 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-// import { Card } from "web3uikit";
 import { useQuery, gql } from "@apollo/client";
-import Link from "next/link";
 import {
   SkeletonTextModal,
   ErrorPage,
   TypeWriterOnce,
 } from "@/components/Commons";
-import SingleCard from "@/components/ProfilePart/SingleReputationCard";
+import SingleReputationCard from "@/components/ProfilePart/SingleReputationCard";
 import { ContractContext } from "../../Context/ContractContext";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 export default () => {
   const { GET_ATTESTATIONS_QUERY, getMyAddress } = useContext(ContractContext);
 
@@ -40,9 +36,9 @@ export default () => {
   if (error) return <ErrorPage CardName="Reputations" />;
   return (
     <>
-      <Link href={"/Profile"} className="Link__Back">
+      {/* <Link href={"/Profile"} className="Link__Back">
         Back
-      </Link>
+      </Link> */}
       <h1 className="text-xl font-bold">
         <TypeWriterOnce text="Reputations" />
       </h1>
@@ -53,14 +49,14 @@ export default () => {
           <SkeletonTextModal />
         </div>
       ) : (
-        <>
+        <div className="flex grid-cols-3 space-x-3">
           {eas.attestations.map((item) => {
-            return <SingleCard item={item} />;
+            return <SingleReputationCard item={item} />;
           })}
           {eas.attestations.length === 0 && (
             <div>There are no any feekback.</div>
           )}
-        </>
+        </div>
       )}
     </>
   );

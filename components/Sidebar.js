@@ -30,38 +30,35 @@ export default ({ children }) => {
     };
   }, [windowWidth]);
   return (
-    <aside className=" bigCard h-full">
-      <nav className="h-full flex flex-col   shadow-sm">
-        <div className="p-4 pb-2 flex justify-between items-center">
+    <aside className="bigCard h-full">
+      <nav className="h-full flex flex-col shadow-sm">
+        <div className="bigCard border-b-black border-b-8 border-t-2 border-l-2 shadow-2xl p-4 pb-2 flex justify-between items-center">
           <img className="w-20" src="/logo2.png" alt="" />
-          <button className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-200">
-            <img src="/moon.svg" alt="" className="w-20" />
-          </button>
+
+          <h1 className="text-xl font-bold">My Account</h1>
+          <EASSlicedAddress Address={account} />
         </div>
-        <div className="p-4 pb-2 flex flex-col  items-center text-black">
+        <div className="p-4 pb-2 flex flex-col  items-center">
           {/* <div className="border">
           <ENSAvatar address={accountAddress} size={100} />
         </div> */}
-          <h1 className="text-2xl font-bold">My Account</h1>
-
-          <EASSlicedAddress Address={account} />
         </div>
 
         <ul className="flex-1 px-3">{children}</ul>
 
-        <div className="flex p-3">
-          <img className="w-10 h-10 rounded-md" src="/moon.svg" alt="" />
-          <div
-            className={`
-            flex justify-between items-center
-            w-52 ml-3
-            `}
-          >
+        <div
+          className="bigCard flex p-3 bg-gradient-to-bl from-indigo-900"
+          style={{ backgroundColor: "#2E2E48" }}
+        >
+          <div className="flex justify-between items-center w-52 ml-3">
             <div className="leading-4">
-              <h4 className="font-semibold">MMMME</h4>
-              <span className="text-xs text-gray-600">MMMME</span>
+              <img src="/moon.svg" alt="" className="w-10" />
+              <h6 className="font-semibold">Attest This Wallet</h6>
+              <span className="text-xs text-gray-600">
+                Let others know you
+                <br /> know this person
+              </span>
             </div>
-            <img src="/moon.svg" alt="" className="w-20" />
           </div>
         </div>
       </nav>

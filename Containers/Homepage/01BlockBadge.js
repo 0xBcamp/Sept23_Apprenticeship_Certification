@@ -10,7 +10,7 @@ const Section1 = () => {
     <main className="flex flex-col gap-2 justify-center mx-14 items-center text-white ">
       <Fade direction="down" duration={2000}>
         <h1 className="text-9xl font-bold text-white">
-          <TypeWriterOnce text=" BlockBadge" />
+          <TypeWriterOnce text=" BlockBadge Platform" />
         </h1>
         <p className="text-2xl ">Proof of Excellence, Verified Securely</p>
       </Fade>

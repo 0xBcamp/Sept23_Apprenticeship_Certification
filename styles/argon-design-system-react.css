@@ -1652,7 +1652,7 @@ pre code {
 }
 
 .table {
-	width: 90%;
+	width: 100%;
 	margin-bottom: 1rem;
 	color: #525f7f;
 	background-color: transparent;
@@ -5211,7 +5211,7 @@ input[type="button"].btn-block {
 	/* word-wrap: break-word; */
 	background-color: #1B1B2E;
 	/* background-clip: border-box; */
-	border: 0.0625rem solid rgb(0, 0, 0);
+	/* border: 0.0625rem solid rgb(0, 0, 0); */
 	border-radius: 0.7rem;
 	padding: 10px
 }

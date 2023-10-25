@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ContractContext } from "@/Context/ContractContext";
 import { useAccount } from "wagmi";
 import { TypeWriterOnce } from "../Commons";
+import { Button, Input } from "@mui/material";
 
 export default () => {
   const { isConnected } = useAccount();
@@ -55,37 +56,21 @@ export default () => {
           <p className="text-xl font-bold text-white">
             <TypeWriterOnce text="What's your feedback" />
           </p>
-
-          {/* <p>
-        Schema id:
-        <b>
-          {" "}
-          0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f
-        </b>
-      </p>
-      <p>
-        Schema:<b> string message</b>
-      </p> */}
-          <input
-            className="w-72 p-2 mt-4 Primary__Text border"
-            type="text"
+          <Input
+            className="w-72 p-2 mt-4 text-white"
             placeholder="Enter an address to attest..."
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
-          <input
-            className="w-72 p-2 mt-4 Primary__Text"
-            type="text"
+          <Input
+            className="w-72 p-2 mt-4 text-white"
             placeholder="Your Message..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
-          <button
-            onClick={handleSubmit}
-            className="w-72 p-2 mt-4 Primary__Click"
-          >
+          <Button onClick={handleSubmit} className="w-72 p-2 mt-4 button ">
             Submit
-          </button>
+          </Button>
           {isLoading && <p className="mt-4">Wait...</p>}
           {attestUID && (
             <p className="mt-4">

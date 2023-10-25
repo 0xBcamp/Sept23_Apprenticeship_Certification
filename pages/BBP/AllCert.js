@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useQuery, gql } from "@apollo/client";
-import Link from "next/link";
+import { useQuery } from "@apollo/client";
 import {
   SkeletonTextModal,
   ErrorPage,
@@ -8,9 +7,6 @@ import {
 } from "@/components/Commons";
 import SingleCard from "@/components/ProfilePart/SingleReputationCard";
 import { ContractContext } from "../../Context/ContractContext";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-
 export default () => {
   const { GET_ATTESTATIONS_QUERY, getMyAddress } = useContext(ContractContext);
   const [accountAddress, setAccountAddress] = useState("");
@@ -44,32 +40,28 @@ export default () => {
 
   return (
     <>
-      <Link href={"/Profile"} className="Link__Back">
+      {/* <Link href={"/Profile"} className="Link__Back">
         Back
-      </Link>
-      <Card sx={{ minWidth: 275 }}>
-        <CardContent>
-          <h1 className="text-xl font-bold">
-            <TypeWriterOnce text="Certifications" />
-          </h1>
-          {loading ? (
-            <div className="space-y-2">
-              <SkeletonTextModal />
-              <SkeletonTextModal />
-              <SkeletonTextModal />
-            </div>
-          ) : (
-            <>
-              {eas.attestations.map((item) => {
-                return <SingleCard item={item} />;
-              })}
-              {eas.attestations?.length === 0 && (
-                <div>There are no any certificates.</div>
-              )}
-            </>
+      </Link> */}
+      <h1 className="text-xl font-bold">
+        <TypeWriterOnce text="Certifications" />
+      </h1>
+      {loading ? (
+        <div className="space-y-2">
+          <SkeletonTextModal />
+          <SkeletonTextModal />
+          <SkeletonTextModal />
+        </div>
+      ) : (
+        <>
+          {eas.attestations.map((item) => {
+            return <SingleCard item={item} />;
+          })}
+          {eas.attestations?.length === 0 && (
+            <div>There are no any certificates.</div>
           )}
-        </CardContent>
-      </Card>
+        </>
+      )}
     </>
   );
 };

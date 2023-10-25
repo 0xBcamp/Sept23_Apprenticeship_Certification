@@ -1,8 +1,6 @@
 import AttestMessageCard from "@/components/Cards/AttestMessageCard";
 import Link from "next/link";
-import { EASImage, TypeWriterOnce } from "@/components/Commons";
 import GreetingLottie from "@/components/DisplayLottie";
-import { Fade } from "react-reveal";
 export default () => {
   return (
     <>
