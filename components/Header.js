@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { EASImage } from "./Commons";
 import DarkModeToggle from "./DarkLightMode";
@@ -31,12 +32,12 @@ export default () => {
       setSelected(2);
       return;
     }
-    // if (urlPath == "/Profile") {
-    //   document.getElementById("navbar-main").style.visibility = "hidden";
+    if (urlPath == "/Profile") {
+      //   document.getElementById("navbar-main").style.visibility = "hidden";
 
-    //   setSelected(3);
-    //   return;
-    // }
+      setSelected(3);
+      return;
+    }
     // document.getElementById("navbar-main").style.visibility = "visible";
 
     setSelected(0);
