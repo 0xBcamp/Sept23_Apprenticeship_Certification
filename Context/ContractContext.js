@@ -1,6 +1,6 @@
 import { EAS } from "@ethereum-attestation-service/eas-sdk";
 import { ethers } from "ethers";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import dotenv from "dotenv";
 import { gql } from "@apollo/client";
 dotenv.config();
@@ -21,13 +21,6 @@ export const ContractContextProvider = ({ children }) => {
     const provider = getProvider();
     const signer = await provider.getSigner();
     return signer;
-  };
-
-  const getMyAddress = async () => {
-    // setAccountAddress(await getSigner().getAddress());
-    let myAddress = await getSigner();
-    myAddress = await myAddress.getAddress();
-    return myAddress;
   };
 
   const contractConnected = async (providerOrSigner) => {
@@ -292,6 +285,8 @@ export const ContractContextProvider = ({ children }) => {
       }
     }
   `;
+  const [openError, setOpenError] = useState(false);
+  const [Error, setError] = useState("");
 
   return (
     <ContractContext.Provider
@@ -301,12 +296,15 @@ export const ContractContextProvider = ({ children }) => {
         // makeOnChainMultiAttestation,
         makeOnChainAttestationWithoutClicking,
         getOnChainAttestation,
-        getMyAddress,
         GET_ATTESTATIONS_QUERY,
         GET_ATTESTER_QUERY,
         GET_RECIPIENT_QUERY,
         GET_ATTESTER_REPUTATION_QUERY,
         GET_RECIPIENT_REPUTATION_QUERY,
+        openError,
+        setOpenError,
+        Error,
+        setError,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import GreetingLottie from "@/components/DisplayLottie";
+import DisplayLottie from "@/components/DisplayLottie";
 import { useEffect } from "react";
 import { Fade } from "react-awesome-reveal";
 const Section2 = () => {
@@ -14,17 +14,17 @@ const Section2 = () => {
             <div className="p-4">
               <Fade direction="left" duration={2000}>
                 {/* <img src="/images/images.png" /> */}
-                <GreetingLottie animationPath="/lottie/build.json" />
+                <DisplayLottie animationPath="/lottie/build.json" />
               </Fade>
             </div>
             <div className="p-4 text-white">
               <Fade direction="right" duration={2000}>
-                <p className="text-5xl font-bold">Why</p>
-                <p className="text-3xl">
+                <h1 className="text-5xl font-bold">Why</h1>
+                <h3 className="text-3xl">
                   The tech recruiting system is broken, non-transparent, and
                   inefficient, especially when it comes to verifying skills and
                   conducting background checks.
-                </p>
+                </h3>
               </Fade>
             </div>
           </div>

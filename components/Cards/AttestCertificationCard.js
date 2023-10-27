@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { ethers } from "ethers";
+import { useContext, useEffect, useState } from "react";
+import { SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import Link from "next/link";
 import { useAccount } from "wagmi";
 import { TypeWriterOnce } from "../Commons";
-
-const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
+import { ContractContext } from "@/Context/ContractContext";
+import { Button } from "@mui/material";
 
 export default () => {
   const { isConnected } = useAccount();
   const [connectionStat, setConnectionStat] = useState(false);
+  const { makeOnChainAttestation } = useContext(ContractContext);
 
   const [apprenticeName, setApprenticeName] = useState("");
   const [certificationName, setCertificationName] = useState("");
@@ -42,13 +42,6 @@ export default () => {
 
     setIsLoading();
 
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    const signer = provider.getSigner();
-
-    const eas = new EAS(EASContractAddress);
-
-    eas.connect(signer);
-
     // const schemaEncoder = new SchemaEncoder(
     //   "string apprenticeName, string certificationName, address mentorAddress, uint40 completedOnDate"
     // );
@@ -64,27 +57,21 @@ export default () => {
       "string apprenticeName, string certificationName, string customFeedback"
     );
 
-    const encodeData = schemaEncoder.encodeData([
+    const encodedData = schemaEncoder.encodeData([
       { name: "apprenticeName", value: apprenticeName, type: "string" },
       { name: "certificationName", value: certificationName, type: "string" },
       { name: "customFeedback", value: customFeedback, type: "string" },
     ]);
 
-    const tx = await eas.attest({
-      schema:
-        "0x3fa53dac3a50eff2ae5f34f8c0b8366932db5bdd320cfe202592911da121266e",
-      data: {
-        recipient: address,
-        expirationTime: 0,
-        revocable: true,
-        data: encodeData,
-      },
-    });
+    const tx = await makeOnChainAttestation(
+      "0xef178a6053ee7a49ae4fa1fc43585f6bc5f88818f13248cd26a2587df0af5b10",
+      address,
+      true,
+      encodedData
+    );
 
-    setIsLoading(true);
-    const newAttest = await tx.wait();
-    setIsLoading(false);
-    setAttestUID(newAttest);
+    console.log(tx);
+    setAttestUID(tx);
   };
   useEffect(() => {
     setConnectionStat(isConnected);
@@ -133,13 +120,10 @@ export default () => {
             console.log(e.date / 1000);
           }}
         /> */}
-
-          <button
-            onClick={handleSubmit}
-            className="w-72 p-2 mt-4 Primary__Click"
-          >
+          <Button onClick={handleSubmit} className="w-72 p-2 mt-4 button ">
             Submit Attestation
-          </button>
+          </Button>
+
           {isLoading && <p className="mt-4">Wait...</p>}
           {attestUID && (
             <p className="mt-4">

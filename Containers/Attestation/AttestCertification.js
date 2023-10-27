@@ -5,7 +5,7 @@ const CheckAttestation = () => {
   return (
     <main className="flex flex-col gap-3 justify-center mx-14 items-center">
       <div className="grid grid-cols-2 ">
-        <div className="py-32 px-4  text-white">
+        <div className="py-32 px-4 text-white">
           <Fade bottom duration={2000}>
             <p className="text-3xl font-bold">
               Add a Certification <sub className="text-sm">(Only Mentors)</sub>

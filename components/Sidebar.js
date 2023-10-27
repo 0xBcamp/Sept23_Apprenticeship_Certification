@@ -52,7 +52,7 @@ export default ({ children }) => {
         >
           <div className="flex justify-between items-center w-52 ml-3">
             <div className="leading-4">
-              <img src="/moon.svg" alt="" className="w-10" />
+              <img src="/images/Vector.svg" alt="" className="w-10" />
               <h6 className="font-semibold">Attest This Wallet</h6>
               <span className="text-xs text-gray-600">
                 Let others know you

@@ -23,19 +23,10 @@ export default () => {
         </div>
         <br />
         <hr />
-        <h1 className="H1__Header">Attest Reputation (feedback) OnChain</h1>
+        <h1 className="H1__Header">Attest Reputation (feedback) </h1>
         <p className="m-2">What is your evaluation of this apprentice?</p>
         <div className="m-2">
           <Link href="/BBP/AttestMessage" className="Primary__Click">
-            Attest now
-          </Link>
-        </div>
-        <br />
-        <hr />
-        <h1 className="H1__Header">Attest Reputation (feedback) OffChain</h1>
-        <p className="m-2">What is your evaluation of this apprentice?</p>
-        <div className="m-2">
-          <Link href="/BBP/OffChainAttestMessage" className="Primary__Click">
             Attest now
           </Link>
         </div>

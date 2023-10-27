@@ -13,13 +13,13 @@ export default () => {
   const [showTable, setShowTable] = useState("Overview");
 
   return (
-    <div className="container">
+    <main className="container min-h-screen">
       {/* {isWeb3Enabled ? ( */}
       <div
         className="flex flex-row justify-center h-screen bg-gradient-to-bl from-indigo-900 m-2"
         style={{ backgroundColor: "#2E2E48" }}
       >
-        <div className="h-full">
+        <div className="h-screen">
           <Sidebar>
             <SidebarItems
               text="Overview"
@@ -43,6 +43,6 @@ export default () => {
       {/* ) : (
         <>Please connect your wallet</>
       )} */}
-    </div>
+    </main>
   );
 };

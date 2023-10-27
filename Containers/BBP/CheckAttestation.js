@@ -1,25 +1,24 @@
-import GreetingLottie from "@/components/DisplayLottie";
-import Link from "next/link";
-import { useEffect } from "react";
+import { Button } from "@mui/material";
 import { Fade } from "react-awesome-reveal";
 const CheckAttestation = () => {
   return (
-    <main className="flex flex-col gap-3 justify-center mx-14 items-center">
-      <div className="grid grid-cols-2 ">
-        <div className="py-32 px-4  text-white">
+    <main className="h-screen flex flex-col justify-center mx-14 items-center">
+      <div className="grid grid-cols-2 items-center">
+        <div className="py-32 px-4 space-y-2 text-white">
           <Fade bottom duration={2000}>
-            <p className="text-3xl font-bold">Check Attestation</p>
+            <h3 className="text-3xl font-bold">Check Attestation</h3>
             <p className="text-xl">
               Check who attested to you and whom you have attested
             </p>
-            <Link href="/Home" className="Primary__Click ">
+            <Button className="w-72 text-xl" href="/Profile">
               Check Attestation
-            </Link>
+            </Button>
           </Fade>
         </div>
-        <div>
+        <div style={{ width: "75%" }}>
           <Fade bottom duration={2000}>
-            <GreetingLottie animationPath="/lottie/Verifing2.json" />
+            <img src="/images/ransomware.png" alt="" />
+            {/* <GreetingLottie animationPath="/lottie/Verifing2.json" /> */}
           </Fade>
         </div>
       </div>

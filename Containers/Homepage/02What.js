@@ -1,5 +1,4 @@
-import GreetingLottie from "@/components/DisplayLottie";
-import Lottie from "lottie-react";
+import DisplayLottie from "@/components/DisplayLottie";
 import { useEffect } from "react";
 import { Fade } from "react-awesome-reveal";
 const Section1 = () => {
@@ -14,12 +13,12 @@ const Section1 = () => {
           <div className="grid grid-cols-2 gap-2 p-4">
             <div className="p-4 text-white">
               <Fade direction="left" duration={2000}>
-                <p className="text-5xl font-bold">What</p>
+                <h1 className="text-5xl font-bold">What</h1>
                 <ul className="text-xl">
-                  <p className="text-3xl">
+                  <h3 className="text-3xl">
                     BlockBadge is an all-in-one recruiting solution for
                     candidates that includes:
-                  </p>
+                  </h3>
                   <li>Credential Verification</li>
                   <li>Background Checks</li>
                   <li>Developer Reputation</li>
@@ -30,7 +29,7 @@ const Section1 = () => {
               <Fade direction="right" duration={2000}>
                 {/* <img src="/images/images.png" /> */}
 
-                <GreetingLottie animationPath="/lottie/Verifing2.json" />
+                <DisplayLottie animationPath="/lottie/Verifing2.json" />
               </Fade>
             </div>
           </div>

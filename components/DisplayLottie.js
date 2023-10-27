@@ -1,11 +1,9 @@
 import Lottie from "lottie-react";
 
-const GreetingLottie = ({ animationPath }) => {
+export default ({ animationPath }) => {
   return (
     <div onClick={() => null}>
-      <Lottie path={animationPath} loop={true} />
+      <Lottie path={animationPath} loop={true} style={{ width: "75%" }} />
     </div>
   );
 };
-
-export default GreetingLottie;

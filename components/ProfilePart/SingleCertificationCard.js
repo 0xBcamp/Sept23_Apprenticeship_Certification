@@ -23,7 +23,7 @@ export default ({ item }) => {
     <>
       <Fade bottom duration={2000}>
         <div className="card card-body text-white">
-          <div className="flex text-center justify-around space-x-1">
+          <div className="flex text-center justify-around space-x-2">
             {/* <div>
             <ENSAvatar address={attester} size={50} />
           </div> */}

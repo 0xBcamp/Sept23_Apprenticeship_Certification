@@ -1,23 +1,21 @@
-import GreetingLottie from "@/components/DisplayLottie";
-import Link from "next/link";
-import { useEffect } from "react";
+import { Button } from "@mui/material";
 import { Fade } from "react-awesome-reveal";
 const MakeAttest = () => {
   return (
     <main className="flex flex-col gap-3 justify-center mx-14 items-center">
-      <div className="grid grid-cols-2 ">
-        <div>
+      <div className="grid grid-cols-2 items-center">
+        <div style={{ width: "90%" }}>
           <Fade bottom duration={2000}>
-            <GreetingLottie animationPath="/lottie/AddDocument.json" />
+            <img src="/images/Immutable Authenticity.png" alt="" />
           </Fade>
         </div>
-        <div className="py-32 px-4 ">
+        <div className="py-32 px-4">
           <Fade bottom duration={2000}>
-            <p className="text-3xl font-bold">Make Attestation</p>
+            <h3 className=" font-bold">Make Attestation</h3>
             <p className="text-xl">Attest your friends</p>
-            <Link href="/BBP/Attestations" className="Primary__Click ">
+            <Button className="w-72" href="/BBP/Attestations">
               Attest Now
-            </Link>
+            </Button>
           </Fade>
         </div>
       </div>

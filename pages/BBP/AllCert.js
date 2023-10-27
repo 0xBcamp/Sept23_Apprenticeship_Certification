@@ -53,14 +53,14 @@ export default () => {
           <SkeletonTextModal />
         </div>
       ) : (
-        <>
+        <div className="grid grid-cols-2 gap-2">
           {eas.attestations.map((item) => {
             return <SingleCard item={item} />;
           })}
           {eas.attestations?.length === 0 && (
             <div>There are no any certificates.</div>
           )}
-        </>
+        </div>
       )}
     </>
   );

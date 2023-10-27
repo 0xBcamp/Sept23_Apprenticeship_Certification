@@ -1,24 +1,25 @@
 "use client";
 import Link from "next/link";
-import { EASImage } from "./Commons";
-import DarkModeToggle from "./DarkLightMode";
 import Headroom from "headroom.js";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 const IMG = "/logo2.png";
 import { parse } from "url";
-import { Button, Icon, Input } from "@mui/material";
+import { Input } from "@mui/material";
+import UploadFileModal from "./Modals/UploadFileModal";
+import { ContractContext } from "@/Context/ContractContext";
 
 export default () => {
   const [selected, setSelected] = useState(0);
-
-  let currentUrl = "/";
+  const { Eror, openError } = useContext(ContractContext);
   useEffect(() => {
     let headroom = new Headroom(document.getElementById("navbar-main"));
     // initialise
     headroom.init();
   });
+  let currentUrl = /*window ? window.location.href : */ "/";
+
   useEffect(() => {
-    currentUrl = window.location.href;
+    // currentUrl = window.location.href;
     const parsedUrl = parse(currentUrl, true);
 
     const urlPath = parsedUrl.path;
@@ -32,10 +33,14 @@ export default () => {
       setSelected(2);
       return;
     }
+    if (urlPath == "/Registration") {
+      setSelected(3);
+      return;
+    }
     if (urlPath == "/Profile") {
       //   document.getElementById("navbar-main").style.visibility = "hidden";
 
-      setSelected(3);
+      setSelected(4);
       return;
     }
     // document.getElementById("navbar-main").style.visibility = "visible";
@@ -55,7 +60,7 @@ export default () => {
           />
         </div>
         <div className="flex font-bold flex-row items-center">
-          <Icon aria-label="aaa" aria-busy={true} />
+          {/* <Icon aria-label="aaa" aria-busy={true} /> */}
           <Link className="mr-4 p-3 " href="/BBP/">
             {selected == 1 ? (
               <div className="border-b-2 text-blue-700">Home</div>
@@ -71,14 +76,21 @@ export default () => {
               <>Attestations</>
             )}
           </Link>
-
-          <Link className="mr-4 p-3 " href="/Profile">
+          <Link className="mr-4 p-3 " href="/Registration">
             {selected == 3 ? (
+              <div className="border-b-2 text-blue-700">Register</div>
+            ) : (
+              <>Register</>
+            )}
+          </Link>
+          <Link className="mr-4 p-3 " href="/Profile">
+            {selected == 4 ? (
               <div className="border-b-2 text-blue-700">Profile</div>
             ) : (
               <>Profile</>
             )}
           </Link>
+          {openError && <UploadFileModal />}
           {/* <DarkModeToggle /> */}
         </div>
       </div>

@@ -1,4 +1,5 @@
 import GreetingLottie from "@/components/DisplayLottie";
+import { Button } from "@mui/material";
 import Link from "next/link";
 import { useEffect } from "react";
 import { Fade } from "react-awesome-reveal";
@@ -9,19 +10,27 @@ const Section4 = () => {
   });
   return (
     <main className="flex flex-col gap-3 justify-center mx-14 items-center ">
-      <Link href="/BBP" className="Primary__Click w-auto">
-        So let's Get Started
-      </Link>
+      <div className="flex">
+        <Button href="/BBP" className="w-72 p-2 mt-4 button">
+          So let's Get Started
+        </Button>
+        <Button href="/Registration" className="w-72 p-2 mt-4 button">
+          Register Now
+        </Button>
+      </div>
       <section className="section section-lg section-shaped ">
         <div className="grid grid-cols-2 gap-2 p-4">
           <div className="p-4 ">
             <Fade direction="bottom" duration={2000}>
-              <p className="text-5xl font-bold">Footer</p>
+              <h1 className="text-5xl font-bold">Footer</h1>
               <ul className="text-xl">
-                <p className="text-3xl">Fewer Recruiting Rounds:</p>
-                <li>No Need for ATS (Applicant Tracking Systems)</li>
-                <li>No Need for Referrals</li>
-                <li>No Need for Third Parties</li>
+                <h3 className="text-3xl">Some text:</h3>
+                <li>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Curabitur id finibus risus. Morbi scelerisque magna eget
+                  elementum sodales. Praesent scelerisque risus quis ante
+                  eleifend mollis. Nam eget metus tempus quam rutrum luctus.
+                </li>
               </ul>
             </Fade>
           </div>

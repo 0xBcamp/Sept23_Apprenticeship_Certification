@@ -30,7 +30,7 @@ export default () => {
     setIsLoading(false);
 
     const schemaEncoder = new SchemaEncoder("string Message");
-    const encodeData = schemaEncoder.encodeData([
+    const encodedData = schemaEncoder.encodeData([
       { name: "Message", value: message, type: "string" },
     ]);
 
@@ -38,7 +38,7 @@ export default () => {
       "0xef178a6053ee7a49ae4fa1fc43585f6bc5f88818f13248cd26a2587df0af5b10",
       address,
       false,
-      encodeData
+      encodedData
     );
 
     console.log(tx);

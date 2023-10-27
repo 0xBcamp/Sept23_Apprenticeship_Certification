@@ -3,6 +3,7 @@ import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { ethers } from "ethers";
 // import { useMoralis } from "react-moralis";
 import Link from "next/link";
+import { Button } from "@mui/material";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
@@ -71,9 +72,10 @@ export default () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <button onClick={handleSubmit} className="w-72 p-2 mt-4 Primary__Click">
+        <Button onClick={handleSubmit} className="w-72 p-2 mt-4 button ">
           Submit
-        </button>
+        </Button>
+
         {isLoading && <p className="mt-4">Wait...</p>}
         {attestUID && (
           <p className="mt-4">
