@@ -68,7 +68,7 @@ export default () => {
   }, [isConnected]);
 
   const [fileName, setFileName] = useState("");
-  console.log(fileName);
+  // console.log(fileName);
   return (
     <>
       {connectionStat ? (

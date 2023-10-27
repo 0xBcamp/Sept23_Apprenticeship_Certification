@@ -1,6 +1,6 @@
 import { EAS } from "@ethereum-attestation-service/eas-sdk";
 import { ethers } from "ethers";
-import { createContext, useState } from "react";
+import { createContext } from "react";
 import dotenv from "dotenv";
 import { gql } from "@apollo/client";
 dotenv.config();
@@ -285,9 +285,6 @@ export const ContractContextProvider = ({ children }) => {
       }
     }
   `;
-  const [openError, setOpenError] = useState(false);
-  const [Error, setError] = useState("");
-
   return (
     <ContractContext.Provider
       value={{
@@ -301,10 +298,6 @@ export const ContractContextProvider = ({ children }) => {
         GET_RECIPIENT_QUERY,
         GET_ATTESTER_REPUTATION_QUERY,
         GET_RECIPIENT_REPUTATION_QUERY,
-        openError,
-        setOpenError,
-        Error,
-        setError,
       }}
     >
       {children}

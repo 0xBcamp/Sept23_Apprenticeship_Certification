@@ -10,7 +10,6 @@ import { ContractContext } from "@/Context/ContractContext";
 
 export default () => {
   const [selected, setSelected] = useState(0);
-  const { Eror, openError } = useContext(ContractContext);
   useEffect(() => {
     let headroom = new Headroom(document.getElementById("navbar-main"));
     // initialise
@@ -90,7 +89,6 @@ export default () => {
               <>Profile</>
             )}
           </Link>
-          {openError && <UploadFileModal />}
           {/* <DarkModeToggle /> */}
         </div>
       </div>

@@ -27,6 +27,7 @@ export default () => {
         });
 
         const accountData = [...new Set(data)];
+        console.log(accountData);
         if (accountData.length > 0) {
           setRegistered(true);
         } else {

@@ -1,4 +1,4 @@
-import { Box, Button, Modal } from "@mui/material/Box";
+import { Box, Button, Modal } from "@mui/material";
 import UploadFileToIPFSModal from "./UploadFileToIPFSModal";
 import { useState } from "react";
 
