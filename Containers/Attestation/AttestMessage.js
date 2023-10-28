@@ -16,7 +16,7 @@ const CheckAttestation = () => {
             <p className="text-xl">
               What is your evaluation of this apprentice?
             </p>
-            <Link href="/BBP/AttestMessage" className="Primary__Click ">
+            <Link href="/Home/AttestMessage" className="Primary__Click ">
               Attest Now
             </Link>
           </Fade>

@@ -3,7 +3,7 @@ import { SkeletonTextModal, TypeWriterOnce } from "@/components/Commons";
 
 import OverveiwBigCard from "@/components/ProfilePart/OverviewBigCard";
 import { useContext, useEffect, useState } from "react";
-import { ContractContext } from "@/Context/ContractContext";
+import { ContractContext } from "@/Constants/Context/ContractContext";
 
 export default () => {
   const { getMyAddress } = useContext(ContractContext);

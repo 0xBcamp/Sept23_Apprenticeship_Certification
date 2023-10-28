@@ -1,4 +1,4 @@
-import AllCert from "../BBP/AllCert";
+import AllCert from "../Home/AllCert";
 
 export default () => {
   return (

@@ -13,7 +13,7 @@ const MakeAttest = () => {
           <Fade bottom duration={2000}>
             <h3 className=" font-bold">Make Attestation</h3>
             <p className="text-xl">Attest your friends</p>
-            <Button className="w-72" href="/BBP/Attestations">
+            <Button className="w-72" href="/Home/Attestations">
               Attest Now
             </Button>
           </Fade>

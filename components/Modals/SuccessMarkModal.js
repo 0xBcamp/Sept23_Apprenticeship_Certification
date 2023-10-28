@@ -19,7 +19,7 @@ export default ({ open, onClose }) => {
       <Box sx={style}>
         <DisplayLottie
           width={"100%"}
-          animationPath="/lottie/CheckMarkBigGreen.json"
+          animationPath="/lottie/CheckSuccess.json"
         />
       </Box>
     </Modal>

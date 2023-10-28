@@ -5,6 +5,7 @@ import ErrorModal from "../Modals/ErrorModal";
 import SuccessModal from "../Modals/SuccessModal";
 import { useAccount } from "wagmi";
 import { LoadingButton } from "@mui/lab";
+import { Button, Grow, Input } from "@mui/material";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
@@ -94,21 +95,41 @@ export default () => {
     <>
       {connectionStat ? (
         <div className="flex flex-col grid-cols-2 items-center">
-          <input
-            className="w-72 p-2 mt-4 Primary__Text border"
-            type="text"
-            placeholder="Enter an address to attest..."
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <input
-            className="w-72 p-2 mt-4 Primary__Text"
-            type="text"
-            placeholder="Your Message..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <button
+          <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+            <Input
+              className="text-white w-72 p-2 mt-4"
+              type="text"
+              placeholder="Enter an address to attest..."
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </Grow>
+          <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+            <Input
+              className="text-white w-72 p-2 mt-4"
+              type="text"
+              placeholder="Your Message..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+          </Grow>
+          <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+            <Button
+              disabled={isLoading}
+              onClick={handleSubmit}
+              className="w-72 p-2 mt-4 button "
+            >
+              <div>
+                {isLoading ? (
+                  <LoadingButton loading>Submit</LoadingButton>
+                ) : (
+                  <p>Submit</p>
+                )}
+              </div>
+            </Button>
+          </Grow>
+
+          {/* <button
             onClick={handleSubmit}
             className="w-72 p-2 flex-col flex items-center mt-4 Primary__Click"
             disabled={isLoading}
@@ -120,9 +141,9 @@ export default () => {
                 <p>Submit</p>
               )}
             </div>
-          </button>
+          </button> */}
           {openError && (
-            <ErrorModal
+            <SuccessModal
               message={errorMessage}
               open={openError}
               onClose={() => setOpenError(false)}

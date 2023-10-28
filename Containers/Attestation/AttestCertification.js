@@ -11,7 +11,7 @@ const CheckAttestation = () => {
               Add a Certification <sub className="text-sm">(Only Mentors)</sub>
             </p>
             <p className="text-xl">Attest new Apprentice</p>
-            <Link href="/BBP/AttestCertification" className="Primary__Click ">
+            <Link href="/Home/AttestCertification" className="Primary__Click ">
               Add Now
             </Link>
           </Fade>

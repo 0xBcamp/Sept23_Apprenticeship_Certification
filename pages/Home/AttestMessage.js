@@ -4,7 +4,7 @@ import GreetingLottie from "@/components/DisplayLottie";
 export default () => {
   return (
     <>
-      <Link href={"/BBP/Attestations"} className="Link__Back">
+      <Link href={"/Home/Attestations"} className="Link__Back">
         Back
       </Link>
       <main className="flex flex-col gap-3 justify-center items-center">

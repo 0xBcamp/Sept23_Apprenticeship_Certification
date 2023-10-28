@@ -11,7 +11,7 @@ import Link from "next/link";
 export default () => {
   return (
     <div className="h-full">
-      <Link href={"/BBP"} className="Link__Back">
+      <Link href={"/Home"} className="Link__Back">
         Back
       </Link>
       <div className="container mx-auto">

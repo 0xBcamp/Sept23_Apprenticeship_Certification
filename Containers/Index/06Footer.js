@@ -9,7 +9,7 @@ const Section4 = () => {
   return (
     <main className="flex flex-col gap-3 justify-center mx-14 items-center ">
       <div className="flex">
-        <Button href="/BBP" className="w-72 p-2 mt-4 button">
+        <Button href="/Home" className="w-72 p-2 mt-4 button">
           <p className="text-xl">So let's Get Started</p>
         </Button>
         <Button href="/Registration" className="w-72 p-2 mt-4 button">

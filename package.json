@@ -25,6 +25,7 @@
     "firebase": "^10.5.0",
     "framer-motion": "^10.16.4",
     "graphql": "^16.8.1",
+    "hardhat": "^2.18.3",
     "hash.js": "^1.1.7",
     "headroom.js": "^0.12.0",
     "html2canvas": "^1.4.1",

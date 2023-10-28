@@ -17,7 +17,7 @@ export default ({ open, onClose }) => {
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
-        <DisplayLottie width={"100%"} animationPath="/lottie/CheckMark2.json" />
+        <DisplayLottie width={"100%"} animationPath="/lottie/CheckError.json" />
       </Box>
     </Modal>
   );

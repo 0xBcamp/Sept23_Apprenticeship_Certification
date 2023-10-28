@@ -1,8 +1,8 @@
 import dynamic from "next/dynamic";
 
-const MakeAttest = dynamic(() => import("../../Containers/BBP/MakeAttest"));
+const MakeAttest = dynamic(() => import("../../Containers/Home/MakeAttest"));
 const CheckAttestation = dynamic(() =>
-  import("../../Containers/BBP/CheckAttestation")
+  import("../../Containers/Home/CheckAttestation")
 );
 
 export default () => {

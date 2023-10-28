@@ -22,11 +22,11 @@ export default () => {
     const urlPath = parsedUrl.path;
     console.log(urlPath);
 
-    if (urlPath == "/BBP") {
+    if (urlPath == "/Home") {
       setSelected(1);
       return;
     }
-    if (urlPath == "/BBP/Attestations") {
+    if (urlPath == "/Home/Attestations") {
       setSelected(2);
       return;
     }
@@ -58,7 +58,7 @@ export default () => {
         </div>
         <div className="flex font-bold flex-row items-center">
           {/* <Icon aria-label="aaa" aria-busy={true} /> */}
-          <Link className="mr-4 p-3 " href="/BBP/">
+          <Link className="mr-4 p-3 " href="/Home/">
             {selected == 1 ? (
               <div className="border-b-2 text-blue-700">Home</div>
             ) : (
@@ -66,7 +66,7 @@ export default () => {
             )}
           </Link>
 
-          <Link className="mr-4 p-3 " href="/BBP/Attestations">
+          <Link className="mr-4 p-3 " href="/Home/Attestations">
             {selected == 2 ? (
               <div className="border-b-2 text-blue-700">Attestations</div>
             ) : (

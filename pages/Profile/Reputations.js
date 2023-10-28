@@ -1,4 +1,4 @@
-import AllRep from "../BBP/AllRep";
+import AllRep from "../Home/AllRep";
 
 export default () => {
   return (
