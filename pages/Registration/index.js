@@ -6,19 +6,19 @@ import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import StudentsRegisteration from "./StudentsRegisteration";
 import AddProgram from "./AddProgram";
-import DisplayLottie from "@/components/DisplayLottie";
+import WaitModal from "@/components/Modals/WaitModal";
 
 export default () => {
   const { isConnected, address } = useAccount();
 
   const [loading, setLoading] = useState(true);
-  const [registered, setRegistered] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (isConnected) {
       setLoading(true);
       const handleQuery = async () => {
-        const stdRef = collection(db, "Students");
+        const stdRef = collection(db, "Admins");
         const q = query(stdRef, where("Address", "==", address));
         const querySnapshot = await getDocs(q);
         const data = [];
@@ -29,28 +29,27 @@ export default () => {
         const accountData = [...new Set(data)];
         console.log(accountData);
         if (accountData.length > 0) {
-          setRegistered(true);
+          setIsAdmin(true);
         } else {
-          setRegistered(false);
+          setIsAdmin(false);
         }
         setLoading(false);
       };
       handleQuery();
     }
   }, [address]);
-  if (loading) return <DisplayLottie animationPath="/lottie/waiting.json" />;
+  if (loading) return <WaitModal open={true} onClose={false} />;
 
-  if (registered)
+  if (isAdmin)
     return (
       <div className="container mx-auto">
-        You already registered to this program
         <AddProgram />
       </div>
     );
-  if (!registered)
+  if (!isAdmin)
     return (
-      <>
+      <div className="container mx-auto">
         <StudentsRegisteration />
-      </>
+      </div>
     );
 };

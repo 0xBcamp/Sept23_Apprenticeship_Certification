@@ -1,50 +1,91 @@
-import { useContext, useEffect, useState } from "react";
-import { SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import Link from "next/link";
-import { ContractContext } from "@/Context/ContractContext";
+import { useEffect, useState } from "react";
+import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
+import { ethers } from "ethers";
+import ErrorModal from "../Modals/ErrorModal";
+import SuccessModal from "../Modals/SuccessModal";
 import { useAccount } from "wagmi";
-import { TypeWriterOnce } from "../Commons";
-import { Button, Input } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+
+const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
 export default () => {
   const { isConnected } = useAccount();
   const [connectionStat, setConnectionStat] = useState(false);
 
-  const { makeOnChainAttestation } = useContext(ContractContext);
-  const [address, setAddress] = useState(
-    "0x728e124340b2807eD0cc5B2104eD5c07cceFa0Ec"
-  );
+  const [address, setAddress] = useState("");
   const [message, setMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [attestUID, setAttestUID] = useState("");
 
-  const handleSubmit = async () => {
-    if (!address) {
-      alert("Please enter an address!");
-      return;
-    }
-    if (!message) {
-      alert("Please enter a message!");
-      return;
-    }
-    setIsLoading(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [showWait, setShowWait] = useState(false);
+
+  const [openError, setOpenError] = useState(false);
+  const [openSuccess, setOpenSuccess] = useState(false);
+
+  const handleSubmit = async () => {
+    // if (!address) {
+    //   alert("Please enter an address!");
+    //   return;
+    // }
+    // if (!message) {
+    //   alert("Please enter a message!");
+    //   return;
+    // }
+    setIsLoading(false);
+    setOpenError(false);
     const schemaEncoder = new SchemaEncoder("string Message");
     const encodedData = schemaEncoder.encodeData([
       { name: "Message", value: message, type: "string" },
     ]);
 
-    const tx = await makeOnChainAttestation(
-      "0xef178a6053ee7a49ae4fa1fc43585f6bc5f88818f13248cd26a2587df0af5b10",
-      address,
-      false,
-      encodedData
-    );
+    try {
+      const eas = new EAS(EASContractAddress);
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
 
-    console.log(tx);
-    setAttestUID(tx);
-    // setAddress();
-    // setMessage();
+      eas.connect(signer);
+
+      setIsLoading(true);
+
+      const tx = await eas.attest({
+        schema:
+          "0xef178a6053ee7a49ae4fa1fc43585f6bc5f88818f13248cd26a2587df0af5b10",
+        data: {
+          recipient: address,
+          expirationTime: 0,
+          revocable: false,
+          data: encodedData,
+        },
+      });
+
+      setShowWait(true);
+      const newAttestId = await tx.wait();
+      setShowWait(false);
+      setIsLoading(false);
+      setAttestUID(newAttestId);
+      setOpenSuccess(true);
+      setAddress("");
+      setMessage("");
+    } catch (error) {
+      if (error.message.toLowerCase().includes("not listed"))
+        setErrorMessage(
+          "This address is not in the whitelist, please add it to the whitelist."
+        );
+      else if (error.message.toLowerCase().includes("user rejected")) {
+        setErrorMessage(
+          "MetaMask Tx Signature: User denied transaction signature"
+        );
+      } else {
+        setErrorMessage("Error occurred while processing.");
+      }
+      setOpenError(true);
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+      setShowWait(false);
+    }
   };
   useEffect(() => {
     setConnectionStat(isConnected);
@@ -53,36 +94,46 @@ export default () => {
     <>
       {connectionStat ? (
         <div className="flex flex-col grid-cols-2 items-center">
-          <p className="text-xl font-bold text-white">
-            <TypeWriterOnce text="What's your feedback" />
-          </p>
-          <Input
-            className="w-72 p-2 mt-4 text-white"
+          <input
+            className="w-72 p-2 mt-4 Primary__Text border"
+            type="text"
             placeholder="Enter an address to attest..."
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
-          <Input
-            className="w-72 p-2 mt-4 text-white"
+          <input
+            className="w-72 p-2 mt-4 Primary__Text"
+            type="text"
             placeholder="Your Message..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
-          <Button onClick={handleSubmit} className="w-72 p-2 mt-4 button ">
-            Submit
-          </Button>
-          {isLoading && <p className="mt-4">Wait...</p>}
+          <button
+            onClick={handleSubmit}
+            className="w-72 p-2 flex-col flex items-center mt-4 Primary__Click"
+            disabled={isLoading}
+          >
+            <div>
+              {isLoading ? (
+                <LoadingButton loading>Submit</LoadingButton>
+              ) : (
+                <p>Submit</p>
+              )}
+            </div>
+          </button>
+          {openError && (
+            <ErrorModal
+              message={errorMessage}
+              open={openError}
+              onClose={() => setOpenError(false)}
+            />
+          )}
           {attestUID && (
-            <p className="mt-4">
-              New Attest UID:
-              <Link
-                href={`https://sepolia.easscan.org/attestation/view/${attestUID}`}
-                target="_blank"
-                className="underline"
-              >
-                {`https://sepolia.easscan.org/attestation/view/${attestUID}`}
-              </Link>
-            </p>
+            <SuccessModal
+              message={attestUID}
+              open={openSuccess}
+              onClose={() => setOpenSuccess(false)}
+            />
           )}
         </div>
       ) : (

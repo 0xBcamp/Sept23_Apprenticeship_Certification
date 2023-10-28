@@ -16,17 +16,16 @@ const style = {
 
 export default ({ file }) => {
   const [open, setOpen] = useState(false);
-  const [returnUploadedFile, setReturnUploadedFile] = useState("");
+  // const [returnUploadedFile, setReturnUploadedFile] = useState("");
   const [saveToIPFS, setSaveToIPFS] = useState(false);
   const [fileUploaded, setFileUploaded] = useState("");
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
   };
 
   const handleOK = () => {
-    file(returnUploadedFile);
+    // file(returnUploadedFile);
     setSaveToIPFS(true);
     handleClose();
   };
@@ -38,8 +37,10 @@ export default ({ file }) => {
           name={fileUploaded.name}
           date={"1000"}
           uploadFile={fileUploaded}
-          onClose={handleClose}
-          returnUploadedFile={(ee) => setReturnUploadedFile(ee)}
+          onClose={(e) => {
+            file(e);
+            handleClose;
+          }}
         />
       )}
       <Button onClick={handleOpen}>Choose a file</Button>
@@ -47,12 +48,12 @@ export default ({ file }) => {
         <Box sx={style}>
           <h2>Upload a File</h2>
 
-          <p for="file">Choose a file:</p>
+          <p for="file">Choose a file: </p>
           <input
             type="file"
             id="file"
             name="file"
-            accept=".jpg, .png, .gif"
+            accept=".jpg, .jpeg, .png, .gif"
             onChange={(e) => setFileUploaded(e.target.files[0])}
           />
           <br />

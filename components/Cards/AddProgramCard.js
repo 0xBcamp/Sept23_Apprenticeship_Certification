@@ -7,7 +7,7 @@ import { useAccount } from "wagmi";
 import { TypeWriterOnce } from "@/components/Commons";
 import hash from "hash.js";
 import { Button, Fade, Grow, Input } from "@mui/material";
-import UploadFileModal from "../Modals/UploadFileModal";
+import UploadFileModal from "../Modals/IPFS/UploadFileModal";
 
 export default () => {
   const { isConnected, address: apprAddress } = useAccount();
@@ -18,6 +18,7 @@ export default () => {
   const [ImageURL, setImageURL] = useState("");
   const [Description, setDescription] = useState("");
 
+  const [showWait, setShowWait] = useState(false);
   const stdRef = collection(db, "Programs");
 
   const handleSubmit = async () => {
@@ -31,6 +32,7 @@ export default () => {
     // }
 
     try {
+      setShowWait(true);
       const std = await addDoc(stdRef, {
         Name: Name,
         // Type: Type,
@@ -41,6 +43,12 @@ export default () => {
       });
       console.log(std.id);
       alert("Done!!");
+
+      setShowWait(false);
+
+      setName("");
+      setImageURL("");
+      setDescription("");
     } catch (error) {
       console.error("Erorr", error);
     }
@@ -66,9 +74,6 @@ export default () => {
   useEffect(() => {
     setConnectionStat(isConnected);
   }, [isConnected]);
-
-  const [fileName, setFileName] = useState("");
-  // console.log(fileName);
   return (
     <>
       {connectionStat ? (
@@ -76,66 +81,73 @@ export default () => {
           <h1 className="text-xl font-bold">
             <TypeWriterOnce text="Add new Program" />
           </h1>
-          <div className="flex flex-col grid-cols-2 items-center">
+          <div className="flex gap-2 grid-cols-2 items-center">
             <div>
-              <Grow
-                in={true}
-                style={{ transformOrigin: "0 0 0" }}
-                timeout={1000}
-              >
-                <Input
-                  className="text-white w-72 p-2 mt-4"
-                  type="text"
-                  placeholder="Enter Name..."
-                  value={Name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </Grow>
-
-              <Grow
-                in={true}
-                style={{ transformOrigin: "0 0 0" }}
-                timeout={1000}
-              >
-                <Input
-                  className="text-white w-72 p-2 mt-4"
-                  type="text"
-                  placeholder="Enter ImageURL..."
-                  value={fileName}
-                  onChange={(e) => setImageURL(e.target.value)}
-                />
-              </Grow>
-              <UploadFileModal file={(file) => setFileName(file)} />
-            </div>
-            <div>
-              <Grow
-                in={true}
-                style={{ transformOrigin: "0 0 0" }}
-                timeout={1000}
-              >
-                <textarea
-                  className="text-white bg-transparent w-auto p-2 mt-4"
-                  type=""
-                  placeholder="Enter Description..."
-                  value={Description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </Grow>
-            </div>
-            <div>
-              <Fade in={true} timeout={2000}>
-                <Button
-                  onClick={handleSubmit}
-                  className="w-72 p-2 mt-4 button "
+              <div>
+                <Grow
+                  in={true}
+                  style={{ transformOrigin: "0 0 0" }}
+                  timeout={1000}
                 >
-                  Register
-                </Button>
-              </Fade>
-              <Fade in={true} timeout={2000}>
-                <Button onClick={handleFetch} className="w-72 p-2 mt-4 button ">
-                  handleFetch
-                </Button>
-              </Fade>
+                  <Input
+                    className="text-white w-72 p-2 mt-4"
+                    type="text"
+                    placeholder="Enter Name..."
+                    value={Name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </Grow>
+
+                <Grow
+                  in={true}
+                  style={{ transformOrigin: "0 0 0" }}
+                  timeout={1000}
+                >
+                  <Input
+                    className="text-white w-72 p-2 mt-4"
+                    type="text"
+                    placeholder="Enter ImageURL..."
+                    value={ImageURL}
+                    onChange={(e) => setImageURL(e.target.value)}
+                  />
+                </Grow>
+              </div>
+              <div className="p-2 mt-4">
+                <UploadFileModal file={setImageURL} />
+              </div>
+              <div>
+                <Grow
+                  in={true}
+                  style={{ transformOrigin: "0 0 0" }}
+                  timeout={1000}
+                >
+                  <textarea
+                    className="text-white border-black border-2 bg-transparent w-72 h-44 p-2 mt-4"
+                    type=""
+                    placeholder="Enter Description..."
+                    value={Description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </Grow>
+              </div>
+              <div>
+                <Fade in={true} timeout={2000}>
+                  <Button
+                    onClick={handleSubmit}
+                    className="w-72 p-2 mt-4 button "
+                  >
+                    Register
+                  </Button>
+                </Fade>
+                {/* <Fade in={true} timeout={2000}>
+                  <Button
+                    onClick={handleFetch}
+                    className="w-72 p-2 mt-4 button "
+                  >
+                    handleFetch
+                  </Button>
+                </Fade> */}
+              </div>
             </div>
           </div>
         </main>

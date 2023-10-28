@@ -1,6 +1,4 @@
-import GreetingLottie from "@/components/DisplayLottie";
 import { Button } from "@mui/material";
-import Link from "next/link";
 import { useEffect } from "react";
 import { Fade } from "react-awesome-reveal";
 const Section4 = () => {
@@ -12,10 +10,10 @@ const Section4 = () => {
     <main className="flex flex-col gap-3 justify-center mx-14 items-center ">
       <div className="flex">
         <Button href="/BBP" className="w-72 p-2 mt-4 button">
-          So let's Get Started
+          <p className="text-xl">So let's Get Started</p>
         </Button>
         <Button href="/Registration" className="w-72 p-2 mt-4 button">
-          Register Now
+          <p className="text-xl"> Register Now</p>
         </Button>
       </div>
       <section className="section section-lg section-shaped ">

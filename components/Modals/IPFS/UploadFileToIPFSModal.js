@@ -1,12 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import dotenv from "dotenv";
 dotenv.config();
 
 import { Web3Storage } from "web3.storage";
-import { Modal } from "@mui/material";
+import WaitModal from "../WaitModal";
+import SuccessModal from "../SuccessMarkModal";
 
-export default ({ name, date, uploadFile, returnUploadedFile, onClose }) => {
+export default ({ name, date, uploadFile, onClose }) => {
+  const [open, setOpen] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(false);
   /**
    * CID Section
    */
@@ -57,12 +60,23 @@ export default ({ name, date, uploadFile, returnUploadedFile, onClose }) => {
     cid = await client.put(files, { wrapWithDirectory: false });
     console.log(`Done writing JSON file: ${metadata.name}.json`);
     console.log(`${prefix}${cid}${suffix}`);
-    returnUploadedFile(`${prefix}${cid}${suffix}`);
-    onClose && onClose();
+    // returnUploadedFile(`${prefix}${cid}${suffix}`);
+    setOpen(false);
+    onClose && onClose(`${prefix}${cid}${suffix}`);
+    setTimeout(function () {
+      setShowSuccess(false);
+    }, 1500);
+    setShowSuccess(true);
   }
 
   useEffect(() => {
     createNewEvent();
   }, []);
-  return <Modal onClose={onClose} />;
+  return (
+    <>
+      <WaitModal open={open} onClose={onClose} />
+
+      {showSuccess && <SuccessModal open={showSuccess} onClose={showSuccess} />}
+    </>
+  );
 };

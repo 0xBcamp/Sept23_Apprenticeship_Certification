@@ -1,12 +1,10 @@
 "use client";
 import Link from "next/link";
 import Headroom from "headroom.js";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 const IMG = "/logo2.png";
 import { parse } from "url";
 import { Input } from "@mui/material";
-import UploadFileModal from "./Modals/UploadFileModal";
-import { ContractContext } from "@/Context/ContractContext";
 
 export default () => {
   const [selected, setSelected] = useState(0);

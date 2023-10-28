@@ -16,7 +16,7 @@ export default () => {
             className="flex flex-col grid-cols-1 items-center"
             style={{ width: "70%" }}
           >
-            <GreetingLottie animationPath="/lottie/AddDocument.json" />
+            <GreetingLottie animationPath="/lottie/animation1.json" />
           </div>
         </div>
       </main>

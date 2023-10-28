@@ -1,29 +1,35 @@
-import { useContext, useEffect, useState } from "react";
-import { SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
+import { useEffect, useState } from "react";
+import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import Link from "next/link";
 import { useAccount } from "wagmi";
 import { TypeWriterOnce } from "../Commons";
-import { ContractContext } from "@/Context/ContractContext";
 import { Button } from "@mui/material";
+import { ethers } from "ethers";
+import EASContractAddress from "../../Constants/networkMapping";
 
 export default () => {
   const { isConnected } = useAccount();
   const [connectionStat, setConnectionStat] = useState(false);
-  const { makeOnChainAttestation } = useContext(ContractContext);
 
   const [apprenticeName, setApprenticeName] = useState("");
   const [certificationName, setCertificationName] = useState("");
   const [customFeedback, setCustomFeedback] = useState("");
-  const [address, setAddress] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [recipientAddress, setAddress] = useState("");
 
   const [attestUID, setAttestUID] = useState(
     "0x8505c647d0bd479df4b346d571b0cdab77be750ea6c9810f729ceeda4014b8c5"
   );
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [showWait, setShowWait] = useState(false);
+
+  const [openError, setOpenError] = useState(false);
+  const [openSuccess, setOpenSuccess] = useState(false);
 
   const handleSubmit = async () => {
-    if (!address) {
-      alert("Please enter an address!");
+    if (!recipientAddress) {
+      alert("Please enter an recipientAddress!");
       return;
     }
     if (!apprenticeName) {
@@ -42,36 +48,60 @@ export default () => {
 
     setIsLoading();
 
-    // const schemaEncoder = new SchemaEncoder(
-    //   "string apprenticeName, string certificationName, address mentorAddress, uint40 completedOnDate"
-    // );
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
 
-    // const encodeData = schemaEncoder.encodeData([
-    //   { name: "apprenticeName", value: apprenticeName, type: "string" },
-    //   { name: "certificationName", value: certificationName, type: "string" },
-    //   { name: "mentorAddress", value: mentorAddress, type: "address" },
-    //   { name: "completedOnDate", value: completedOnDate, type: "uint40" },
-    // ]);
+      const eas = new EAS(EASContractAddress);
+      eas.connect(signer);
 
-    const schemaEncoder = new SchemaEncoder(
-      "string apprenticeName, string certificationName, string customFeedback"
-    );
+      const schemaEncoder = new SchemaEncoder(
+        "string apprenticeName, string certificationName, string customFeedback"
+      );
 
-    const encodedData = schemaEncoder.encodeData([
-      { name: "apprenticeName", value: apprenticeName, type: "string" },
-      { name: "certificationName", value: certificationName, type: "string" },
-      { name: "customFeedback", value: customFeedback, type: "string" },
-    ]);
+      const encodedData = schemaEncoder.encodeData([
+        { name: "apprenticeName", value: apprenticeName, type: "string" },
+        { name: "certificationName", value: certificationName, type: "string" },
+        { name: "customFeedback", value: customFeedback, type: "string" },
+      ]);
 
-    const tx = await makeOnChainAttestation(
-      "0xef178a6053ee7a49ae4fa1fc43585f6bc5f88818f13248cd26a2587df0af5b10",
-      address,
-      true,
-      encodedData
-    );
+      const tx = await eas.attest({
+        schema:
+          "0xef178a6053ee7a49ae4fa1fc43585f6bc5f88818f13248cd26a2587df0af5b10",
+        data: {
+          recipient: recipientAddress,
+          expirationTime: 0,
+          revocable: true,
+          data: encodedData,
+        },
+      });
 
-    console.log(tx);
-    setAttestUID(tx);
+      setShowWait(true);
+      const newAttestId = await tx.wait();
+      setShowWait(false);
+      setIsLoading(false);
+      setAttestUID(newAttestId);
+      setOpenSuccess(true);
+      setAddress("");
+      setMessage("");
+    } catch (error) {
+      if (error.message.toLowerCase().includes("not listed"))
+        setErrorMessage(
+          "This address is not in the whitelist, please add it to the whitelist."
+        );
+      else if (error.message.toLowerCase().includes("user rejected")) {
+        setErrorMessage(
+          "MetaMask Tx Signature: User denied transaction signature"
+        );
+      } else {
+        setErrorMessage("Error occurred while processing.");
+      }
+      setOpenError(true);
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+      setShowWait(false);
+    }
   };
   useEffect(() => {
     setConnectionStat(isConnected);
@@ -100,8 +130,8 @@ export default () => {
           <input
             className="w-72 p-2 mt-4 Primary__Text border"
             type="text"
-            placeholder="Enter address..."
-            value={address}
+            placeholder="Enter recipientAddress..."
+            value={recipientAddress}
             onChange={(e) => setAddress(e.target.value)}
           />
           <input
@@ -111,15 +141,7 @@ export default () => {
             value={customFeedback}
             onChange={(e) => setCustomFeedback(e.target.value)}
           />
-          {/* <DatePicker
-          className="w-72 p-7 "
-          label="Completed on date"
-          value={completedOnDate}
-          onChange={(e) => {
-            setCompletedOnDate(e.date / 1000);
-            console.log(e.date / 1000);
-          }}
-        /> */}
+
           <Button onClick={handleSubmit} className="w-72 p-2 mt-4 button ">
             Submit Attestation
           </Button>
