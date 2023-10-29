@@ -1660,7 +1660,7 @@ pre code {
 
 .table th,
 .table td {
-	padding: 1rem;
+	/* padding: 0.5rem; */
 	vertical-align: top;
 	/* border-top: 0.0625rem solid #dee2e6; */
 }
@@ -16481,7 +16481,7 @@ button.bg-lighter:focus {
 }
 
 .bg-gradient-default {
-	background: linear-gradient(35deg, #172b4d 0, #1a174d 100%) !important;
+	background: linear-gradient(90deg, #FF5733 0, #FF8C33 100%) !important;
 }
 
 .bg-gradient-white {

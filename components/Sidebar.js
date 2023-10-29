@@ -1,6 +1,4 @@
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { EASSlicedAddress } from "./Commons";
 import { useAccount } from "wagmi";
 

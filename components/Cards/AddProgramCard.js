@@ -8,49 +8,59 @@ import { TypeWriterOnce } from "@/components/Commons";
 import hash from "hash.js";
 import { Button, Fade, Grow, Input } from "@mui/material";
 import UploadFileModal from "../Modals/IPFS/UploadFileModal";
+import DisplayLottie from "../DisplayLottie";
+import SuccessModal from "../Modals/SuccessModal";
+import ErrorModal from "../Modals/ErrorModal";
+import WaitModal from "../Modals/WaitModal";
 
 export default () => {
   const { isConnected, address: apprAddress } = useAccount();
   const [connectionStat, setConnectionStat] = useState(false);
+  const [newID, setNewID] = useState("");
 
   const [Name, setName] = useState("");
   // const [Type, setType] = useState("");
   const [ImageURL, setImageURL] = useState("");
   const [Description, setDescription] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
   const [showWait, setShowWait] = useState(false);
+
+  const [openError, setOpenError] = useState(false);
+  const [openSuccess, setOpenSuccess] = useState(false);
+
   const stdRef = collection(db, "Programs");
 
   const handleSubmit = async () => {
-    // if (!address) {
-    //   alert("Please enter an address!");
-    //   return;
-    // }
-    // if (!apprenticeName) {
-    //   alert("Please enter a apprenticeName!");
-    //   return;
-    // }
-
+    setIsLoading(false);
+    setOpenError(false);
     try {
+      setIsLoading(true);
       setShowWait(true);
       const std = await addDoc(stdRef, {
         Name: Name,
         // Type: Type,
         ImageURL: ImageURL,
         Description: Description,
+        Mentor: apprAddress,
 
         Hash: handleHash(apprAddress),
       });
+      setNewID(std.id);
       console.log(std.id);
-      alert("Done!!");
-
+      // alert("Done!!");
       setShowWait(false);
+      setIsLoading(false);
+      setOpenSuccess(true);
 
       setName("");
       setImageURL("");
       setDescription("");
     } catch (error) {
       console.error("Erorr", error);
+    } finally {
+      setIsLoading(false);
+      setShowWait(false);
     }
   };
 
@@ -133,10 +143,20 @@ export default () => {
               <div>
                 <Fade in={true} timeout={2000}>
                   <Button
+                    disabled={isLoading}
                     onClick={handleSubmit}
                     className="w-72 p-2 mt-4 button "
                   >
-                    Register
+                    <div>
+                      {isLoading ? (
+                        <DisplayLottie
+                          width={"100%"}
+                          animationPath="/lottie/LoadingBlue.json"
+                        />
+                      ) : (
+                        <p>Submit</p>
+                      )}
+                    </div>
                   </Button>
                 </Fade>
                 {/* <Fade in={true} timeout={2000}>
@@ -150,6 +170,21 @@ export default () => {
               </div>
             </div>
           </div>
+          {showWait && <WaitModal open={showWait} onClose={showWait} />}
+          {openError && (
+            <ErrorModal
+              message={errorMessage}
+              open={openError}
+              onClose={() => setOpenError(false)}
+            />
+          )}
+          {newID && (
+            <SuccessModal
+              message={newID}
+              open={openSuccess}
+              onClose={() => setOpenSuccess(false)}
+            />
+          )}
         </main>
       ) : (
         <>Please connect your wallet</>

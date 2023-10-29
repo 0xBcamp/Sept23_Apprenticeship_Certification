@@ -1,4 +1,5 @@
 import GreetingLottie from "@/components/DisplayLottie";
+import { Button } from "@mui/material";
 import Link from "next/link";
 import { Fade } from "react-awesome-reveal";
 const CheckAttestation = () => {
@@ -16,9 +17,9 @@ const CheckAttestation = () => {
             <p className="text-xl">
               What is your evaluation of this apprentice?
             </p>
-            <Link href="/Home/AttestMessage" className="Primary__Click ">
-              Attest Now
-            </Link>
+            <Button href="/Home/AttestMessage" className=" mt-4 button">
+              <p className="text-indigo-400">Attest Now</p>
+            </Button>
           </Fade>
         </div>
       </div>

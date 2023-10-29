@@ -1,21 +1,18 @@
 import Link from "next/link";
-import { SkeletonTextModal, TypeWriterOnce } from "@/components/Commons";
+import { TypeWriterOnce } from "@/components/Commons";
 
 import OverveiwBigCard from "@/components/ProfilePart/OverviewBigCard";
-import { useContext, useEffect, useState } from "react";
-import { ContractContext } from "@/Constants/Context/ContractContext";
+import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 
 export default () => {
-  const { getMyAddress } = useContext(ContractContext);
-
   const [accountAddress, setAccountAddress] = useState("");
+  const { address } = useAccount();
 
   useEffect(() => {
-    const func = async () => {
-      setAccountAddress(await getMyAddress());
-    };
-    func();
-  }, []);
+    setAccountAddress(address);
+  }, [address]);
+
   return (
     <>
       <Link href={"/Profile"} className="Link__Back">

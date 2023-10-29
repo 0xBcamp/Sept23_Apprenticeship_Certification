@@ -10,15 +10,14 @@ const CheckAttestation = () => {
             <p className="text-xl">
               Check who attested to you and whom you have attested
             </p>
-            <Button className="w-72 text-xl" href="/Profile">
-              Check Attestation
+            <Button className="w-72 mt-4 button" href="/Profile">
+              <p className="text-indigo-400">Check Attestation</p>
             </Button>
           </Fade>
         </div>
         <div style={{ width: "75%" }}>
           <Fade bottom duration={2000}>
             <img src="/images/ransomware.png" alt="" />
-            {/* <GreetingLottie animationPath="/lottie/Verifing2.json" /> */}
           </Fade>
         </div>
       </div>

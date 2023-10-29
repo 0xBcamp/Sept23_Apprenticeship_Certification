@@ -6,6 +6,8 @@ import SuccessModal from "../Modals/SuccessModal";
 import { useAccount } from "wagmi";
 import { LoadingButton } from "@mui/lab";
 import { Button, Grow, Input } from "@mui/material";
+import DisplayLottie from "../DisplayLottie";
+import WaitModal from "../Modals/WaitModal";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
@@ -26,20 +28,16 @@ export default () => {
   const [openSuccess, setOpenSuccess] = useState(false);
 
   const handleSubmit = async () => {
-    // if (!address) {
-    //   alert("Please enter an address!");
-    //   return;
-    // }
-    // if (!message) {
-    //   alert("Please enter a message!");
-    //   return;
-    // }
+    if (!address) {
+      alert("Please enter an address!");
+      return;
+    }
+    if (!message) {
+      alert("Please enter a message!");
+      return;
+    }
     setIsLoading(false);
     setOpenError(false);
-    const schemaEncoder = new SchemaEncoder("string Message");
-    const encodedData = schemaEncoder.encodeData([
-      { name: "Message", value: message, type: "string" },
-    ]);
 
     try {
       const eas = new EAS(EASContractAddress);
@@ -49,6 +47,11 @@ export default () => {
       eas.connect(signer);
 
       setIsLoading(true);
+
+      const schemaEncoder = new SchemaEncoder("string Message");
+      const encodedData = schemaEncoder.encodeData([
+        { name: "Message", value: message, type: "string" },
+      ]);
 
       const tx = await eas.attest({
         schema:
@@ -121,29 +124,18 @@ export default () => {
             >
               <div>
                 {isLoading ? (
-                  <LoadingButton loading>Submit</LoadingButton>
+                  <DisplayLottie
+                    width={"100%"}
+                    animationPath="/lottie/LoadingBlue.json"
+                  />
                 ) : (
-                  <p>Submit</p>
+                  <p className="text-indigo-400">Submit</p>
                 )}
               </div>
             </Button>
           </Grow>
-
-          {/* <button
-            onClick={handleSubmit}
-            className="w-72 p-2 flex-col flex items-center mt-4 Primary__Click"
-            disabled={isLoading}
-          >
-            <div>
-              {isLoading ? (
-                <LoadingButton loading>Submit</LoadingButton>
-              ) : (
-                <p>Submit</p>
-              )}
-            </div>
-          </button> */}
           {openError && (
-            <SuccessModal
+            <ErrorModal
               message={errorMessage}
               open={openError}
               onClose={() => setOpenError(false)}
@@ -156,6 +148,7 @@ export default () => {
               onClose={() => setOpenSuccess(false)}
             />
           )}
+          {showWait && <WaitModal open={showWait} onClose={showWait} />}
         </div>
       ) : (
         <>Please connect your wallet</>

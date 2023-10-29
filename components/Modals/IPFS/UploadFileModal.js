@@ -16,23 +16,23 @@ const style = {
 
 export default ({ file }) => {
   const [open, setOpen] = useState(false);
-  // const [returnUploadedFile, setReturnUploadedFile] = useState("");
   const [saveToIPFS, setSaveToIPFS] = useState(false);
   const [fileUploaded, setFileUploaded] = useState("");
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    setFileUploaded("");
+    setOpen(true);
+  };
   const handleClose = () => {
     setOpen(false);
   };
-
   const handleOK = () => {
-    // file(returnUploadedFile);
     setSaveToIPFS(true);
     handleClose();
   };
 
   return (
     <div>
-      {saveToIPFS && (
+      {saveToIPFS && fileUploaded && (
         <UploadFileToIPFSModal
           name={fileUploaded.name}
           date={"1000"}
@@ -43,7 +43,7 @@ export default ({ file }) => {
           }}
         />
       )}
-      <Button onClick={handleOpen}>Choose a file</Button>
+      <Button onClick={handleOpen}>Upload an Image</Button>
       <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
           <h2>Upload a File</h2>
@@ -57,7 +57,9 @@ export default ({ file }) => {
             onChange={(e) => setFileUploaded(e.target.files[0])}
           />
           <br />
-          <Button onClick={handleOK}>OK</Button>
+          <Button disabled={!fileUploaded} onClick={handleOK}>
+            OK
+          </Button>
           <Button onClick={handleClose}>Cancel</Button>
         </Box>
       </Modal>

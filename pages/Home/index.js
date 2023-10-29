@@ -1,17 +1,15 @@
 import dynamic from "next/dynamic";
 
-const MakeAttest = dynamic(() => import("../../Containers/Home/MakeAttest"));
+const MakeAttest = dynamic(() => import("../../Containers/BBP/MakeAttest"));
 const CheckAttestation = dynamic(() =>
-  import("../../Containers/Home/CheckAttestation")
+  import("../../Containers/BBP/CheckAttestation")
 );
 
 export default () => {
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto h-full">
       <MakeAttest />
-      <hr />
       <CheckAttestation />
-      <hr />
     </div>
   );
 };

@@ -1,4 +1,3 @@
-import AllCert from "../Home/AllCert";
 import Certifications from "./Certifications";
 import Overview from "./Overview";
 import Reputations from "./Reputations";

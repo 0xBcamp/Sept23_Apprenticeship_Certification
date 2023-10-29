@@ -17,33 +17,36 @@ export default () => {
     setConnectionStat(isConnected);
   }, [isConnected]);
   return (
-    <main className="container min-h-screen">
+    <main className="h-[1050px] w-[1738px]">
       {connectionStat ? (
-        <div
-          className="flex flex-row justify-center h-screen bg-gradient-to-bl from-indigo-900 m-2"
-          style={{ backgroundColor: "#2E2E48" }}
-        >
-          <div className="h-screen">
-            <Sidebar>
-              <SidebarItems
-                text="Overview"
-                onClickFunc={() => setShowTable("Overview")}
-                active={showTable == "Overview" ? true : false}
-              />
-              <SidebarItems
-                text="Certifications"
-                onClickFunc={() => setShowTable("Certifications")}
-                active={showTable == "Certifications" ? true : false}
-              />
-              <SidebarItems
-                text="Reputations"
-                onClickFunc={() => setShowTable("Reputations")}
-                active={showTable == "Reputations" ? true : false}
-              />
-            </Sidebar>
-          </div>
-          {showTable && <ShowItem item={showTable} />}
-        </div>
+        <table>
+          <tbody>
+            <tr>
+              <td className="h-full">
+                <div className="flex  flex-row justify-center ">
+                  <Sidebar>
+                    <SidebarItems
+                      text="Overview"
+                      onClickFunc={() => setShowTable("Overview")}
+                      active={showTable == "Overview" ? true : false}
+                    />
+                    <SidebarItems
+                      text="Certifications"
+                      onClickFunc={() => setShowTable("Certifications")}
+                      active={showTable == "Certifications" ? true : false}
+                    />
+                    <SidebarItems
+                      text="Reputations"
+                      onClickFunc={() => setShowTable("Reputations")}
+                      active={showTable == "Reputations" ? true : false}
+                    />
+                  </Sidebar>
+                </div>
+              </td>
+              <td>{showTable && <ShowItem item={showTable} />}</td>
+            </tr>
+          </tbody>
+        </table>
       ) : (
         <>Please connect your wallet</>
       )}

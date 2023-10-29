@@ -10,10 +10,10 @@ const Section4 = () => {
     <main className="flex flex-col gap-3 justify-center mx-14 items-center ">
       <div className="flex">
         <Button href="/Home" className="w-72 p-2 mt-4 button">
-          <p className="text-xl">So let's Get Started</p>
+          <p className="text-xl text-indigo-400">So let's Get Started</p>
         </Button>
         <Button href="/Registration" className="w-72 p-2 mt-4 button">
-          <p className="text-xl"> Register Now</p>
+          <p className="text-xl text-indigo-400"> Register Now</p>
         </Button>
       </div>
       <section className="section section-lg section-shaped ">

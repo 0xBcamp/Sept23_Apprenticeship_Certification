@@ -6,7 +6,20 @@ import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { TypeWriterOnce } from "@/components/Commons";
 import hash from "hash.js";
-import { Button, Fade, Grow, Input } from "@mui/material";
+import {
+  Button,
+  Fade,
+  FormControl,
+  Grow,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
+import ErrorModal from "../Modals/ErrorModal";
+import SuccessModal from "../Modals/SuccessModal";
+import WaitModal from "../Modals/WaitModal";
+import DisplayLottie from "../DisplayLottie";
 
 export default () => {
   const { isConnected, address: apprAddress } = useAccount();
@@ -14,39 +27,61 @@ export default () => {
 
   const [apprenticeName, setApprenticeName] = useState("");
   const [address, setAddress] = useState("");
+  const [newID, setNewID] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showWait, setShowWait] = useState(false);
 
-  const stdRef = collection(db, "Students");
+  const [openError, setOpenError] = useState(false);
+  const [openSuccess, setOpenSuccess] = useState(false);
 
   const handleSubmit = async () => {
-    if (!address) {
-      alert("Please enter an address!");
-      return;
-    }
     if (!apprenticeName) {
       alert("Please enter a apprenticeName!");
       return;
     }
 
+    setIsLoading(false);
+    setOpenError(false);
     try {
-      const std = await addDoc(stdRef, {
+      setIsLoading(true);
+      setShowWait(true);
+
+      const std = await addDoc(collection(db, "Students"), {
         Name: apprenticeName,
         Address: apprAddress,
-        Program: address,
+        Program: selectedProgram,
         Hash: handleHash(apprAddress),
       });
+      setNewID(std.id);
       console.log(std.id);
-      alert("Done!!");
+      // alert("Done!!");
+      setShowWait(false);
+      setIsLoading(false);
+      setOpenSuccess(true);
+      setApprenticeName("");
+      setAddress("");
     } catch (error) {
       console.error("Erorr", error);
+    } finally {
+      setIsLoading(false);
+      setShowWait(false);
+      setOpenError(false);
     }
   };
   const handleFetch = async () => {
-    const query = await getDocs(stdRef);
+    const query = await getDocs(collection(db, "Programs"));
     const data = [];
     query.forEach((doc) => {
       data.push({ id: doc.id, ...doc.data() });
     });
-    console.log(data);
+    // if (a.id == "01") {
+    const aa = [];
+    for (let a of data) {
+      aa.push(a.Name);
+      console.log(a.Name);
+    }
+    setdataArray(data);
+    // }
   };
 
   const handleHash = (data) => {
@@ -56,6 +91,15 @@ export default () => {
   useEffect(() => {
     setConnectionStat(isConnected);
   }, [isConnected]);
+
+  const [selectedProgram, setSelectedProgram] = useState("");
+  const [dataArray, setdataArray] = useState([]);
+  useEffect(() => {
+    handleFetch();
+  }, []);
+  const handleChange = (event) => {
+    setSelectedProgram(event.target.value);
+  };
 
   return (
     <>
@@ -74,7 +118,7 @@ export default () => {
                 onChange={(e) => setApprenticeName(e.target.value)}
               />
             </Grow>
-            <Fade in={true} timeout={2000}>
+            {/* <Fade in={true} timeout={2000}>
               <Input
                 className="text-white w-72 p-2 mt-4"
                 type="text"
@@ -82,14 +126,61 @@ export default () => {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
               />
-            </Fade>
+            </Fade> */}
 
             <Fade in={true} timeout={2000}>
-              <Button onClick={handleSubmit} className="w-72 p-2 mt-4 button ">
-                Register
+              <FormControl fullWidth>
+                <InputLabel>Select a Program</InputLabel>
+                <Select
+                  value={selectedProgram}
+                  label="selectedProgram"
+                  onChange={handleChange}
+                >
+                  {dataArray.map((item) => {
+                    return <MenuItem value={item.id}>{item.Name}</MenuItem>;
+                  })}
+                </Select>
+              </FormControl>
+            </Fade>
+            <Fade in={true} timeout={2000}>
+              <Button
+                disabled={isLoading}
+                onClick={handleSubmit}
+                className="w-72 p-2 mt-4 button "
+              >
+                <div>
+                  {isLoading ? (
+                    <DisplayLottie
+                      width={"100%"}
+                      animationPath="/lottie/LoadingBlue.json"
+                    />
+                  ) : (
+                    <p>Submit</p>
+                  )}
+                </div>
+              </Button>
+            </Fade>
+            <Fade in={true} timeout={2000}>
+              <Button onClick={handleFetch} className="w-72 p-2 mt-4 button ">
+                Fetch
               </Button>
             </Fade>
           </div>
+          {showWait && <WaitModal open={showWait} onClose={showWait} />}
+          {openError && (
+            <ErrorModal
+              message={errorMessage}
+              open={openError}
+              onClose={() => setOpenError(false)}
+            />
+          )}
+          {newID && (
+            <SuccessModal
+              message={newID}
+              open={openSuccess}
+              onClose={() => setOpenSuccess(false)}
+            />
+          )}
         </main>
       ) : (
         <>Please connect your wallet</>

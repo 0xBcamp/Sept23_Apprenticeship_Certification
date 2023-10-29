@@ -13,18 +13,18 @@ export default () => {
   // }, []);
   const accountAddress = "0xB0739AaF97B5F12D3529ec6C109fbE1A9c9F6bAe";
   return (
-    <table className="table h-full">
+    <table>
       <tbody>
         <tr>
-          <td colSpan="2" className="h-full justify-center">
+          <td colSpan="2" className="w-[1291px] h-[426px] justify-center">
             <OverallBigCard account={accountAddress} />
           </td>
         </tr>
         <tr>
-          <td className="justify-center h-full items-center">
+          <td className="justify-center w-[593px] h-[504px]  items-center">
             <CertificationBigCard account={accountAddress} />
           </td>
-          <td className="justify-center h-full items-center">
+          <td className="justify-center w-[593px] h-[504px]  items-center">
             <ReputationBigCard account={accountAddress} />
           </td>
         </tr>

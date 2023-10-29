@@ -3,9 +3,13 @@ import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import Link from "next/link";
 import { useAccount } from "wagmi";
 import { TypeWriterOnce } from "../Commons";
-import { Button } from "@mui/material";
+import { Button, Grow, Input } from "@mui/material";
 import { ethers } from "ethers";
-import EASContractAddress from "../../Constants/networkMapping";
+import SuccessModal from "../Modals/SuccessModal";
+import ErrorModal from "../Modals/ErrorModal";
+import DisplayLottie from "../DisplayLottie";
+import WaitModal from "../Modals/WaitModal";
+const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
 export default () => {
   const { isConnected } = useAccount();
@@ -16,9 +20,8 @@ export default () => {
   const [customFeedback, setCustomFeedback] = useState("");
   const [recipientAddress, setAddress] = useState("");
 
-  const [attestUID, setAttestUID] = useState(
-    "0x8505c647d0bd479df4b346d571b0cdab77be750ea6c9810f729ceeda4014b8c5"
-  );
+  const [attestUID, setAttestUID] = useState("");
+  // "0x8505c647d0bd479df4b346d571b0cdab77be750ea6c9810f729ceeda4014b8c5"
   const [errorMessage, setErrorMessage] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -46,7 +49,7 @@ export default () => {
       return;
     }
 
-    setIsLoading();
+    setIsLoading(false);
 
     try {
       const provider = new ethers.BrowserProvider(window.ethereum);
@@ -54,6 +57,7 @@ export default () => {
 
       const eas = new EAS(EASContractAddress);
       eas.connect(signer);
+      setIsLoading(true);
 
       const schemaEncoder = new SchemaEncoder(
         "string apprenticeName, string certificationName, string customFeedback"
@@ -67,7 +71,7 @@ export default () => {
 
       const tx = await eas.attest({
         schema:
-          "0xef178a6053ee7a49ae4fa1fc43585f6bc5f88818f13248cd26a2587df0af5b10",
+          "0x3fa53dac3a50eff2ae5f34f8c0b8366932db5bdd320cfe202592911da121266e",
         data: {
           recipient: recipientAddress,
           expirationTime: 0,
@@ -82,8 +86,10 @@ export default () => {
       setIsLoading(false);
       setAttestUID(newAttestId);
       setOpenSuccess(true);
+      setApprenticeName("");
+      setCertificationName("");
+      setCustomFeedback("");
       setAddress("");
-      setMessage("");
     } catch (error) {
       if (error.message.toLowerCase().includes("not listed"))
         setErrorMessage(
@@ -109,57 +115,84 @@ export default () => {
   return (
     <>
       {connectionStat ? (
-        <div className="flex flex-col grid-cols-2 items-center">
-          <h1 className="text-xl font-bold">
-            <TypeWriterOnce text="Add a Certificate" />
-          </h1>
-          <input
-            className="w-72 p-2 mt-4 Primary__Text border"
-            type="text"
-            placeholder="Enter apprentice name..."
-            value={apprenticeName}
-            onChange={(e) => setApprenticeName(e.target.value)}
-          />
-          <input
-            className="w-72 p-2 mt-4 Primary__Text border"
-            type="text"
-            placeholder="Enter certification name..."
-            value={certificationName}
-            onChange={(e) => setCertificationName(e.target.value)}
-          />
-          <input
-            className="w-72 p-2 mt-4 Primary__Text border"
-            type="text"
-            placeholder="Enter recipientAddress..."
-            value={recipientAddress}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <input
-            className="w-72 p-2 mt-4 Primary__Text border"
-            type="text"
-            placeholder="Your Feedback..."
-            value={customFeedback}
-            onChange={(e) => setCustomFeedback(e.target.value)}
-          />
+        <div className="container h-screen">
+          <div className="flex flex-col grid-cols-2 items-center">
+            <h1 className="text-xl font-bold">
+              <TypeWriterOnce text="Add a Certificate" />
+            </h1>
+            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+              <Input
+                className="text-white w-72 p-2 mt-4"
+                type="text"
+                placeholder="Enter apprentice name..."
+                value={apprenticeName}
+                onChange={(e) => setApprenticeName(e.target.value)}
+              />
+            </Grow>
 
-          <Button onClick={handleSubmit} className="w-72 p-2 mt-4 button ">
-            Submit Attestation
-          </Button>
+            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+              <Input
+                className="text-white w-72 p-2 mt-4"
+                type="text"
+                placeholder="Enter certification name..."
+                value={certificationName}
+                onChange={(e) => setCertificationName(e.target.value)}
+              />
+            </Grow>
+            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+              <Input
+                className="text-white w-72 p-2 mt-4"
+                type="text"
+                placeholder="Enter recipientAddress..."
+                value={recipientAddress}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </Grow>
+            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+              <Input
+                className="text-white w-72 p-2 mt-4"
+                type="text"
+                placeholder="Your Feedback..."
+                value={customFeedback}
+                onChange={(e) => setCustomFeedback(e.target.value)}
+              />
+            </Grow>
 
-          {isLoading && <p className="mt-4">Wait...</p>}
-          {attestUID && (
-            <p className="mt-4">
-              New Attest UID:
-              <Link
-                href={`https://sepolia.easscan.org/attestation/view/${attestUID}`}
-                target="_blank"
-                className="underline"
+            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+              <Button
+                disabled={isLoading}
+                onClick={handleSubmit}
+                className="w-72 p-2 mt-4 button "
               >
-                {" "}
-                Open EAS Scan
-              </Link>
-            </p>
-          )}
+                <div>
+                  {isLoading ? (
+                    <DisplayLottie
+                      width={"100%"}
+                      animationPath="/lottie/LoadingBlue.json"
+                    />
+                  ) : (
+                    <p className="text-indigo-400">Submit</p>
+                  )}
+                </div>
+              </Button>
+            </Grow>
+
+            {openError && (
+              <ErrorModal
+                message={errorMessage}
+                open={openError}
+                onClose={() => setOpenError(false)}
+              />
+            )}
+            {attestUID && (
+              <SuccessModal
+                message={attestUID}
+                open={openSuccess}
+                onClose={() => setOpenSuccess(false)}
+              />
+            )}
+            {showWait && <WaitModal open={showWait} onClose={showWait} />}
+          </div>
         </div>
       ) : (
         <>Please connect your wallet</>

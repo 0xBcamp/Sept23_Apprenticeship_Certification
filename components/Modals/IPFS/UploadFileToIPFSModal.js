@@ -10,10 +10,14 @@ import SuccessModal from "../SuccessMarkModal";
 export default ({ name, date, uploadFile, onClose }) => {
   const [open, setOpen] = useState(true);
   const [showSuccess, setShowSuccess] = useState(false);
+  if (!uploadFile) return;
   /**
    * CID Section
    */
-  const token = process.env.NEXT_PUBLIC_WEB3_STORAGE_API_TOKEN;
+
+  // Your keys must be stored in .env file and do not share it over Internet
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDQ1MTVjODI4ZjEzQzFGOENDMjg3ODIxYjNhOTVjMzc1NDIxYjk1NjMiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODU1NTAzMTczMDIsIm5hbWUiOiJpcGZzIn0.iyWgJIYFT6R2NEbuETvJB_4B70Q77KxyO54N08jERjM";
   const client = new Web3Storage({ token });
 
   const prefix = "https://";

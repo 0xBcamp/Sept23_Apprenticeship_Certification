@@ -52,7 +52,7 @@ export default () => {
       )}
       {eas?.attestations.length > seeMore && (
         <>
-          <Link href="/BBP/AllRep" className="underline">
+          <Link href="/Home/AllRep" className="underline">
             More feekbacks
           </Link>
         </>

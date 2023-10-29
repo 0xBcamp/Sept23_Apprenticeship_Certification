@@ -8,7 +8,7 @@ export default ({ open, onClose }) => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 300,
-    bgcolor: "#2E2E48",
+    bgcolor: "#fff",
     // border: "2px solid #fff",
     boxShadow: 24,
     p: 4,
