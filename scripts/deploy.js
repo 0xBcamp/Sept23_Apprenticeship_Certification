@@ -1,19 +1,26 @@
 const { ethers } = require("hardhat");
 
 async function main() {
-  const args = [
+  // const BlockBadgeSBT = await ethers.deployContract("BlockBadgeSBT", []);
+  // await BlockBadgeSBT.waitForDeployment();
+  // console.log(`BlockBadgeSBT deployed at ${BlockBadgeSBT.target}`);
+
+  let args = [
     "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
     "Bcamp",
     ["0xB0739AaF97B5F12D3529ec6C109fbE1A9c9F6bAe"],
-    "0x88B04A6b48f8fef91548cE39C7D1d79F1FCb8cd3",
+    "0xB34d14837a2e3Ad9A0B111d2477786C613109521",
   ];
-  // const lock = await ethers.deployContract("OrganizationResolver", args);
 
-  // await lock.waitForDeployment();
+  // const OrganizationResolver = await ethers.deployContract(
+  //   "OrganizationResolver",
+  //   args
+  // );
+  // await OrganizationResolver.waitForDeployment();
+  // console.log(`Contract deployed at ${OrganizationResolver.target}`);
 
-  // console.log(`Contract deployed at ${lock.target}`);
-
-  verify("0xc8987A465Fdc437a9048a506Ef3A74aEc46821fd", args);
+  verify("0xB34d14837a2e3Ad9A0B111d2477786C613109521", []);
+  verify("0xaaCf8d59AF3e6404D7473d2275dbe89f5F01f11f", args);
 }
 
 const verify = async (contractAddress, args) => {

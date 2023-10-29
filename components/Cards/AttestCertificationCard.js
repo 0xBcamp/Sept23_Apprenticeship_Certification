@@ -16,7 +16,11 @@ import SuccessModal from "../Modals/SuccessModal";
 import ErrorModal from "../Modals/ErrorModal";
 import DisplayLottie from "../DisplayLottie";
 import WaitModal from "../Modals/WaitModal";
+import UploadFileModal from "../Modals/IPFS/UploadFileModal";
+import BlockBadgeSBTAbi from "../../Constants/BlockBadgeSBT.json";
+
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
+const BlockBadgeSBTAddress = "0xB34d14837a2e3Ad9A0B111d2477786C613109521";
 
 export default () => {
   const { isConnected } = useAccount();
@@ -26,6 +30,7 @@ export default () => {
 
   const [certificateName, setCertificateName] = useState("");
   const [Passed, setPassed] = useState("");
+  const [ImageURL, setImageURL] = useState("");
 
   const [recipientAddress, setAddress] = useState("");
 
@@ -64,22 +69,33 @@ export default () => {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
 
+      const contract = new ethers.Contract(
+        BlockBadgeSBTAddress,
+        BlockBadgeSBTAbi.abi,
+        signer
+      );
+
       const eas = new EAS(EASContractAddress);
       eas.connect(signer);
 
       setIsLoading(true);
+      console.log(ImageURL);
+      // return;
+
+      const transaction = await contract.setTokenURI(ImageURL);
+      await transaction.wait();
 
       const schemaUID =
-        "0xf0749a6c351d57ba2ddc7e5e2372c64688b7b68c01ed0f6bfd8dc3b0323f5d4c";
+        "0x841cab11062633351bcf30ab016dac0316f573f2b4c782417360c9eac891a25a";
 
       const schemaEncoder = new SchemaEncoder(
-        "string Name,string CertificateName,bool Complated"
+        "string Name,string CertificateName,bool Completed"
       );
 
       const encodedData = schemaEncoder.encodeData([
         { name: "Name", value: apprenticeName, type: "string" },
         { name: "CertificateName", value: certificateName, type: "string" },
-        { name: "Complated", value: Passed, type: "bool" },
+        { name: "Completed", value: Passed, type: "bool" },
       ]);
 
       const tx = await eas.attest({
@@ -100,6 +116,7 @@ export default () => {
       setOpenSuccess(true);
       setApprenticeName("");
       setCertificateName("");
+      setImageURL("");
       setPassed(false);
       setAddress("");
     } catch (error) {
@@ -177,14 +194,20 @@ export default () => {
                   <MenuItem value={2}>No</MenuItem>
                 </Select>
               </FormControl>
-              {/* <Input
+            </Grow>
+            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+              <Input
                 className="text-white w-72 p-2 mt-4"
                 type="text"
-                placeholder="Your Feedback..."
-                value={Passed}
-                onChange={(e) => setPassed(e.target.value)}
-              /> */}
+                placeholder="Enter ImageURL..."
+                value={ImageURL}
+                onChange={(e) => setImageURL(e.target.value)}
+              />
             </Grow>
+
+            <div className="p-2 mt-4">
+              <UploadFileModal file={setImageURL} />
+            </div>
 
             <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
               <Button

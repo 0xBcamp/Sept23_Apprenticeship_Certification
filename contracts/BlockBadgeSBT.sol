@@ -9,10 +9,9 @@ contract BlockBadgeSBT is ERC721, Ownable {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
-    string private TOKENURI =
-        "ipfs://bafkreicpi3flov6wmh534ryn33qububz4yt7nqa7e642sao3pyaglzlguu";
+    string private TOKENURI = "";
 
-    // "https://bafkreiafmapsncyjpq5y7kqsrvkg3ztsowp7u24diujdtqjwvwkvfr5bf4.ipfs.w3s.link/";
+    // "ipfs://bafkreicpi3flov6wmh534ryn33qububz4yt7nqa7e642sao3pyaglzlguu";
 
     constructor() ERC721("BlockBadgeSBT", "BLK") Ownable() {}
 
@@ -20,6 +19,10 @@ contract BlockBadgeSBT is ERC721, Ownable {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
+    }
+
+    function setTokenURI(string memory _tokenURI) public {
+        TOKENURI = _tokenURI;
     }
 
     function tokenURI(

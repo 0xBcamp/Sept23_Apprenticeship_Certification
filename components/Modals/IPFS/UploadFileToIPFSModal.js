@@ -68,7 +68,7 @@ export default ({ name, date, uploadFile, onClose }) => {
     console.log(`${prefix}${cid}${suffix}`);
     // returnUploadedFile(`${prefix}${cid}${suffix}`);
     setOpen(false);
-    onClose && onClose(`${prefix}${cid}${suffix}`);
+    onClose && onClose(`${prefixIPFS}${cid}`);
     setTimeout(function () {
       setShowSuccess(false);
     }, 1500);

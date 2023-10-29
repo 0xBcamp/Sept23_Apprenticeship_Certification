@@ -36,7 +36,7 @@ export default ({ message, open, onClose }) => {
                 <div className="bg-transparent text-black p-2 text-3xl font-bold">
                   Success
                 </div>
-                <div className="bg-transparent text-blue-900 p-2 text-xl flex-wrap">
+                <div className="bg-transparent text-blue-400 p-2 text-xl flex-wrap">
                   <p className="mt-4">
                     New Attest UID:{" "}
                     <Link
