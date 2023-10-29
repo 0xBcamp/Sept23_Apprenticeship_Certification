@@ -13,10 +13,10 @@ module.exports = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       backgroundColor: {
-        "green-custom": "#38a169", // استخدم اللون الأخضر الخاص بك هنا
+        "green-custom": "#38a169",
       },
       textColor: {
-        "white-custom": "#fff", // استخدم اللون النصي الخاص بك هنا
+        "white-custom": "#ffffff",
       },
     },
   },

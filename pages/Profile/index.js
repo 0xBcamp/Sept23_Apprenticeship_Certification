@@ -1,45 +1,50 @@
-import CertificationBigCard from "@/components/ProfilePart/CertificationBigCard";
-import OverallBigCard from "@/components/ProfilePart/OverallBigCard";
-import ReputationBigCard from "@/components/ProfilePart/ReputationBigCard";
-import SidebarBigCard from "@/components/ProfilePart/SidebarPart/SidebarBigCard";
-import { useMoralis } from "react-moralis";
-
+import SidebarItems from "@/components/ProfilePart/SidebarPart/SidebarItems";
+import Sidebar from "@/components/Sidebar";
+import { useEffect, useState } from "react";
+import { useAccount, useEnsAddress } from "wagmi";
+import ShowItem from "./ShowItem";
 export default () => {
-  const { isWeb3Enabled, account } = useMoralis();
+  const { isConnected } = useAccount();
+  const [connectionStat, setConnectionStat] = useState(false);
 
+  const [showTable, setShowTable] = useState("Overview");
+  useEffect(() => {
+    setConnectionStat(isConnected);
+  }, [isConnected]);
   return (
-    <>
-      {isWeb3Enabled ? (
-        <>
-          <table
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            <tbody>
-              <tr>
-                <td style={{ width: "20%", height: "100%" }} rowSpan="2">
-                  <SidebarBigCard account={account} />
-                </td>
-                <td colSpan="2">
-                  <OverallBigCard account={account} />
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: "40%", height: "50%" }}>
-                  <CertificationBigCard account={account} />
-                </td>
-                <td style={{ width: "40%", height: "50%" }}>
-                  <ReputationBigCard account={account} />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </>
+    <main className="h-[1050px] w-[1738px]">
+      {connectionStat ? (
+        <table>
+          <tbody>
+            <tr>
+              <td className="h-full">
+                <div className="flex  flex-row justify-center ">
+                  <Sidebar>
+                    <SidebarItems
+                      text="Overview"
+                      onClickFunc={() => setShowTable("Overview")}
+                      active={showTable == "Overview" ? true : false}
+                    />
+                    <SidebarItems
+                      text="Certifications"
+                      onClickFunc={() => setShowTable("Certifications")}
+                      active={showTable == "Certifications" ? true : false}
+                    />
+                    <SidebarItems
+                      text="Reputations"
+                      onClickFunc={() => setShowTable("Reputations")}
+                      active={showTable == "Reputations" ? true : false}
+                    />
+                  </Sidebar>
+                </div>
+              </td>
+              <td>{showTable && <ShowItem item={showTable} />}</td>
+            </tr>
+          </tbody>
+        </table>
       ) : (
         <>Please connect your wallet</>
       )}
-    </>
+    </main>
   );
 };

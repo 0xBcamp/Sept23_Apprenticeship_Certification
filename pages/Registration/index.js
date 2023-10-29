@@ -1,29 +1,55 @@
-import Link from "next/link";
+"use client";
+import { db } from "@/Constants/Context/FirebaseConfig";
+import { collection, getDocs, query, where } from "firebase/firestore";
+
+import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
+import StudentsRegisteration from "./StudentsRegisteration";
+import AddProgram from "./AddProgram";
+import WaitModal from "@/components/Modals/WaitModal";
 
 export default () => {
-  return (
-    <div className="container mx-auto">
-      <h1 className="H1__Header">Offchain Registration</h1>
-      <p className="m-2">Offchain Registration</p>
-      <div className="m-2">
-        <Link
-          href="/Registration/OffchainAttestation"
-          className="Primary__Click"
-        >
-          Register now
-        </Link>
+  const { isConnected, address } = useAccount();
+
+  const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (isConnected) {
+      setLoading(true);
+      const handleQuery = async () => {
+        const stdRef = collection(db, "Admins");
+        const q = query(stdRef, where("Address", "==", address));
+        const querySnapshot = await getDocs(q);
+        const data = [];
+        querySnapshot.forEach((doc) => {
+          data.push(doc.data().Address);
+        });
+
+        const accountData = [...new Set(data)];
+        console.log(accountData);
+        if (accountData.length > 0) {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
+        setLoading(false);
+      };
+      handleQuery();
+    }
+  }, [address]);
+  if (loading) return <WaitModal open={true} onClose={false} />;
+
+  if (isAdmin)
+    return (
+      <div className="container mx-auto">
+        <AddProgram />
       </div>
-      <br />
-      <hr />
-      <h1 className="H1__Header">BlockSurvey Registration</h1>
-      <p className="m-2">BlockSurvey Registration</p>
-      <div className="m-2">
-        <Link href="/Registration/BlockSurvey" className="Primary__Click">
-          Register now
-        </Link>
+    );
+  if (!isAdmin)
+    return (
+      <div className="container mx-auto">
+        <StudentsRegisteration />
       </div>
-      <br />
-      <hr />
-    </div>
-  );
+    );
 };

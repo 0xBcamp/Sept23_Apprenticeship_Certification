@@ -1,9 +1,12 @@
-import { Card } from "web3uikit";
-export default ({ CardName }) => {
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+
+export default () => {
   return (
-    <Card style={{ height: "100%" }}>
-      <h1 className="text-2xl">{CardName}</h1>
-      <p className="error-text">Error while loading...</p>
+    <Card sx={{ minWidth: 275 }}>
+      <CardContent>
+        <p className="error-text">Error while loading...</p>
+      </CardContent>
     </Card>
   );
 };

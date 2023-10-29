@@ -1,60 +1,94 @@
+import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
-import { Card, ENSAvatar } from "web3uikit";
-import { useMoralis } from "react-moralis";
-import { EASSlicedAddress } from "@/components/Commons";
-import Link from "next/link";
-import { ethers } from "ethers";
-export default () => {
-  const { account } = useMoralis();
-  const [accountAddress, setAccountAddress] = useState("");
-  useEffect(() => {
-    const func = async () => {
-      const a = new ethers.BrowserProvider(window.ethereum);
-      const b = await a.getSigner();
+// import Sidebar from "@/components/Sidebar";
+import SidebarItems from "./SidebarItems";
 
-      setAccountAddress(await b.getAddress());
-      console.log(await b.getAddress());
-    };
-    func();
-  }, [account]);
+import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
+import Link from "next/link";
+export default () => {
+  const [selected, setSelected] = useState(false);
+  const a = (e) => {};
   return (
-    <Card style={{ height: "100%" }}>
-      <h1 className="text-2xl">My Account</h1>
-      <div>
-        <div className="border">
-          <ENSAvatar address={accountAddress} size={100} />
-        </div>
-        <div>
-          <EASSlicedAddress Address={accountAddress} />
-        </div>
-        <div>
-          <Link
-            href="/Home/Overall"
-            className="Primary__Click"
-            style={{ width: "100%" }}
-          >
-            Overall
-          </Link>
-        </div>
-        <div>
-          <Link
-            href="/Home/AllCert"
-            className="Primary__Click"
-            style={{ width: "100%" }}
-          >
-            Certifications
-          </Link>
-        </div>
-        <div>
-          <Link
-            href="/Home/AllRep"
-            className="Primary__Click"
-            style={{ width: "100%" }}
-          >
-            Reputations
-          </Link>
-        </div>
-      </div>
-    </Card>
+    <Sidebar className="h-full">
+      <Menu
+        menuItemStyles={{
+          button: {
+            // the active class will be added automatically by react router
+            // so we can use it to style the active menu item
+            [`&.active`]: {
+              backgroundColor: "#13395e",
+              color: "#b6c8d9",
+            },
+          },
+        }}
+      >
+        <MenuItem component={<Link href="/BBP/Overview" />}>
+          Documentation
+        </MenuItem>
+        <MenuItem component={<Link href="/calendar" />}> Calendar</MenuItem>
+        <MenuItem component={<Link href="/e-commerce" />}> E-commerce</MenuItem>
+      </Menu>
+    </Sidebar>
   );
+  // return (
+  //   <Sidebar>
+  //     <SidebarItems
+  //       text="Overveiw"
+  //       active={selected}
+  //       onClick={(e) => console.log(e.target)}
+  //     />
+  //     <SidebarItems text={"Certifications"} active={() => setSelected(true)} />
+  //     <SidebarItems text={"Reputations"} active={() => setSelected(true)} />
+  //   </Sidebar>
+  // );
 };
+
+// import { EASSlicedAddress } from "@/components/Commons";
+// import Link from "next/link";
+// import Card from "@mui/material/Card";
+// import CardContent from "@mui/material/CardContent";
+// import { useAccount } from "wagmi";
+// import { useEffect, useState } from "react";
+
+// export default () => {
+//   const { address } = useAccount();
+//   const [account, setAccount] = useState("");
+//   useEffect(() => {
+//     setAccount(address);
+//   }, [address]);
+//   return (
+//     <>
+//       <div>
+//         <div>
+//           <Link
+//             href="/BBP/Overview"
+//             className="Primary__Click"
+//             style={{ width: "100%" }}
+//           >
+//             Overveiw
+//           </Link>
+//         </div>
+//         <div>
+//           <Link
+//             href="/BBP/AllCert"
+//             className="Primary__Click"
+//             style={{ width: "100%" }}
+//           >
+//             Certifications
+//           </Link>
+//         </div>
+//         <div>
+//           <Link
+//             href="/BBP/AllRep"
+//             className="Primary__Click"
+//             style={{ width: "100%" }}
+//           >
+//             Reputations
+//           </Link>
+//         </div>
+//       </div>
+//     </>
+//     //   </CardContent>
+//     // </Card>
+//   );
+// };
