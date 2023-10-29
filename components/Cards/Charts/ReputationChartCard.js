@@ -2,9 +2,9 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
 import { useQuery } from "@apollo/client";
-import { SkeletonImageModal, ErrorPage } from "@/components/Commons";
+import { SkeletonImageModal, ErrorPage } from "/components/Commons";
 import { useContext } from "react";
-import { ContractContext } from "@/Constants/Context/ContractContext";
+import { ContractContext } from "/Constants/Context/ContractContext";
 import { useAccount } from "wagmi";
 
 ChartJS.register(ArcElement, Tooltip, Legend);

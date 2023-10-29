@@ -1,5 +1,5 @@
-import Link from "next/link";
-import StudentsRegistrationCard from "@/components/Cards/StudentsRegistrationCard";
+// import Link from "next/link";
+// import StudentsRegistrationCard from "/components/Cards/StudentsRegistrationCard";
 export default () => {
   return (
     <>
@@ -7,7 +7,7 @@ export default () => {
         Back
       </Link> */}
       <main className="flex flex-col gap-2 items-center p-12 ">
-        <StudentsRegistrationCard />
+        {/* <StudentsRegistrationCard /> */}
       </main>
     </>
   );

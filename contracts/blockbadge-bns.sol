@@ -15,7 +15,7 @@ contract BlockBadgeBNS is Ownable {
     // Mapping from owner's address to their BNS name
     mapping(address => string) private addressToName;
 
-    constructor() Ownable(msg.sender) {}
+    constructor() Ownable() {}
 
     // Modifier to ensure the BNS name is available
     modifier nameAvailable(string memory bnsName) {

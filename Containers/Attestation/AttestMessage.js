@@ -1,4 +1,4 @@
-import GreetingLottie from "@/components/DisplayLottie";
+import GreetingLottie from "../../components/DisplayLottie";
 import { Button } from "@mui/material";
 import { Fade } from "react-awesome-reveal";
 const CheckAttestation = () => {
@@ -12,7 +12,7 @@ const CheckAttestation = () => {
         </div>
         <div className="px-4 text-white">
           <Fade direction="up" duration={2000}>
-            <p className="text-3xl font-bold">Attest Reputation</p>
+            <p className="text-3xl font-bold">Attest Who You Know</p>
             <p className="text-xl">
               What is your evaluation of this apprentice?
             </p>

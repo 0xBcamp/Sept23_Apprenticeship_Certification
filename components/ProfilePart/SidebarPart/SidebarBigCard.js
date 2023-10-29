@@ -1,6 +1,6 @@
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
-// import Sidebar from "@/components/Sidebar";
+// import Sidebar from "/components/Sidebar";
 import SidebarItems from "./SidebarItems";
 
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
@@ -43,7 +43,7 @@ export default () => {
   // );
 };
 
-// import { EASSlicedAddress } from "@/components/Commons";
+// import { EASSlicedAddress } from "/components/Commons";
 // import Link from "next/link";
 // import Card from "@mui/material/Card";
 // import CardContent from "@mui/material/CardContent";

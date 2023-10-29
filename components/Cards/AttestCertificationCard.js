@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import Link from "next/link";
 import { useAccount } from "wagmi";
 import { TypeWriterOnce } from "../Commons";
-import { Button, Grow, Input } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  Grow,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { ethers } from "ethers";
 import SuccessModal from "../Modals/SuccessModal";
 import ErrorModal from "../Modals/ErrorModal";
@@ -16,12 +23,14 @@ export default () => {
   const [connectionStat, setConnectionStat] = useState(false);
 
   const [apprenticeName, setApprenticeName] = useState("");
-  const [certificationName, setCertificationName] = useState("");
-  const [customFeedback, setCustomFeedback] = useState("");
+
+  const [certificateName, setCertificateName] = useState("");
+  const [Passed, setPassed] = useState("");
+
   const [recipientAddress, setAddress] = useState("");
 
   const [attestUID, setAttestUID] = useState("");
-  // "0x8505c647d0bd479df4b346d571b0cdab77be750ea6c9810f729ceeda4014b8c5"
+
   const [errorMessage, setErrorMessage] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -32,22 +41,22 @@ export default () => {
 
   const handleSubmit = async () => {
     if (!recipientAddress) {
-      alert("Please enter an recipientAddress!");
+      alert("Please enter the recipient address!");
       return;
     }
     if (!apprenticeName) {
-      alert("Please enter a apprenticeName!");
+      alert("Please enter apprentice name!");
       return;
     }
-    if (!certificationName) {
-      alert("Please enter a certificationName!");
+    if (!certificateName) {
+      alert("Please enter a certificate name!");
       return;
     }
 
-    if (!customFeedback) {
-      alert("Please enter a customFeedback!");
-      return;
-    }
+    // if (!Passed) {
+    //   alert("Please enter a passed!");
+    //   return;
+    // }
 
     setIsLoading(false);
 
@@ -57,25 +66,28 @@ export default () => {
 
       const eas = new EAS(EASContractAddress);
       eas.connect(signer);
+
       setIsLoading(true);
 
+      const schemaUID =
+        "0xf0749a6c351d57ba2ddc7e5e2372c64688b7b68c01ed0f6bfd8dc3b0323f5d4c";
+
       const schemaEncoder = new SchemaEncoder(
-        "string apprenticeName, string certificationName, string customFeedback"
+        "string Name,string CertificateName,bool Complated"
       );
 
       const encodedData = schemaEncoder.encodeData([
-        { name: "apprenticeName", value: apprenticeName, type: "string" },
-        { name: "certificationName", value: certificationName, type: "string" },
-        { name: "customFeedback", value: customFeedback, type: "string" },
+        { name: "Name", value: apprenticeName, type: "string" },
+        { name: "CertificateName", value: certificateName, type: "string" },
+        { name: "Complated", value: Passed, type: "bool" },
       ]);
 
       const tx = await eas.attest({
-        schema:
-          "0x3fa53dac3a50eff2ae5f34f8c0b8366932db5bdd320cfe202592911da121266e",
+        schema: schemaUID,
         data: {
           recipient: recipientAddress,
           expirationTime: 0,
-          revocable: true,
+          revocable: false,
           data: encodedData,
         },
       });
@@ -87,8 +99,8 @@ export default () => {
       setAttestUID(newAttestId);
       setOpenSuccess(true);
       setApprenticeName("");
-      setCertificationName("");
-      setCustomFeedback("");
+      setCertificateName("");
+      setPassed(false);
       setAddress("");
     } catch (error) {
       if (error.message.toLowerCase().includes("not listed"))
@@ -108,6 +120,10 @@ export default () => {
       setIsLoading(false);
       setShowWait(false);
     }
+  };
+  const handleChange = (event) => {
+    if (event.target.value == 1) setPassed(true);
+    else setPassed(false);
   };
   useEffect(() => {
     setConnectionStat(isConnected);
@@ -135,27 +151,39 @@ export default () => {
                 className="text-white w-72 p-2 mt-4"
                 type="text"
                 placeholder="Enter certification name..."
-                value={certificationName}
-                onChange={(e) => setCertificationName(e.target.value)}
+                value={certificateName}
+                onChange={(e) => setCertificateName(e.target.value)}
               />
             </Grow>
             <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
               <Input
                 className="text-white w-72 p-2 mt-4"
                 type="text"
-                placeholder="Enter recipientAddress..."
+                placeholder="Enter recipient address..."
                 value={recipientAddress}
                 onChange={(e) => setAddress(e.target.value)}
               />
             </Grow>
             <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
-              <Input
+              <FormControl fullWidth className="w-72 p-2 mt-4">
+                <InputLabel className="text-white">Passed</InputLabel>
+                <Select
+                  className="text-white"
+                  value={Passed ? 1 : 2}
+                  label="Passed"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={1}>Yes</MenuItem>
+                  <MenuItem value={2}>No</MenuItem>
+                </Select>
+              </FormControl>
+              {/* <Input
                 className="text-white w-72 p-2 mt-4"
                 type="text"
                 placeholder="Your Feedback..."
-                value={customFeedback}
-                onChange={(e) => setCustomFeedback(e.target.value)}
-              />
+                value={Passed}
+                onChange={(e) => setPassed(e.target.value)}
+              /> */}
             </Grow>
 
             <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
@@ -200,21 +228,3 @@ export default () => {
     </>
   );
 };
-
-/*
-string apprentice name
-string certification name
-address
-uint40 Completed on date
- */
-
-// // fields
-// The attest function allows you to create an on-chain attestation for a specific schema. This function takes an object with the following properties:
-
-// schema: The UID of the schema for which the attestation is being created.
-// data: An object containing the following properties:
-// recipient: The Ethereum address of the recipient of the attestation.
-// expirationTime: A Unix timestamp representing the expiration time of the attestation. Use 0 for no expiration.
-// revocable: A boolean indicating whether the attestation is revocable or not.
-// refUID: (Optional) The UID of a referenced attestation. Use ZERO_BYTES32 if there is no reference.
-// data: The encoded data for the attestation, which should be generated using the SchemaEncoder class.

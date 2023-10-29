@@ -1,6 +1,6 @@
 import Link from "next/link";
-import AttestCertificationCard from "@/components/Cards/AttestCertificationCard";
-import GreetingLottie from "@/components/DisplayLottie";
+import AttestCertificationCard from "/components/Cards/AttestCertificationCard";
+import GreetingLottie from "/components/DisplayLottie";
 export default () => {
   return (
     <>

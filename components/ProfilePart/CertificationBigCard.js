@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { useQuery } from "@apollo/client";
 import Link from "next/link";
-import { SkeletonTextModal, ErrorPage } from "@/components/Commons";
+import { SkeletonTextModal, ErrorPage } from "/components/Commons";
 import SingleCard from "./SingleCertificationCard";
-import { ContractContext } from "@/Constants/Context/ContractContext";
+import { ContractContext } from "/Constants/Context/ContractContext";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";

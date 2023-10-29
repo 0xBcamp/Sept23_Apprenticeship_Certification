@@ -4,7 +4,7 @@ import {
   EASSlicedAddress,
   EASMessage,
   EASImage,
-} from "@/components/Commons";
+} from "/components/Commons";
 import { Fade } from "react-awesome-reveal";
 
 export default ({ item }) => {

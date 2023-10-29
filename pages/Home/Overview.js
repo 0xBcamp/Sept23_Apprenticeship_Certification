@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { TypeWriterOnce } from "@/components/Commons";
+import { TypeWriterOnce } from "/components/Commons";
 
-import OverveiwBigCard from "@/components/ProfilePart/OverviewBigCard";
+import OverveiwBigCard from "/components/ProfilePart/OverviewBigCard";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 

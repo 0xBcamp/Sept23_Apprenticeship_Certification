@@ -21,13 +21,15 @@ export default ({ name, date, uploadFile, onClose }) => {
   const client = new Web3Storage({ token });
 
   const prefix = "https://";
+  const prefixIPFS = "ipfs://";
+
   const suffix = ".ipfs.w3s.link";
 
   let cid;
   const metadataTemplate = {
     name: "",
-    date: "",
-    imageurl: "",
+    description: "",
+    image: "",
   };
 
   async function createNewEvent() {
@@ -52,7 +54,7 @@ export default ({ name, date, uploadFile, onClose }) => {
 
     metadata.name = name;
     metadata.date = date;
-    metadata.imageurl = `${prefix}${cid}${suffix}`;
+    metadata.image = `${prefixIPFS}${cid}`;
 
     await setJsonFile(metadata);
   }

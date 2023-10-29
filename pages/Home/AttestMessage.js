@@ -1,6 +1,6 @@
-import AttestMessageCard from "@/components/Cards/AttestMessageCard";
+import AttestMessageCard from "/components/Cards/AttestMessageCard";
 import Link from "next/link";
-import GreetingLottie from "@/components/DisplayLottie";
+import GreetingLottie from "/components/DisplayLottie";
 export default () => {
   return (
     <>

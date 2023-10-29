@@ -1,5 +1,5 @@
-import AddProgramCard from "@/components/Cards/AddProgramCard";
-import StudentsRegistrationCard from "@/components/Cards/StudentsRegistrationCard";
+// import AddProgramCard from "/components/Cards/AddProgramCard";
+// import StudentsRegistrationCard from "/components/Cards/StudentsRegistrationCard";
 import { Button } from "@mui/material";
 import { useState } from "react";
 export default () => {
@@ -11,8 +11,8 @@ export default () => {
       <p>or</p>
       <Button onClick={() => setSelectOne(2)}>Register to program</Button>
 
-      {selectOne == 1 && <AddProgramCard />}
-      {selectOne == 2 && <StudentsRegistrationCard />}
+      {/* {selectOne == 1 && <AddProgramCard />}
+      {selectOne == 2 && <StudentsRegistrationCard />} */}
     </main>
   );
 };

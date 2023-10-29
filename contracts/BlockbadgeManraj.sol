@@ -3,6 +3,7 @@ pragma solidity 0.8.21;
 
 import {IEAS, Attestation as EASAttestation} from "@ethereum-attestation-service/eas-contracts/contracts/IEAS.sol";
 import {SchemaResolver} from "@ethereum-attestation-service/eas-contracts/contracts/resolver/SchemaResolver.sol";
+import {BlockBadgeSBT} from "./BlockBadgeSBT.sol";
 
 contract OrganizationResolver is SchemaResolver {
     address[] private members;
@@ -11,11 +12,7 @@ contract OrganizationResolver is SchemaResolver {
     address private owner;
     string public organizationName;
 
-    // Time window for revocation (2 minutes in seconds)
-    uint256 private constant REVOKE_WINDOW = 2 * 60;
-
-    // Mapping to track attestation timestamps
-    mapping(address => uint256) private attestationTimestamps;
+    BlockBadgeSBT public blockBadgesbt;
 
     struct Attestation {
         EASAttestation easAttestation;
@@ -25,7 +22,8 @@ contract OrganizationResolver is SchemaResolver {
     constructor(
         IEAS eas,
         string memory _organizationName,
-        address[] memory initialMembers
+        address[] memory initialMembers,
+        address blockBadgeSBTAddress
     ) SchemaResolver(eas) {
         require(
             initialMembers.length > 0,
@@ -41,6 +39,8 @@ contract OrganizationResolver is SchemaResolver {
             isMember[member] = true;
             memberIndex[member] = members.length - 1;
         }
+
+        blockBadgesbt = BlockBadgeSBT(blockBadgeSBTAddress);
 
         owner = msg.sender;
     }
@@ -58,25 +58,18 @@ contract OrganizationResolver is SchemaResolver {
             isMember[easAttestation.attester],
             "Not listed, please whitelist the address"
         );
+        // Here we can handle the description if needed, for now, it's just ensuring that the attester is whitelisted.
 
-        // Record the attestation timestamp
-        attestationTimestamps[easAttestation.attester] = block.timestamp;
+        //Mint the SBT and send to recpient of attestation
 
-        // For now, it's just ensuring that the attester is whitelisted
+        blockBadgesbt._safeMint(easAttestation.recipient);
         return true;
     }
 
     function onRevoke(
-        EASAttestation calldata easAttestation,
+        EASAttestation calldata /*easAttestation*/,
         uint256 /*value*/
-    ) internal view override returns (bool) {
-        require(
-            block.timestamp <=
-                attestationTimestamps[easAttestation.attester] + REVOKE_WINDOW,
-            "Revocation time window has passed"
-        );
-
-        // Standard revoke logic, if any
+    ) internal pure override returns (bool) {
         return true;
     }
 

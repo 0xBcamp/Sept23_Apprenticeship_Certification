@@ -30,10 +30,10 @@ export default () => {
       setSelected(2);
       return;
     }
-    if (urlPath == "/Registration") {
-      setSelected(3);
-      return;
-    }
+    // if (urlPath == "/Registration") {
+    //   setSelected(3);
+    //   return;
+    // }
     if (urlPath == "/Profile") {
       //   document.getElementById("navbar-main").style.visibility = "hidden";
 
@@ -53,11 +53,10 @@ export default () => {
         <div>
           <Input
             className="text-white w-80 m-2 p-2"
-            placeholder="Search accounts, NTFs, DAOs, Tokens..."
+            placeholder="Search accounts, 0x or name.Blockbadge..."
           />
         </div>
         <div className="flex font-bold flex-row items-center">
-          {/* <Icon aria-label="aaa" aria-busy={true} /> */}
           <Link className="mr-4 p-3 " href="/Home/">
             {selected == 1 ? (
               <div className="border-b-2 text-blue-700">Home</div>
@@ -73,13 +72,13 @@ export default () => {
               <>Attestations</>
             )}
           </Link>
-          <Link className="mr-4 p-3 " href="/Registration">
+          {/* <Link className="mr-4 p-3 " href="/Registration">
             {selected == 3 ? (
               <div className="border-b-2 text-blue-700">Register</div>
             ) : (
               <>Register</>
             )}
-          </Link>
+          </Link> */}
           <Link className="mr-4 p-3 " href="/Profile">
             {selected == 4 ? (
               <div className="border-b-2 text-blue-700">Profile</div>
@@ -87,7 +86,6 @@ export default () => {
               <>Profile</>
             )}
           </Link>
-          {/* <DarkModeToggle /> */}
         </div>
       </div>
       <w3m-button />

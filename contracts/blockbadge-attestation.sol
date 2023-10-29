@@ -4,7 +4,7 @@ pragma solidity 0.8.21;
 import {IEAS, Attestation as EASAttestation} from "@ethereum-attestation-service/eas-contracts/contracts/IEAS.sol";
 import {SchemaResolver} from "@ethereum-attestation-service/eas-contracts/contracts/resolver/SchemaResolver.sol";
 
-contract OrganizationResolver is SchemaResolver {
+contract OrganizationResolver2 is SchemaResolver {
     address[] private members;
     mapping(address => bool) private isMember;
     mapping(address => uint256) private memberIndex;

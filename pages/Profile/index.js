@@ -1,5 +1,5 @@
-import SidebarItems from "@/components/ProfilePart/SidebarPart/SidebarItems";
-import Sidebar from "@/components/Sidebar";
+import SidebarItems from "/components/ProfilePart/SidebarPart/SidebarItems";
+import Sidebar from "/components/Sidebar";
 import { useEffect, useState } from "react";
 import { useAccount, useEnsAddress } from "wagmi";
 import ShowItem from "./ShowItem";

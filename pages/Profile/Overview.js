@@ -1,6 +1,6 @@
-import CertificationBigCard from "@/components/ProfilePart/CertificationBigCard";
-import OverallBigCard from "@/components/ProfilePart/OverviewBigCard";
-import ReputationBigCard from "@/components/ProfilePart/ReputationBigCard";
+import CertificationBigCard from "/components/ProfilePart/CertificationBigCard";
+import OverallBigCard from "/components/ProfilePart/OverviewBigCard";
+import ReputationBigCard from "/components/ProfilePart/ReputationBigCard";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 

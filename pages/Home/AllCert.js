@@ -4,9 +4,9 @@ import {
   SkeletonTextModal,
   ErrorPage,
   TypeWriterOnce,
-} from "@/components/Commons";
-import SingleCard from "@/components/ProfilePart/SingleReputationCard";
-import { ContractContext } from "@/Constants/Context/ContractContext";
+} from "/components/Commons";
+import SingleCard from "/components/ProfilePart/SingleReputationCard";
+import { ContractContext } from "/Constants/Context/ContractContext";
 import { useAccount } from "wagmi";
 export default () => {
   const { GET_ATTESTATIONS_QUERY } = useContext(ContractContext);

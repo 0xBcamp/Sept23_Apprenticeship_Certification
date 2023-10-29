@@ -1,4 +1,4 @@
-import GreetingLottie from "@/components/DisplayLottie";
+import GreetingLottie from "../../components/DisplayLottie";
 import { Button } from "@mui/material";
 import { Fade } from "react-awesome-reveal";
 const CheckAttestation = () => {

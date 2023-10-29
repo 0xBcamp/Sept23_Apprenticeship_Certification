@@ -8,6 +8,7 @@ import { LoadingButton } from "@mui/lab";
 import { Alert, Button, Grow, Input } from "@mui/material";
 import DisplayLottie from "../DisplayLottie";
 import WaitModal from "../Modals/WaitModal";
+import { TypeWriterOnce } from "../Commons";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
@@ -48,18 +49,18 @@ export default () => {
 
       setIsLoading(true);
 
-      const schemaEncoder = new SchemaEncoder("string Message");
+      const schemaEncoder = new SchemaEncoder("string message");
       const encodedData = schemaEncoder.encodeData([
-        { name: "Message", value: message, type: "string" },
+        { name: "message", value: message, type: "string" },
       ]);
 
       const tx = await eas.attest({
         schema:
-          "0xef178a6053ee7a49ae4fa1fc43585f6bc5f88818f13248cd26a2587df0af5b10",
+          "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f",
         data: {
           recipient: address,
           expirationTime: 0,
-          revocable: false,
+          revocable: true,
           data: encodedData,
         },
       });
@@ -98,6 +99,9 @@ export default () => {
     <>
       {connectionStat ? (
         <div className="flex flex-col grid-cols-2 items-center">
+          <h1 className="text-xl font-bold">
+            <TypeWriterOnce text="Attest who you know" />
+          </h1>
           <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
             <Input
               className="text-white w-72 p-2 mt-4"

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import GeneratePNGCard from "../../components/Cards/GeneratePNGCard";
+import GeneratePNGCard from "/components/Cards/GeneratePNGCard";
 
 export default () => {
   const [name, setName] = useState("");

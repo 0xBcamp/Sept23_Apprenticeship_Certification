@@ -1,4 +1,4 @@
-import DisplayLottie from "@/components/DisplayLottie";
+import DisplayLottie from "../../components/DisplayLottie";
 import { useEffect } from "react";
 import { Fade } from "react-awesome-reveal";
 const Section2 = () => {

@@ -1,14 +1,12 @@
-import Header from "@/components/Header";
-import "@/styles/globals.css";
-import "@/styles/argon-design-system-react.css";
+import Header from "/components/Header";
+import "/styles/globals.css";
+import "/styles/argon-design-system-react.css";
 import Head from "next/head";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { ContractContextProvider } from "@/Constants/Context/ContractContext";
+import { ContractContextProvider } from "/Constants/Context/ContractContext";
 import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react";
 import { WagmiConfig } from "wagmi";
 import { sepolia, mainnet } from "wagmi/chains";
-import Sidebar from "@/components/Sidebar";
-
 const projectId = "2af24b72969c73477047998d06c8dff1";
 
 const metadata = {

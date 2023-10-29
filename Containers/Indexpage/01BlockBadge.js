@@ -1,4 +1,4 @@
-import { TypeWriterOnce } from "@/components/Commons";
+import { TypeWriterOnce } from "/components/Commons";
 import { useEffect } from "react";
 import { Fade } from "react-awesome-reveal";
 const Section1 = () => {
