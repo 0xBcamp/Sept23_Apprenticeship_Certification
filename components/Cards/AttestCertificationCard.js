@@ -181,6 +181,7 @@ export default () => {
                 onChange={(e) => setAddress(e.target.value)}
               />
             </Grow>
+
             <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
               <FormControl fullWidth className="w-72 p-2 mt-4">
                 <InputLabel className="text-white">Passed</InputLabel>
@@ -195,19 +196,26 @@ export default () => {
                 </Select>
               </FormControl>
             </Grow>
-            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
-              <Input
-                className="text-white w-72 p-2 mt-4"
-                type="text"
-                placeholder="Enter ImageURL..."
-                value={ImageURL}
-                onChange={(e) => setImageURL(e.target.value)}
-              />
-            </Grow>
-
-            <div className="p-2 mt-4">
-              <UploadFileModal file={setImageURL} />
-            </div>
+            {Passed && (
+              <>
+                <Grow
+                  in={true}
+                  style={{ transformOrigin: "0 0 0" }}
+                  timeout={1000}
+                >
+                  <Input
+                    className="text-white w-72 p-2 mt-4"
+                    type="text"
+                    placeholder="Enter ImageURL..."
+                    value={ImageURL}
+                    onChange={(e) => setImageURL(e.target.value)}
+                  />
+                </Grow>
+                <div className="p-2 mt-4">
+                  <UploadFileModal file={setImageURL} />
+                </div>
+              </>
+            )}
 
             <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
               <Button
