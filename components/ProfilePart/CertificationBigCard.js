@@ -1,24 +1,19 @@
-import { useContext, useEffect, useState } from "react";
-import { Card } from "web3uikit";
-import { useQuery, gql } from "@apollo/client";
+import { useContext } from "react";
+import { useQuery } from "@apollo/client";
 import Link from "next/link";
-import { SkeletonTextModal, ErrorPage } from "@/components/Commons";
-import SingleCard from "./SingleCard";
-import { useMoralis } from "react-moralis";
-import { ethers } from "ethers";
-import { ContractContext } from "@/Context/ContractContext";
+import { SkeletonTextModal, ErrorPage } from "/components/Commons";
+import SingleCard from "./SingleCertificationCard";
+import { ContractContext } from "/Constants/Context/ContractContext";
+
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import { useAccount } from "wagmi";
+
 const seeMore = 3;
 export default () => {
-  const { GET_ATTESTATIONS_QUERY, getMyAddress } = useContext(ContractContext);
-  const { account } = useMoralis();
-  const [accountAddress, setAccountAddress] = useState("");
+  const { GET_ATTESTATIONS_QUERY } = useContext(ContractContext);
+  const { address } = useAccount();
 
-  useEffect(() => {
-    const func = async () => {
-      setAccountAddress(await getMyAddress());
-    };
-    func();
-  }, [account]);
   const schema =
     "0xef178a6053ee7a49ae4fa1fc43585f6bc5f88818f13248cd26a2587df0af5b10";
   // const schema =
@@ -31,7 +26,7 @@ export default () => {
     data: eas,
   } = useQuery(GET_ATTESTATIONS_QUERY, {
     variables: {
-      account: accountAddress,
+      account: address,
       schema: schema,
     },
   });
@@ -39,7 +34,7 @@ export default () => {
   if (error) return <ErrorPage CardName="Certifications" />;
 
   return (
-    <Card style={{ height: "100%" }}>
+    <div className="bigCard h-full w-full text-white">
       <h1 className="text-2xl">Certifications</h1>
       {loading ? (
         <div className="space-y-2">
@@ -55,14 +50,14 @@ export default () => {
           {eas.attestations?.length === 0 && (
             <div>There are no any certificates.</div>
           )}
-          {eas.attestations?.length > seeMore && (
-            <Link href="/Home/AllCert" className="underline">
-              More Certificates
-            </Link>
-          )}
         </div>
       )}
-    </Card>
+      {eas?.attestations?.length > seeMore && (
+        <Link href="/Home/AllCert" className="underline">
+          More Certificates
+        </Link>
+      )}
+    </div>
   );
 };
 

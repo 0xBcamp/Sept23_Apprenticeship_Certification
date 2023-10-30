@@ -1,160 +1,257 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
+import { useAccount } from "wagmi";
+import { TypeWriterOnce } from "../Commons";
+import {
+  Button,
+  FormControl,
+  Grow,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { ethers } from "ethers";
-import { DatePicker } from "web3uikit";
-import Link from "next/link";
-import { useMoralis } from "react-moralis";
+import SuccessModal from "../Modals/SuccessModal";
+import ErrorModal from "../Modals/ErrorModal";
+import DisplayLottie from "../DisplayLottie";
+import WaitModal from "../Modals/WaitModal";
+import UploadFileModal from "../Modals/IPFS/UploadFileModal";
+import BlockBadgeSBTAbi from "../../Constants/BlockBadgeSBT.json";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
+const BlockBadgeSBTAddress = "0xB34d14837a2e3Ad9A0B111d2477786C613109521";
 
 export default () => {
-  const { isWeb3Enabled } = useMoralis();
-  const [apprenticeName, setApprenticeName] = useState("");
-  const [certificationName, setCertificationName] = useState("");
-  const [customFeedback, setCustomFeedback] = useState("");
-  const [address, setAddress] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const { isConnected } = useAccount();
+  const [connectionStat, setConnectionStat] = useState(false);
 
-  const [attestUID, setAttestUID] = useState(
-    "0x8505c647d0bd479df4b346d571b0cdab77be750ea6c9810f729ceeda4014b8c5"
-  );
+  const [apprenticeName, setApprenticeName] = useState("");
+
+  const [certificateName, setCertificateName] = useState("");
+  const [Passed, setPassed] = useState("");
+  const [ImageURL, setImageURL] = useState("");
+
+  const [recipientAddress, setAddress] = useState("");
+
+  const [attestUID, setAttestUID] = useState("");
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [showWait, setShowWait] = useState(false);
+
+  const [openError, setOpenError] = useState(false);
+  const [openSuccess, setOpenSuccess] = useState(false);
 
   const handleSubmit = async () => {
-    if (!address) {
-      alert("Please enter an address!");
+    if (!recipientAddress) {
+      alert("Please enter the recipient address!");
       return;
     }
     if (!apprenticeName) {
-      alert("Please enter a apprenticeName!");
+      alert("Please enter apprentice name!");
       return;
     }
-    if (!certificationName) {
-      alert("Please enter a certificationName!");
-      return;
-    }
-
-    if (!customFeedback) {
-      alert("Please enter a customFeedback!");
+    if (!certificateName) {
+      alert("Please enter a certificate name!");
       return;
     }
 
-    setIsLoading();
+    // if (!Passed) {
+    //   alert("Please enter a passed!");
+    //   return;
+    // }
 
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    const signer = provider.getSigner();
-
-    const eas = new EAS(EASContractAddress);
-
-    eas.connect(signer);
-
-    // const schemaEncoder = new SchemaEncoder(
-    //   "string apprenticeName, string certificationName, address mentorAddress, uint40 completedOnDate"
-    // );
-
-    // const encodeData = schemaEncoder.encodeData([
-    //   { name: "apprenticeName", value: apprenticeName, type: "string" },
-    //   { name: "certificationName", value: certificationName, type: "string" },
-    //   { name: "mentorAddress", value: mentorAddress, type: "address" },
-    //   { name: "completedOnDate", value: completedOnDate, type: "uint40" },
-    // ]);
-
-    const schemaEncoder = new SchemaEncoder(
-      "string apprenticeName, string certificationName, string customFeedback"
-    );
-
-    const encodeData = schemaEncoder.encodeData([
-      { name: "apprenticeName", value: apprenticeName, type: "string" },
-      { name: "certificationName", value: certificationName, type: "string" },
-      { name: "customFeedback", value: customFeedback, type: "string" },
-    ]);
-
-    const tx = await eas.attest({
-      schema:
-        "0x3fa53dac3a50eff2ae5f34f8c0b8366932db5bdd320cfe202592911da121266e",
-      data: {
-        recipient: address,
-        expirationTime: 0,
-        revocable: true,
-        data: encodeData,
-      },
-    });
-
-    setIsLoading(true);
-    const newAttest = await tx.wait();
     setIsLoading(false);
-    setAttestUID(newAttest);
-  };
 
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+
+      const contract = new ethers.Contract(
+        BlockBadgeSBTAddress,
+        BlockBadgeSBTAbi.abi,
+        signer
+      );
+
+      const eas = new EAS(EASContractAddress);
+      eas.connect(signer);
+
+      setIsLoading(true);
+      console.log(ImageURL);
+      // return;
+
+      const transaction = await contract.setTokenURI(ImageURL);
+      await transaction.wait();
+
+      const schemaUID =
+        "0x841cab11062633351bcf30ab016dac0316f573f2b4c782417360c9eac891a25a";
+
+      const schemaEncoder = new SchemaEncoder(
+        "string Name,string CertificateName,bool Completed"
+      );
+
+      const encodedData = schemaEncoder.encodeData([
+        { name: "Name", value: apprenticeName, type: "string" },
+        { name: "CertificateName", value: certificateName, type: "string" },
+        { name: "Completed", value: Passed, type: "bool" },
+      ]);
+
+      const tx = await eas.attest({
+        schema: schemaUID,
+        data: {
+          recipient: recipientAddress,
+          expirationTime: 0,
+          revocable: false,
+          data: encodedData,
+        },
+      });
+
+      setShowWait(true);
+      const newAttestId = await tx.wait();
+      setShowWait(false);
+      setIsLoading(false);
+      setAttestUID(newAttestId);
+      setOpenSuccess(true);
+      setApprenticeName("");
+      setCertificateName("");
+      setImageURL("");
+      setPassed(false);
+      setAddress("");
+    } catch (error) {
+      if (error.message.toLowerCase().includes("not listed"))
+        setErrorMessage(
+          "This address is not in the whitelist, please add it to the whitelist."
+        );
+      else if (error.message.toLowerCase().includes("user rejected")) {
+        setErrorMessage(
+          "MetaMask Tx Signature: User denied transaction signature"
+        );
+      } else {
+        setErrorMessage("Error occurred while processing.");
+      }
+      setOpenError(true);
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+      setShowWait(false);
+    }
+  };
+  const handleChange = (event) => {
+    if (event.target.value == 1) setPassed(true);
+    else setPassed(false);
+  };
+  useEffect(() => {
+    setConnectionStat(isConnected);
+  }, [isConnected]);
   return (
     <>
-      {isWeb3Enabled ? (
-        <div className="flex flex-col grid-cols-1 gap-4 items-center">
-          <div className="space-x-3">
-            <input
-              className="w-72 p-2  Primary__Text"
-              type="text"
-              placeholder="Enter apprentice name..."
-              value={apprenticeName}
-              onChange={(e) => setApprenticeName(e.target.value)}
-            />
-          </div>
-          <div>
-            <input
-              className="w-72 p-2 Primary__Text"
-              type="text"
-              placeholder="Enter certification name..."
-              value={certificationName}
-              onChange={(e) => setCertificationName(e.target.value)}
-            />
-          </div>
+      {connectionStat ? (
+        <div className="container h-screen">
+          <div className="flex flex-col grid-cols-2 items-center">
+            <h1 className="text-xl font-bold">
+              <TypeWriterOnce text="Add a Certificate" />
+            </h1>
+            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+              <Input
+                className="text-white w-72 p-2 mt-4"
+                type="text"
+                placeholder="Enter apprentice name..."
+                value={apprenticeName}
+                onChange={(e) => setApprenticeName(e.target.value)}
+              />
+            </Grow>
 
-          <div className="space-x-3">
-            <input
-              className="w-72 p-2  Primary__Text"
-              type="text"
-              placeholder="Enter address..."
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </div>
-          <div>
-            <input
-              className="w-72 p-2  Primary__Text"
-              type="text"
-              placeholder="Your Feedback..."
-              value={customFeedback}
-              onChange={(e) => setCustomFeedback(e.target.value)}
-            />
-            {/* <DatePicker
-          className="w-72 p-7 "
-          label="Completed on date"
-          value={completedOnDate}
-          onChange={(e) => {
-            setCompletedOnDate(e.date / 1000);
-            console.log(e.date / 1000);
-          }}
-        /> */}
-          </div>
+            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+              <Input
+                className="text-white w-72 p-2 mt-4"
+                type="text"
+                placeholder="Enter certification name..."
+                value={certificateName}
+                onChange={(e) => setCertificateName(e.target.value)}
+              />
+            </Grow>
+            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+              <Input
+                className="text-white w-72 p-2 mt-4"
+                type="text"
+                placeholder="Enter recipient address..."
+                value={recipientAddress}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </Grow>
 
-          <button
-            onClick={handleSubmit}
-            className="w-72 p-2 mt-4 Primary__Click"
-          >
-            Submit Attestation
-          </button>
-          {isLoading && <p className="mt-4">Wait...</p>}
-          {attestUID && (
-            <p className="mt-4">
-              New Attest UID:
-              <Link
-                href={`https://sepolia.easscan.org/attestation/view/${attestUID}`}
-                target="_blank"
-                className="underline"
+            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+              <FormControl fullWidth className="w-72 p-2 mt-4">
+                <InputLabel className="text-white">Passed</InputLabel>
+                <Select
+                  className="text-white"
+                  value={Passed ? 1 : 2}
+                  label="Passed"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={1}>Yes</MenuItem>
+                  <MenuItem value={2}>No</MenuItem>
+                </Select>
+              </FormControl>
+            </Grow>
+            {Passed && (
+              <>
+                <Grow
+                  in={true}
+                  style={{ transformOrigin: "0 0 0" }}
+                  timeout={1000}
+                >
+                  <Input
+                    className="text-white w-72 p-2 mt-4"
+                    type="text"
+                    placeholder="Enter ImageURL..."
+                    value={ImageURL}
+                    onChange={(e) => setImageURL(e.target.value)}
+                  />
+                </Grow>
+                <div className="p-2 mt-4">
+                  <UploadFileModal file={setImageURL} />
+                </div>
+              </>
+            )}
+
+            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+              <Button
+                disabled={isLoading}
+                onClick={handleSubmit}
+                className="w-72 p-2 mt-4 button "
               >
-                {`https://sepolia.easscan.org/attestation/view/${attestUID}`}
-              </Link>
-            </p>
-          )}
+                <div>
+                  {isLoading ? (
+                    <DisplayLottie
+                      width={"100%"}
+                      animationPath="/lottie/LoadingBlue.json"
+                    />
+                  ) : (
+                    <p className="text-indigo-400">Attest</p>
+                  )}
+                </div>
+              </Button>
+            </Grow>
+
+            {openError && (
+              <ErrorModal
+                message={errorMessage}
+                open={openError}
+                onClose={() => setOpenError(false)}
+              />
+            )}
+            {attestUID && (
+              <SuccessModal
+                message={attestUID}
+                open={openSuccess}
+                onClose={() => setOpenSuccess(false)}
+              />
+            )}
+            {showWait && <WaitModal open={showWait} onClose={showWait} />}
+          </div>
         </div>
       ) : (
         <>Please connect your wallet</>
@@ -162,21 +259,3 @@ export default () => {
     </>
   );
 };
-
-/*
-string apprentice name
-string certification name
-address
-uint40 Completed on date
- */
-
-// // fields
-// The attest function allows you to create an on-chain attestation for a specific schema. This function takes an object with the following properties:
-
-// schema: The UID of the schema for which the attestation is being created.
-// data: An object containing the following properties:
-// recipient: The Ethereum address of the recipient of the attestation.
-// expirationTime: A Unix timestamp representing the expiration time of the attestation. Use 0 for no expiration.
-// revocable: A boolean indicating whether the attestation is revocable or not.
-// refUID: (Optional) The UID of a referenced attestation. Use ZERO_BYTES32 if there is no reference.
-// data: The encoded data for the attestation, which should be generated using the SchemaEncoder class.

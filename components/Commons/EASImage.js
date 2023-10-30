@@ -8,7 +8,6 @@ export default ({ name, imageSrc, ImgWidth, ImgHeight }) => {
       alt={name}
       width={ImgWidth ? ImgWidth : "400"}
       height={ImgHeight ? ImgHeight : "400"}
-      unoptimized
     />
   );
 };
