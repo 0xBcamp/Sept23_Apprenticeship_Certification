@@ -3,8 +3,8 @@ import { Button } from "@mui/material";
 import { Fade } from "react-awesome-reveal";
 const CheckAttestation = () => {
   return (
-    <main className="h-screen flex flex-col gap-3 justify-center mx-14 items-center">
-      <div className="grid grid-cols-2 ">
+    <main className="flex flex-col gap-3 justify-center mx-14 items-center">
+      <div className="flex items-center ">
         <div>
           <Fade direction="up" duration={2000}>
             <GreetingLottie animationPath="/lottie/Attesting.json" />

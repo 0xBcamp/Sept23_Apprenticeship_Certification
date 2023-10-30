@@ -4,7 +4,7 @@ import { Fade } from "react-awesome-reveal";
 const CheckAttestation = () => {
   return (
     <main className="flex flex-col gap-3 justify-center mx-14 items-center">
-      <div className="grid grid-cols-2 ">
+      <div className="flex items-center ">
         <div className="px-4 text-white">
           <Fade direction="down" duration={2000}>
             <p className="text-3xl font-bold">Add a Certification</p>

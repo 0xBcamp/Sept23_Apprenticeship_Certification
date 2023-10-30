@@ -13,7 +13,7 @@ const Footer = dynamic(() => import("../Containers/Indexpage/06Footer"));
 
 export default () => {
   return (
-    <>
+    <div className="w-[60vw] flex flex-col items-center mx-auto">
       <BlockBadge />
       <What />
       <Why />
@@ -21,6 +21,6 @@ export default () => {
       <ProblemsWeSolve />
       <Footer />
       {/* </div> */}
-    </>
+    </div>
   );
 };

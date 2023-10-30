@@ -9,7 +9,7 @@ const CheckAttestation = dynamic(() =>
 
 export default () => {
   return (
-    <div className="container mx-auto h-full">
+    <div className="h-screen w-[40vw] flex flex-col gap-24 mx-auto">
       <MakeAttest />
       <CheckAttestation />
     </div>

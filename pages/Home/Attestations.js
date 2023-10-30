@@ -14,7 +14,7 @@ export default () => {
       <Link href={"/Home"} className="Link__Back">
         Back
       </Link>
-      <div className="container mx-auto h-full">
+      <div className="h-screen mb-24 flex flex-col  gap-24 container w-[50vw] mx-auto h-full">
         <AttestCertification />
         <AttestMessage />
       </div>

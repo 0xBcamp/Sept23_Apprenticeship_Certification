@@ -3,7 +3,7 @@ import AttestCertificationCard from "/components/Cards/AttestCertificationCard";
 import GreetingLottie from "/components/DisplayLottie";
 export default () => {
   return (
-    <>
+    <div className="w-[60vw] mx-auto">
       <Link href={"/Home/Attestations"} className="Link__Back">
         Back
       </Link>
@@ -17,6 +17,6 @@ export default () => {
           </div>
         </div>
       </main>
-    </>
+    </div>
   );
 };
