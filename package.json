@@ -42,5 +42,8 @@
     "viem": "^1.16.6",
     "wagmi": "^1.4.5",
     "web3.storage": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/react": "18.2.33"
   }
 }
