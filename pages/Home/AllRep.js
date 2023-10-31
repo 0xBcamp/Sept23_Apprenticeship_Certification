@@ -48,7 +48,7 @@ export default () => {
           <SkeletonTextModal />
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-2">
+        <div className="">
           {eas.attestations.map((item) => {
             return <SingleReputationCard item={item} />;
           })}
