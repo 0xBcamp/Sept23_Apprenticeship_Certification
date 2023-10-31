@@ -22,6 +22,7 @@ This project was created during the BCamp Apprenticeship, which combines element
 - [Installation & Running the Application](#installation--running-the-application)
 - [Usage](#usage)
 - [Enhanced Insights into BlockBadge](#enhanced-insights-into-blockbadge)
+- [Main Features and Functionality](#main-features-and-functionality)
 - [User Experience](#user-experience)
 - [Streamlined Architecture](#streamlined-architecture)
 - [Integrated Technologies](#integrated-technologies)
@@ -68,6 +69,23 @@ We prioritize transparency, security, and robust data validation by leveraging B
 - Simplified Referral Assessment Procedures
 - Direct, Trustworthy Interaction without Third-Party Intermediaries
 
+## Main Features and Functionality
+
+1. **Certification Attestation:**
+   Users can make certification attestations for various programs. If the attester's address is whitelisted in the smart contract, they can attest to specific certifications. For instance, BCamp mentors with whitelisted addresses can endorse BCamp apprentices, and the certified apprentice also receives a unique BlockBadge soulbound token (BlockBadge SBT). This non-transferable NFT can be stored in their wallet and showcased when necessary.
+
+2. **Reputation Attestation:**
+   Users can provide reputation attestations for any Ethereum address using simple free text. Unlike certification attestations, reputation attestations are not restricted to specific addresses or conditions.
+
+3. **Profile Page/Registration:**
+   By leveraging the Blockchain Naming Service (BNS), users can link their wallet address and register on BlockBadge to acquire a personalized blockbadge name (e.g., JohnathanSmith.blockbadge). This enables users to easily naviagate profile pages, and make attestations utilizing simple naming conventions tied to verified ethereum addresses.
+
+4. **Search Navigation:**
+   Users can utilize BlockBadge names (BNS) and other crypto wallet addresses to seamlessly navigate through various profiles.
+
+5. **LinkedIn Badge Integration:**
+   BlockBadge facilitates the incorporation of blockchain-based information into LinkedIn badges. This integration allows organizations to enhance their badge criteria with verified data from the BlockBadge network, emphasizing transparency and security.
+
 ## User Experience
 
 ### Employer/Recruiter Experience
@@ -76,7 +94,7 @@ We prioritize transparency, security, and robust data validation by leveraging B
 |-----------------------------|
 | Transparent Verification Process |
 | Streamlined Skill Evaluation |
-| Access to Validated Candidate Data |
+| Easy Access to Validated Candidate Data via Seach Navigation & BNS Features|
 
 ### Applicant Experience
 
@@ -84,7 +102,9 @@ We prioritize transparency, security, and robust data validation by leveraging B
 |-----------------------------|
 | Secure and Transparent Profile Management |
 | Easy Reputation and Certification Attestation Process |
-| Real-Time Notifications for Verification Updates |
+| Real-Time Profile Updates for Attestations |
+| Collection of BlockBadge SBT for Securely Showcasing and Storing Certifications |
+| LinkedIn Badge Integration that utilizes blockchain-based data for LinkedIn badges, showcasing Certifications |
 
 ## Streamlined Architecture
 
