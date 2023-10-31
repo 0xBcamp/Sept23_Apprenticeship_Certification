@@ -12,22 +12,12 @@ export default () => {
     setAccountAddress(address);
   }, [address]);
   return (
-    <table>
-      <tbody>
-        <tr>
-          <td colSpan="2" className="w-[1291px] h-[426px] justify-center">
-            <OverallBigCard account={accountAddress} />
-          </td>
-        </tr>
-        <tr>
-          <td className="justify-center w-[593px] h-[504px]  items-center">
-            <CertificationBigCard account={accountAddress} />
-          </td>
-          <td className="justify-center w-[593px] h-[504px]  items-center">
-            <ReputationBigCard account={accountAddress} />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div className="flex flex-col gap-2 h-full">
+      <OverallBigCard account={accountAddress} />
+      <div className="flex h-full gap-2">
+        <CertificationBigCard account={accountAddress} />
+        <ReputationBigCard account={accountAddress} />
+      </div>
+    </div>
   );
 };

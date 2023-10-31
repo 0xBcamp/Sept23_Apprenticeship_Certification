@@ -2,14 +2,8 @@ import AllRep from "../Home/AllRep";
 
 export default () => {
   return (
-    <table className="table h-full">
-      <tbody>
-        <tr>
-          <td className="justify-center h-full items-center">
-            <AllRep />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div className="h-full p-2 rounded-xl bg-[#1b1b2e]">
+      <AllRep />
+</div>
   );
 };

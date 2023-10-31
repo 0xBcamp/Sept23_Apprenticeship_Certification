@@ -28,7 +28,7 @@ export default ({ children }) => {
     };
   }, [windowWidth]);
   return (
-    <aside className="bigCard h-full">
+    <aside className="bigCard h-[80vh]">
       <nav className="h-full flex flex-col shadow-sm">
         <div className="bigCard border-b-black border-b-8 border-t-2 border-l-2 shadow-2xl p-4 pb-2 flex justify-between items-center">
           <img className="w-20" src="/logo2.png" alt="" />

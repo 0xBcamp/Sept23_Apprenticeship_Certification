@@ -46,14 +46,14 @@ export default () => {
             return <SingleCard key={index} item={item} />;
           })}
           {eas.attestations.length === 0 && (
-            <div>There are no any feekback.</div>
+            <div>There are no any Reputation yet.</div>
           )}
         </div>
       )}
       {eas?.attestations.length > seeMore && (
         <>
           <Link href="/Home/AllRep" className="underline">
-            More feekbacks
+            More Reputation
           </Link>
         </>
       )}

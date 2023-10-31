@@ -12,36 +12,35 @@ export default () => {
     setConnectionStat(isConnected);
   }, [isConnected]);
   return (
-    <main className="h-[1050px] w-[1738px]">
+    <main className="flex items-center justify-center">
       {connectionStat ? (
-        <table>
-          <tbody>
-            <tr>
-              <td className="h-full">
-                <div className="flex  flex-row justify-center ">
-                  <Sidebar>
-                    <SidebarItems
-                      text="Overview"
-                      onClickFunc={() => setShowTable("Overview")}
-                      active={showTable == "Overview" ? true : false}
-                    />
-                    <SidebarItems
-                      text="Certifications"
-                      onClickFunc={() => setShowTable("Certifications")}
-                      active={showTable == "Certifications" ? true : false}
-                    />
-                    <SidebarItems
-                      text="Reputations"
-                      onClickFunc={() => setShowTable("Reputations")}
-                      active={showTable == "Reputations" ? true : false}
-                    />
+        <div className="flex h-full gap-6">
+              <div className="absolute left-24">
+                <Sidebar>
+                      <SidebarItems
+                        text="Overview"
+                        onClickFunc={() => setShowTable("Overview")}
+                        active={showTable == "Overview" ? true : false}
+                      />
+                      <SidebarItems
+                        text="Certifications"
+                        onClickFunc={() => setShowTable("Certifications")}
+                        active={showTable == "Certifications" ? true : false}
+                      />
+                      <SidebarItems
+                        text="Reputations"
+                        onClickFunc={() => setShowTable("Reputations")}
+                        active={showTable == "Reputations" ? true : false}
+                      />
                   </Sidebar>
-                </div>
-              </td>
-              <td>{showTable && <ShowItem item={showTable} />}</td>
-            </tr>
-          </tbody>
-        </table>
+                
+              </div>
+
+
+              <div className="absolute h-[80vh] left-96 w-[70vw]">
+                  {showTable && <ShowItem item={showTable} />}
+              </div>
+        </div>
       ) : (
         <>Please connect your wallet</>
       )}
