@@ -43,7 +43,7 @@ export default () => {
           <SkeletonTextModal />
         </div>
       ) : (
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col">
           {eas.attestations.slice(0, seeMore).map((item, index) => {
             return <SingleCard key={index} item={item} />;
           })}

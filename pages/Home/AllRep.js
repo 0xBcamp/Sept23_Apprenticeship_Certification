@@ -34,7 +34,7 @@ export default () => {
 
   if (error) return <ErrorPage CardName="Reputations" />;
   return (
-    <>
+    <div className="">
       {/* <Link href={"/Profile"} className="Link__Back">
         Back
       </Link> */}
@@ -48,7 +48,7 @@ export default () => {
           <SkeletonTextModal />
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-2">
+        <div className="my-2">
           {eas.attestations.map((item) => {
             return <SingleReputationCard item={item} />;
           })}
@@ -57,6 +57,6 @@ export default () => {
           )}
         </div>
       )}
-    </>
+    </div>
   );
 };
