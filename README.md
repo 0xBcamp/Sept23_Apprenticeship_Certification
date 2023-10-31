@@ -20,7 +20,7 @@ This project was created during the BCamp Apprenticeship, which combines element
 
 ## Table of Contents
 - [Installation & Running the Application](#installation--running-the-application)
-- [Usage](#usage)
+- [Basic Usage](#basic-usage)
 - [Enhanced Insights into BlockBadge](#enhanced-insights-into-blockbadge)
 - [Main Features and Functionality](#main-features-and-functionality)
 - [Streamlined Architecture](#streamlined-architecture)
@@ -38,13 +38,13 @@ This project was created during the BCamp Apprenticeship, which combines element
 
 Make sure you have Node.js and other necessary dependencies installed and linked.
 
-## Usage
+## Basic Usage
 
-BlockBadge provides the following functionalities:
+BlockBadge provides the following high-level functionalities. Continue reading below sections for more information.
 
 - Connect your crypto wallet to perform transactions
 - Utilize the Blockchain Naming Service (BNS) to register your account
-- Make attestations via certifications or reputation attestations
+- Make or receive certifications (including soulbounf NFT) or reputation attestations
 - Navigate your dynamic profile to review your certifications and reputation attestations
 
 
