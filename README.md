@@ -23,8 +23,8 @@ This project was created during the BCamp Apprenticeship, which combines element
 - [Usage](#usage)
 - [Enhanced Insights into BlockBadge](#enhanced-insights-into-blockbadge)
 - [Main Features and Functionality](#main-features-and-functionality)
-- [User Experience](#user-experience)
 - [Streamlined Architecture](#streamlined-architecture)
+- [User Experience](#user-experience)
 - [Integrated Technologies](#integrated-technologies)
 - [Collaborators](#collaborators)
 - [License](#license)
@@ -86,6 +86,18 @@ We prioritize transparency, security, and robust data validation by leveraging B
 5. **LinkedIn Badge Integration:**
    BlockBadge facilitates the incorporation of blockchain-based information into LinkedIn badges. This integration allows organizations to enhance their badge criteria with verified data from the BlockBadge network, emphasizing transparency and security.
 
+## Streamlined Architecture
+
+BlockBadge's streamlined architecture comprises:
+
+- Smart contract for BNS registration and naming convention, which ultimately links to the frontend user profile and search navigation features
+- Two distinct schemas for both certifications and reputations within the Ethereum Attestation Service (EAS) infrastructure
+- Smart contracts for certifications, incorporating a resolver contract that 1) whitelists specific addresses for making attestations (e.g., BCamp mentors whitelisted addresses only can attest to BCamp apprentices) 2) mints a unique non-trasnferrable soulbound NFT token for the given certification, which is stored in IPFS
+- Smart contracts for reputations, enabling direct and simple free text attestations
+- EAS Software Development Kit (SDK) for direct and secure attestations linked to the frontend, and ultimately the user profile
+
+(blockbadgearchitecture.png)
+
 ## User Experience
 
 ### Employer/Recruiter Experience
@@ -106,14 +118,6 @@ We prioritize transparency, security, and robust data validation by leveraging B
 | Collection of BlockBadge SBT for Securely Showcasing and Storing Certifications |
 | LinkedIn Badge Integration that utilizes blockchain-based data for LinkedIn badges, showcasing Certifications |
 
-## Streamlined Architecture
-
-BlockBadge's streamlined architecture comprises:
-
-- Smart contracts for certifications, incorporating a resolver contract that 1) whitelists specific addresses for making attestations (e.g., BCamp mentors whitelisted addresses only can attest to BCamp apprentices) 2) mints a unique non-trasnferrable soulbound NFT token for the given certification
-- Smart contracts for reputations, enabling direct and seamless attestations
-- Two distinct schemas for both certifications and reputations within the Ethereum Attestation Service (EAS) infrastructure
-- EAS Software Development Kit (SDK) for direct and secure attestations linked to the frontend
 
 ## Integrated Technologies
 
