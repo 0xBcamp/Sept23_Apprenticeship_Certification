@@ -66,6 +66,16 @@ export default () => {
     }
   };
 
+  const isOwnedName = async (name) => {
+    const contract = await createContract();
+    const formattedName = name + ".blockbadge";
+    const resolveName = await contract.resolveName(formattedName);
+
+    if (resolveName == "0x0000000000000000000000000000000000000000")
+      return false; // Name is not owned
+    else return true; // Name is already owned
+  };
+
   const handleErrors = (error, message) => {
     setErrorMessage(message);
     setOpenError(true);
@@ -114,7 +124,14 @@ export default () => {
 
       setIsLoading(true);
 
+      const ownedBNSName = await contract.resolveAddress(myAddress);
+      if (ownedBNSName) {
+        handleErrors("", "You can't have more than BNS Name.");
+        return;
+      }
+
       const validName = isValidName(recipientName);
+
       if (!validName) {
         handleErrors(
           "",
@@ -143,16 +160,6 @@ export default () => {
       setIsLoading(false);
       setShowWait(false);
     }
-  };
-
-  const isOwnedName = async (name) => {
-    const contract = await createContract();
-    const formattedName = name + ".blockbadge";
-    const resolveName = await contract.resolveName(formattedName);
-
-    if (resolveName == "0x0000000000000000000000000000000000000000")
-      return false; // Name is not owned
-    else return true; // Name is already owned
   };
 
   const handleResolveAddress = async () => {
