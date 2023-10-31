@@ -2,7 +2,7 @@
 
 BlockBadge is a blockchain-based certifications and reputation web application, designed to efficiently, securely, and transparently connect recruiters and employers to applicants. The unique feature of BlockBadge lies in its attestation-based system, utilizing Ethereum Attestation Service (EAS) where reputation and certification data are created based on attestations from verified Ethereum addresses. BlockBadge relies on the security, transparency, and immutability of the blockchain, as well as the strength and reputability of blockchain-based attestations made by verified participants in the network.
 
-![BlockBadge Logo](link_to_your_logo.png)
+![BlockBadge Logo](blockbadgelogo.png)
 
 > Proof of Excellence, Verified Securely
 
