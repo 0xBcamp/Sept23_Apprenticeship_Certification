@@ -6,6 +6,9 @@ const AttestCertification = dynamic(() =>
 const AttestMessage = dynamic(() =>
   import("../../Containers/Attestation/AttestMessage")
 );
+
+const BNSMgmt = dynamic(() => import("../../Containers/Mgmt/BNSMgmt"));
+
 import Link from "next/link";
 
 export default () => {
@@ -14,9 +17,10 @@ export default () => {
       <Link href={"/Home"} className="Link__Back">
         Back
       </Link>
-      <div className="h-screen mb-24 flex flex-col  gap-24 container w-[50vw] mx-auto h-full">
+      <div className=" mb-24 flex flex-col  gap-24 container w-[50vw] mx-auto h-full">
         <AttestCertification />
         <AttestMessage />
+        <BNSMgmt />
       </div>
     </>
   );
