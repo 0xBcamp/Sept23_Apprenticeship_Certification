@@ -35,13 +35,22 @@ contract BlockBadgeBNS is Ownable {
         _;
     }
 
+    // Modifier to ensure the sender doesn't already have a BNS name
+    modifier noExistingName() {
+        require(
+            bytes(addressToName[msg.sender]).length == 0,
+            "Address already has a BNS name"
+        );
+        _;
+    }
+
     /**
      * @dev Register a BNS name for the sender's address
      * @param bnsName The desired BNS name (without the ".blockbadge" suffix)
      */
     function registerName(
         string memory bnsName
-    ) external nameAvailable(bnsName) {
+    ) external nameAvailable(bnsName) noExistingName {
         require(bytes(bnsName).length > 0, "BNS name cannot be empty");
 
         string memory fullBNS = string(

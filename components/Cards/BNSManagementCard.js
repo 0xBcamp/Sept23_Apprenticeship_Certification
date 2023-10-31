@@ -126,7 +126,7 @@ export default () => {
 
       const ownedBNSName = await contract.resolveAddress(myAddress);
       if (ownedBNSName) {
-        handleErrors("", "You can't have more than BNS Name.");
+        handleErrors("", "You can't have more than one BNS Name.");
         return;
       }
 
@@ -181,6 +181,28 @@ export default () => {
 
     try {
       const contract = await createContract();
+
+      const ownedBNSName = await contract.resolveAddress(toAddress);
+      if (ownedBNSName) {
+        handleErrors("", "The recipient can't have more than one BNS Name.");
+        return;
+      }
+
+      const validName = isValidName(recipientName);
+
+      if (!validName) {
+        handleErrors(
+          "",
+          "The provided name is invalid. Please select another name."
+        );
+        return;
+      }
+
+      const ownedName = await isOwnedName(recipientName);
+      if (ownedName) {
+        handleErrors("", "BNS name is already taken.");
+        return;
+      }
 
       setIsLoading(true);
       const formatedName = formatName(recipientName);

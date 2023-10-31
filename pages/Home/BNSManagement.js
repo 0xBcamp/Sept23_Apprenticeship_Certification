@@ -1,6 +1,6 @@
 import Link from "next/link";
 import GreetingLottie from "/components/DisplayLottie";
-import BNSManagement from "../../components/Cards/BNSManagement";
+import BNSManagement from "../../components/Cards/BNSManagementCard";
 export default () => {
   return (
     <div className="w-[60vw] mx-auto">
