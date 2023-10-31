@@ -12,11 +12,11 @@ This project was created during the BCamp Apprenticeship, which combines element
 
 | Week | Description | Presenation/GitHub Link |
 |------|-------------|-----------------|
-| 2 | Project Proposal | [Link to Google Doc](#) |
-| 3 | Pseudo Smart Contract Code | [Link to Google Doc](#) |
-| 4 | Smart Contract Tests | [Link to Google Doc](#) |
-| 5 | Front-End Development | [Link to Google Doc](#) |
-| 6 | Smart Contract Security | [Link to Google Doc](#) |
+| 2 | Project Proposal | [Link to Presentation](https://docs.google.com/presentation/d/1QBR_kAvniN0PuxweowttrUHoNNaMl3SRLyHr3U9vaFk/edit#slide=id.p) |
+| 3 | Pseudo Smart Contract Code | [Link to Presentation](https://docs.google.com/presentation/d/1szP8YQsMTDqG2RWid3YyQsXLAF2i0LyahC2TUVJldsw/edit#slide=id.g2886e795b44_0_1299) |
+| 4 | Smart Contract Tests | [Link to Presentation](https://block-badge-ppt-pnp3.vercel.app/ppt/02) |
+| 5 | Front-End Development | [Link to Font End Site](https://sept23-apprenticeship-certification-git-dev-alfaqis-projects.vercel.app/) |
+| 6 | Smart Contract Security | [Link to Securiy Review GitHub](https://github.com/0xBcamp/Sept23_Apprenticeship_Certification/tree/BlockAudit-Security-Review/blockaudit-main) |
 
 ## Table of Contents
 - [Installation & Running the Application](#installation--running-the-application)
@@ -108,11 +108,11 @@ BlockBadge's streamlined architecture comprises:
 
 ## Collaborators
 
-- Harold: BCamp Mentor
-- Aliraza: Full-Stack Developer & Security Architect
-- Alfaqi: Front-End Developer
-- Manraj: Back-End Developer
-- Theresa: Project Manager & Code Reviewer
+- [Harold](https://github.com/thanvinhbaohoang): BCamp Mentor
+- [Aliraza](https://github.com/alirazacodes): Full-Stack Developer & Security Architect
+- [Alfaqi](https://github.com/alfaqi): Front-End Developer
+- [Manraj](https://github.com/hobbes928): Back-End Developer
+- [Theresa](https://github.com/theresa-whynot): Project Manager & Code Reviewer
 
 ## License
 
