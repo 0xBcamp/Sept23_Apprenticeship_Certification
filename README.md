@@ -99,12 +99,11 @@ BlockBadge's streamlined architecture comprises:
 
 - Solidity Smart Contracts for both Certifications and Reputation Attestation
 - Ethereum Attestation Service (EAS) Architecture and SDK
+- Apollo Client for efficient data fetching and management
+- Web3Modal for simplified Ethereum wallet integration and management
+- Wagmi for Ethereum-based application integration and configuration
 - React and Next.js for the Front-End Interface
 - Tailwind CSS for an intuitive and streamlined styling experience
-- Notable additions:
-  - Apollo Client for efficient data fetching and management
-  - Web3Modal for simplified Ethereum wallet integration and management
-  - Wagmi for Ethereum-based application integration and configuration
 
 ## Collaborators
 
