@@ -58,11 +58,6 @@ export default () => {
       return;
     }
 
-    // if (!Passed) {
-    //   alert("Please enter a passed!");
-    //   return;
-    // }
-
     setIsLoading(false);
 
     try {
@@ -71,7 +66,7 @@ export default () => {
 
       const contract = new ethers.Contract(
         BlockBadgeSBTAddress,
-        BlockBadgeSBTAbi.abi,
+        BlockBadgeSBTAbi,
         signer
       );
 
@@ -79,8 +74,6 @@ export default () => {
       eas.connect(signer);
 
       setIsLoading(true);
-      console.log(ImageURL);
-      // return;
 
       const transaction = await contract.setTokenURI(ImageURL);
       await transaction.wait();
@@ -89,13 +82,15 @@ export default () => {
         "0x841cab11062633351bcf30ab016dac0316f573f2b4c782417360c9eac891a25a";
 
       const schemaEncoder = new SchemaEncoder(
-        "string Name,string CertificateName,bool Completed"
+        "string Name,string CertificateName,string Completed"
       );
+
+      const completed = Passed ? "Yes" : "No";
 
       const encodedData = schemaEncoder.encodeData([
         { name: "Name", value: apprenticeName, type: "string" },
         { name: "CertificateName", value: certificateName, type: "string" },
-        { name: "Completed", value: Passed, type: "bool" },
+        { name: "Completed", value: completed, type: "string" },
       ]);
 
       const tx = await eas.attest({
