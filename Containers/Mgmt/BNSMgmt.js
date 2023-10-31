@@ -10,7 +10,7 @@ const CheckAttestation = () => {
             <p className="text-3xl font-bold">Manage the BNS</p>
             <p className="text-xl">Manage your BNS</p>
 
-            <Button href="/Home/BNSMgmt" className="mt-4 w-72 button">
+            <Button href="/Home/BNSManagement" className="mt-4 w-72 button">
               <p className="text-indigo-400">Manage it</p>
             </Button>
           </Fade>
