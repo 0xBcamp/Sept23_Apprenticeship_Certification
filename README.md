@@ -22,7 +22,7 @@ This project was created during the BCamp Apprenticeship, which combines element
 - [Installation & Running the Application](#installation--running-the-application)
 - [Basic Usage](#basic-usage)
 - [Enhanced Insights into BlockBadge](#enhanced-insights-into-blockbadge)
-- [Features and Functionality](#main-features-and-functionality)
+- [Features and Functionality](#features-and-functionality)
 - [Streamlined Architecture](#streamlined-architecture)
 - [User Experience](#user-experience)
 - [Integrated Technologies](#integrated-technologies)
