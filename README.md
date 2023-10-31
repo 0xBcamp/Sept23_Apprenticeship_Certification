@@ -96,7 +96,7 @@ BlockBadge's streamlined architecture comprises:
 - Smart contracts for reputations, enabling direct and simple free text attestations
 - EAS Software Development Kit (SDK) for direct and secure attestations linked to the frontend, and ultimately the user profile
 
-(blockbadgearchitecture.png)
+![BlockBadge Architecture](blockbadgearchitecture.png)
 
 ## User Experience
 
