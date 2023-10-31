@@ -1,4 +1,3 @@
-import GreetingLottie from "../../components/DisplayLottie";
 import { Button } from "@mui/material";
 import { Fade } from "react-awesome-reveal";
 const CheckAttestation = () => {
@@ -15,11 +14,6 @@ const CheckAttestation = () => {
             </Button>
           </Fade>
         </div>
-        {/* <div>
-          <Fade direction="down" duration={2000}>
-            <GreetingLottie animationPath="/lottie/AttestingGreen.json" />
-          </Fade>
-        </div> */}
       </div>
     </main>
   );
