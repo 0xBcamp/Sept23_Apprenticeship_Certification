@@ -110,10 +110,10 @@ We prioritize transparency, security, and robust data validation by leveraging B
 
 BlockBadge's streamlined architecture comprises:
 
-- Smart contracts for certifications, incorporating a resolver contract that whitelists specific addresses (e.g., BCamp mentors for BCamp apprentices)
+- Smart contracts for certifications, incorporating a resolver contract that 1) whitelists specific addresses for making attestations (e.g., BCamp mentors whitelisted addresses only can attest to BCamp apprentices) 2) mints a unique non-trasnferrable soulbound NFT token for the given certification
 - Smart contracts for reputations, enabling direct and seamless attestations
 - Two distinct schemas for both certifications and reputations within the Ethereum Attestation Service (EAS) infrastructure
-- EAS Software Development Kit (SDK) for direct and secure attestations
+- EAS Software Development Kit (SDK) for direct and secure attestations linked to the frontend
 
 ## Integrated Technologies
 
