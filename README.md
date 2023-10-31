@@ -6,9 +6,9 @@ BlockBadge is a blockchain-based certifications and reputation web application, 
 
 > Proof of Excellence, Verified Securely
 
-This project was created during the BCamp Apprenticeship, which combines elements of both a traditional internship and a hackathon to provide a personalized learning experience, professional networking opportunities, insights into blockchain development, and job opportunities.
-
 ## BCamp Assignments
+
+This project was created during the BCamp Apprenticeship, which combines elements of both a traditional internship and a hackathon to provide a personalized learning experience, professional networking opportunities, insights into blockchain development, and job opportunities. Below are the assignments completed throughout the program.
 
 | Week | Description | Presenation/GitHub Link |
 |------|-------------|-----------------|
