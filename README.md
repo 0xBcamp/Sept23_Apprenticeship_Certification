@@ -22,7 +22,7 @@ This project was created during the BCamp Apprenticeship, which combines element
 - [Installation & Running the Application](#installation--running-the-application)
 - [Basic Usage](#basic-usage)
 - [Enhanced Insights into BlockBadge](#enhanced-insights-into-blockbadge)
-- [Main Features and Functionality](#main-features-and-functionality)
+- [Features and Functionality](#main-features-and-functionality)
 - [Streamlined Architecture](#streamlined-architecture)
 - [User Experience](#user-experience)
 - [Integrated Technologies](#integrated-technologies)
@@ -69,7 +69,7 @@ We prioritize transparency, security, and robust data validation by leveraging B
 - Simplified Referral Assessment Procedures
 - Direct, Trustworthy Interaction without Third-Party Intermediaries
 
-## Main Features and Functionality
+## Features and Functionality
 
 1. **Certification Attestation:**
    Users can make certification attestations for various programs. If the attester's address is whitelisted in the smart contract, they can attest to specific certifications. For instance, BCamp mentors with whitelisted addresses can endorse BCamp apprentices, and the certified apprentice also receives a unique BlockBadge soulbound token (BlockBadge SBT). This non-transferable NFT can be stored in their wallet and showcased when necessary.
