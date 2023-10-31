@@ -23,18 +23,21 @@ export default ({ item }) => {
   return (
     <>
       <Fade bottom duration={2000}>
-        <div className="card card-body text-white">
-          <div className="flex text-center justify-around space-x-2">
+        <div className="bg-slate-900 text-white my-1 py-2 px-4 rounded-xl border border-gray-900">
+          <div className="flex text-center justify-between ">
             {/* <div>
             <ENSAvatar address={attester} size={50} />
           </div> */}
+            
             <div>
               <img src={logo} alt="" className="w-14 h-14" />
             </div>
+
             <div>
               <EASSlicedAddress Address={attester} />
               <EASDate date={timeCreated} />
             </div>
+
             <div>
               <p>Attested</p>
               <p className="font-semibold">
@@ -51,6 +54,7 @@ export default ({ item }) => {
                 })}
               </p>
             </div>
+
           </div>
         </div>
       </Fade>
