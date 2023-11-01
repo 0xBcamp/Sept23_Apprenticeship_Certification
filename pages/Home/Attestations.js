@@ -17,7 +17,7 @@ import { useAccount } from "wagmi";
 import { ethers } from "ethers";
 
 const OrganizationResolverAddress =
-  "0xaaCf8d59AF3e6404D7473d2275dbe89f5F01f11f";
+  "0x3c6dc01cf382eBe5460B7346340c6Ae41f8269d2";
 
 export default () => {
   const { address } = useAccount();
