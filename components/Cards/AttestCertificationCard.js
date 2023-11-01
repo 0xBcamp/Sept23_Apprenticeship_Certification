@@ -18,6 +18,7 @@ import DisplayLottie from "../DisplayLottie";
 import WaitModal from "../Modals/WaitModal";
 import UploadFileModal from "../Modals/IPFS/UploadFileModal";
 import BlockBadgeSBTAbi from "../../Constants/BlockBadgeSBT.json";
+import GereratePNGModal from "../Modals/IPFS/GereratePNGModal";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 const BlockBadgeSBTAddress = "0xB34d14837a2e3Ad9A0B111d2477786C613109521";
@@ -209,9 +210,15 @@ export default () => {
                 <div className="p-2 mt-4">
                   <UploadFileModal file={setImageURL} />
                 </div>
+                <div className="p-2 mt-4">
+                  <GereratePNGModal
+                    file={setImageURL}
+                    name={apprenticeName}
+                    certification={certificateName}
+                  />
+                </div>
               </>
             )}
-
             <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
               <Button
                 disabled={isLoading}
