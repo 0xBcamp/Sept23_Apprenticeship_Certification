@@ -21,7 +21,7 @@ import BlockBadgeSBTAbi from "../../Constants/BlockBadgeSBT.json";
 import GereratePNGModal from "../Modals/IPFS/GereratePNGModal";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
-const BlockBadgeSBTAddress = "0xB34d14837a2e3Ad9A0B111d2477786C613109521";
+const BlockBadgeSBTAddress = "0xCfA89b1B05033725e2d0949c10902269122DeA5f";
 
 export default () => {
   const { isConnected } = useAccount();
@@ -76,22 +76,22 @@ export default () => {
 
       setIsLoading(true);
 
-      const transaction = await contract.setTokenURI(ImageURL);
+      const transaction = await contract._setTokenURI(ImageURL);
       await transaction.wait();
 
       const schemaUID =
-        "0x841cab11062633351bcf30ab016dac0316f573f2b4c782417360c9eac891a25a";
+        "0xd9858bc0a0b8b31f7547972c42827839baad9ac33bc43fb6499e58a2ddb56f8c";
 
       const schemaEncoder = new SchemaEncoder(
-        "string Name,string CertificateName,string Completed"
+        "string Name,string CertificateName,bool Completed"
       );
 
-      const completed = Passed ? "Yes" : "No";
+      // const completed = Passed ? "Yes" : "No";
 
       const encodedData = schemaEncoder.encodeData([
         { name: "Name", value: apprenticeName, type: "string" },
         { name: "CertificateName", value: certificateName, type: "string" },
-        { name: "Completed", value: completed, type: "string" },
+        { name: "Completed", value: Passed, type: "bool" },
       ]);
 
       const tx = await eas.attest({
