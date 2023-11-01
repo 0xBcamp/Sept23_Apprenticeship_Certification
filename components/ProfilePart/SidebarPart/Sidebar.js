@@ -1,40 +1,23 @@
 import { useEffect, useState } from "react";
-import { EASSlicedAddress } from "./Commons";
+import { EASSlicedAddress } from "/components/Commons";
 import { useAccount } from "wagmi";
 
-export default ({ children }) => {
-  const { address } = useAccount();
-
-  const [account, setAccount] = useState("");
-  useEffect(() => {
-    setAccount(address);
-  }, [address]);
-  const [windowWidth, setWindowWidth] = useState(0);
-  const [collapse, setCollapse] = useState(false);
-  const getWindowSize = () => {
-    setWindowWidth(window.innerWidth);
-    console.log(window.innerWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", getWindowSize);
-    if (windowWidth < 400) {
-      setCollapse(true);
-    } else {
-      setCollapse(false);
-    }
-    return () => {
-      window.removeEventListener("resize", getWindowSize);
-    };
-  }, [windowWidth]);
+export default ({ children, address }) => {
+  const { searchedAddress, searchedBNSName } = address;
+  console.log(address);
   return (
     <aside className="bigCard h-full">
       <nav className="h-full flex flex-col shadow-sm">
         <div className="bigCard border-b-black border-b-8 border-t-2 border-l-2 shadow-2xl p-4 pb-2 flex justify-between items-center">
           <img className="w-20" src="/logo2.png" alt="" />
 
-          <h1 className="text-xl font-bold">My Account</h1>
-          <EASSlicedAddress Address={account} />
+          {searchedBNSName ? (
+            <h1 className="text-xl font-bold">{searchedBNSName}</h1>
+          ) : (
+            <h1 className="text-xl font-bold">My Account</h1>
+          )}
+
+          <EASSlicedAddress Address={searchedAddress} />
         </div>
         <div className="p-4 pb-2 flex flex-col  items-center">
           {/* <div className="border">

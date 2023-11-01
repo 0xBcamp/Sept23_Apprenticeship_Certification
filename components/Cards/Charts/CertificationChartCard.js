@@ -8,8 +8,8 @@ import { ContractContext } from "/Constants/Context/ContractContext";
 import { useAccount } from "wagmi";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-export default () => {
-  const { address } = useAccount();
+export default ({ address }) => {
+  // const { address } = useAccount();
   const { GET_ATTESTER_REPUTATION_QUERY, GET_RECIPIENT_REPUTATION_QUERY } =
     useContext(ContractContext);
   const schema =

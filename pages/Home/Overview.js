@@ -5,13 +5,8 @@ import OverveiwBigCard from "/components/ProfilePart/OverviewBigCard";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
-export default () => {
-  const [accountAddress, setAccountAddress] = useState("");
-  const { address } = useAccount();
-
-  useEffect(() => {
-    setAccountAddress(address);
-  }, [address]);
+export default ({ address }) => {
+  // const { searchedAddress } = address;
 
   return (
     <>
@@ -21,7 +16,7 @@ export default () => {
       <h1 className="text-xl font-bold">
         <TypeWriterOnce text="Overall" />
       </h1>
-      <OverveiwBigCard account={accountAddress} />
+      <OverveiwBigCard address={address} />
     </>
   );
 };

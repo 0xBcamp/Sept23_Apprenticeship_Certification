@@ -10,9 +10,9 @@ import CardContent from "@mui/material/CardContent";
 import { useAccount } from "wagmi";
 
 const seeMore = 3;
-export default () => {
+export default ({ address }) => {
   const { GET_ATTESTATIONS_QUERY } = useContext(ContractContext);
-  const { address } = useAccount();
+  // const { address } = useAccount();
 
   const schema =
     "0x841cab11062633351bcf30ab016dac0316f573f2b4c782417360c9eac891a25a";

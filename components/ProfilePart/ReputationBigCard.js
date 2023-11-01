@@ -11,9 +11,11 @@ import { useAccount } from "wagmi";
 
 const seeMore = 3;
 
-export default () => {
+export default ({ address }) => {
+  // const { searchedAddress } = address;
+  // console.log(searchedAddress);
   const { GET_ATTESTATIONS_QUERY } = useContext(ContractContext);
-  const { address } = useAccount();
+  // const { address } = useAccount();
 
   const schema =
     "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f";

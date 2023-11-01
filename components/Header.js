@@ -5,9 +5,24 @@ import { useEffect, useState } from "react";
 const IMG = "/logo2.png";
 import { parse } from "url";
 import { Input } from "@mui/material";
+import { useRouter } from "next/router";
 
 export default () => {
   const [selected, setSelected] = useState(0);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
+
+  const handleKeyUp = (event) => {
+    if (event.key === "Enter" && searchTerm) {
+      router.push(`/Profile?id=${searchTerm}`);
+    }
+  };
+
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
   useEffect(() => {
     let headroom = new Headroom(document.getElementById("navbar-main"));
     // initialise
@@ -53,7 +68,11 @@ export default () => {
         <div>
           <Input
             className="text-white w-80 m-2 p-2"
-            placeholder="Search accounts, 0x or name.Blockbadge..."
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={handleChange}
+            onKeyUp={handleKeyUp}
           />
         </div>
         <div className="flex font-bold flex-row items-center">

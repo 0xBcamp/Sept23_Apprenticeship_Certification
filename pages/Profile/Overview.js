@@ -4,27 +4,28 @@ import ReputationBigCard from "/components/ProfilePart/ReputationBigCard";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
-export default () => {
-  const [accountAddress, setAccountAddress] = useState("");
-  const { address } = useAccount();
+export default ({ address }) => {
+  // const { searchedAddress } = address;
+  //, setAccountAddress] = useState("");
+  // // const { address } = useAccount();
 
-  useEffect(() => {
-    setAccountAddress(address);
-  }, [address]);
+  // useEffect(() => {
+  //   setAccountAddress(address);
+  // }, [address]);
   return (
     <table>
       <tbody>
         <tr>
           <td colSpan="2" className="w-[1291px] h-[426px] justify-center">
-            <OverallBigCard account={accountAddress} />
+            <OverallBigCard address={address} />
           </td>
         </tr>
         <tr>
           <td className="justify-center w-[593px] h-[504px]  items-center">
-            <CertificationBigCard account={accountAddress} />
+            <CertificationBigCard address={address} />
           </td>
           <td className="justify-center w-[593px] h-[504px]  items-center">
-            <ReputationBigCard account={accountAddress} />
+            <ReputationBigCard address={address} />
           </td>
         </tr>
       </tbody>
