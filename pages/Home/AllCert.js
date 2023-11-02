@@ -9,13 +9,13 @@ import SingleCard from "/components/ProfilePart/SingleReputationCard";
 import { ContractContext } from "/Constants/Context/ContractContext";
 import { useAccount } from "wagmi";
 export default () => {
-  const { GET_ATTESTATIONS_QUERY } = useContext(ContractContext);
-  const [accountAddress, setAccountAddress] = useState("");
-  const { address } = useAccount();
+  const { GET_ATTESTATIONS_QUERY, addressFromSearchbar } =
+    useContext(ContractContext);
+  const [address, setAddress] = useState("");
 
   useEffect(() => {
-    setAccountAddress(address);
-  }, [address]);
+    setAddress(addressFromSearchbar);
+  }, [addressFromSearchbar]);
 
   // const schema =
   //   "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f";
@@ -30,7 +30,7 @@ export default () => {
     data: eas,
   } = useQuery(GET_ATTESTATIONS_QUERY, {
     variables: {
-      account: accountAddress,
+      account: address,
       schema: schema,
     },
   });
