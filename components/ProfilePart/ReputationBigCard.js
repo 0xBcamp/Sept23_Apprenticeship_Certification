@@ -2,12 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import Link from "next/link";
 import { SkeletonTextModal, ErrorPage } from "/components/Commons";
-import SingleCard from "./SingleReputationCard";
+import SingleReputationCard from "./SingleReputationCard";
 import { ContractContext } from "/Constants/Context/ContractContext";
-
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import { useAccount } from "wagmi";
 
 const seeMore = 3;
 
@@ -22,7 +18,6 @@ export default () => {
 
   const schema =
     "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f";
-  // const accountAddress = "0xB0739AaF97B5F12D3529ec6C109fbE1A9c9F6bAe";
 
   const {
     loading,
@@ -48,7 +43,7 @@ export default () => {
       ) : (
         <div className="flex flex-col">
           {eas.attestations.slice(0, seeMore).map((item, index) => {
-            return <SingleCard key={index} item={item} />;
+            return <SingleReputationCard key={index} item={item} />;
           })}
           {eas.attestations.length === 0 && (
             <div>There are no any Reputation yet.</div>
@@ -57,7 +52,7 @@ export default () => {
       )}
       {eas?.attestations.length > seeMore && (
         <>
-          <Link href="/Home/AllRep" className="underline">
+          <Link href="/Profile/Reputations" className="underline">
             More Reputation
           </Link>
         </>

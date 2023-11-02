@@ -11,17 +11,13 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { ethers } from "ethers";
 import SuccessModal from "../Modals/SuccessModal";
 import ErrorModal from "../Modals/ErrorModal";
 import DisplayLottie from "../DisplayLottie";
 import WaitModal from "../Modals/WaitModal";
 import UploadFileModal from "../Modals/IPFS/UploadFileModal";
-import BlockBadgeSBTAbi from "../../Constants/BlockBadgeSBT.json";
 import GereratePNGModal from "../Modals/IPFS/GereratePNGModal";
-
-const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
-const BlockBadgeSBTAddress = "0xc2DCE87f1073006535df3162AaAb2a64F3B7Bb14";
+import { ethers } from "ethers";
 
 export default () => {
   const { isConnected } = useAccount();
@@ -65,16 +61,11 @@ export default () => {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
 
-      const contract = new ethers.Contract(
-        BlockBadgeSBTAddress,
-        BlockBadgeSBTAbi,
-        signer
-      );
-
       const eas = new EAS(EASContractAddress);
       eas.connect(signer);
 
       setIsLoading(true);
+      const contract = await createBlockBadgeSBTContract();
 
       const transaction = await contract._setTokenURI(ImageURL);
       await transaction.wait();

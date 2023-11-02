@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  EASDate,
-  EASSlicedAddress,
-  EASMessage,
-  EASImage,
-} from "/components/Commons";
+import { EASDate, EASSlicedAddress, EASMessage } from "/components/Commons";
 import { Fade } from "react-awesome-reveal";
 
 export default ({ item }) => {
@@ -14,7 +9,6 @@ export default ({ item }) => {
     try {
       const jsonArray = JSON.parse(decodedDataJson);
       setDecodedDataJsonArr(jsonArray);
-      console.log(jsonArray);
     } catch (error) {
       console.error("Error parsing JSON:", error);
     }
@@ -25,10 +19,6 @@ export default ({ item }) => {
       <Fade bottom duration={2000}>
         <div className="bg-slate-900 text-white my-1 py-2 px-4 rounded-xl border border-gray-900">
           <div className="flex text-center justify-between ">
-            {/* <div>
-            <ENSAvatar address={attester} size={50} />
-          </div> */}
-            
             <div>
               <img src={logo} alt="" className="w-14 h-14" />
             </div>
@@ -54,7 +44,6 @@ export default ({ item }) => {
                 })}
               </p>
             </div>
-
           </div>
         </div>
       </Fade>

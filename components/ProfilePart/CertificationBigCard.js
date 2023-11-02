@@ -2,12 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import Link from "next/link";
 import { SkeletonTextModal, ErrorPage } from "/components/Commons";
-import SingleCard from "./SingleCertificationCard";
+import SingleCertificationCard from "./SingleCertificationCard";
 import { ContractContext } from "/Constants/Context/ContractContext";
-
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import { useAccount } from "wagmi";
 
 const seeMore = 3;
 export default () => {
@@ -19,10 +15,7 @@ export default () => {
     setAddress(addressFromSearchbar);
   }, [addressFromSearchbar]);
   const schema =
-    "0xd9858bc0a0b8b31f7547972c42827839baad9ac33bc43fb6499e58a2ddb56f8c";
-  // const schema =
-  //   "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f";
-  // const accountAddress = "0xB0739AaF97B5F12D3529ec6C109fbE1A9c9F6bAe";
+    "0xef1043622639b4317241f788ff4ad352e80a3b7b3e67e39cf03b7b59d550fe1d";
 
   const {
     loading,
@@ -49,7 +42,7 @@ export default () => {
       ) : (
         <div className="flex flex-col">
           {eas.attestations.slice(0, seeMore).map((item, index) => {
-            return <SingleCard key={index} item={item} />;
+            return <SingleCertificationCard key={index} item={item} />;
           })}
           {eas.attestations?.length === 0 && (
             <div>There are no any certificates.</div>
@@ -57,7 +50,7 @@ export default () => {
         </div>
       )}
       {eas?.attestations?.length > seeMore && (
-        <Link href="/Home/AllCert" className="underline">
+        <Link href="/Profile/Certifications" className="underline">
           More Certificates
         </Link>
       )}

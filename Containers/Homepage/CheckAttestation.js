@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { Fade } from "react-awesome-reveal";
-const CheckAttestation = () => {
+export default () => {
   return (
     <main className="flex flex-col justify-center items-center">
       <div className="flex items-center justify-between">
@@ -24,4 +24,3 @@ const CheckAttestation = () => {
     </main>
   );
 };
-export default CheckAttestation;

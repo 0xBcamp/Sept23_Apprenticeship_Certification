@@ -15,12 +15,7 @@ import SuccessModal from "../Modals/SuccessModal";
 import ErrorModal from "../Modals/ErrorModal";
 import DisplayLottie from "../DisplayLottie";
 import WaitModal from "../Modals/WaitModal";
-import { createContract } from "../../utils/contractUtils";
-
-import BlockBadgeBNSAbi from "../../Constants/BlockBadgeBNS.json";
-
-// const BlockBadgeBNS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-const BlockBadgeBNS = "0x353998eF92fE5990cDa2551AFC8967b5c2749adC";
+import { createBlockBadgeBNSContract } from "../../utils/contractUtils";
 
 export default () => {
   const { isConnected, address: myAddress } = useAccount();
@@ -36,18 +31,6 @@ export default () => {
 
   const [openError, setOpenError] = useState(false);
   const [openSuccess, setOpenSuccess] = useState(false);
-
-  // const createContract = async () => {
-  //   const provider = new ethers.BrowserProvider(window.ethereum);
-  //   const signer = await provider.getSigner();
-
-  //   const contract = new ethers.Contract(
-  //     BlockBadgeBNS,
-  //     BlockBadgeBNSAbi,
-  //     signer
-  //   );
-  //   return contract;
-  // };
 
   const isValidName = (name) => {
     const newName = name.toLocaleLowerCase().trim();
@@ -68,7 +51,7 @@ export default () => {
   };
 
   const isOwnedName = async (name) => {
-    const contract = await createContract();
+    const contract = await createBlockBadgeBNSContract();
     const formattedName = name + ".blockbadge";
     const resolveName = await contract.resolveName(formattedName);
 
@@ -121,7 +104,7 @@ export default () => {
     }
 
     try {
-      const contract = await createContract();
+      const contract = await createBlockBadgeBNSContract();
 
       setIsLoading(true);
 
@@ -164,7 +147,7 @@ export default () => {
   };
 
   const handleResolveAddress = async () => {
-    const contract = await createContract();
+    const contract = await createBlockBadgeBNSContract();
 
     const resolveAddress = await contract.resolveAddress(myAddress);
     alert("Your BNS Name is: " + resolveAddress);
@@ -181,7 +164,7 @@ export default () => {
     }
 
     try {
-      const contract = await createContract();
+      const contract = await createBlockBadgeBNSContract();
 
       const ownedBNSName = await contract.resolveAddress(toAddress);
       if (ownedBNSName) {

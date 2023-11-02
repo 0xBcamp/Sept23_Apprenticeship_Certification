@@ -8,7 +8,6 @@ import ErrorPage from "./ErrorPage";
 import SkeletonImageModal from "./SkeletonImageModal";
 import SkeletonTextModal from "./SkeletonTextModal";
 
-import TypeWriter from "./TypeWriter";
 import TypeWriterOnce from "./TypeWriterOnce";
 
 export {
@@ -19,6 +18,5 @@ export {
   EASMessage,
   SkeletonImageModal,
   SkeletonTextModal,
-  TypeWriter,
   TypeWriterOnce,
 };
