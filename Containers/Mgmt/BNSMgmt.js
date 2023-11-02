@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { Fade } from "react-awesome-reveal";
-const CheckAttestation = () => {
+export default () => {
   return (
     <main className="flex flex-col gap-3 justify-center mx-14 items-center">
       <div className="flex items-center ">
@@ -18,4 +18,3 @@ const CheckAttestation = () => {
     </main>
   );
 };
-export default CheckAttestation;

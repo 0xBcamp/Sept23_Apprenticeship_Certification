@@ -1,5 +1,3 @@
-import React from "react";
-
 export default ({ text, active, onClickFunc }) => {
   return (
     <li

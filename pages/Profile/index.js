@@ -1,7 +1,7 @@
 import SidebarItems from "/components/ProfilePart/SidebarPart/SidebarItems";
 import Sidebar from "/components/Sidebar";
 import { useContext, useEffect, useState } from "react";
-import { useAccount, useEnsAddress } from "wagmi";
+import { useAccount } from "wagmi";
 import ShowItem from "./ShowItem";
 import { useRouter } from "next/router";
 import { ContractContext } from "../../Constants/Context/ContractContext";

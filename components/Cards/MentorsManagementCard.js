@@ -10,18 +10,13 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { ethers } from "ethers";
 import SuccessModal from "../Modals/SuccessModal";
 import ErrorModal from "../Modals/ErrorModal";
 import DisplayLottie from "../DisplayLottie";
 import WaitModal from "../Modals/WaitModal";
 
-import OrganizationResolverAbi from "../../Constants/OrganizationResolver.json";
 import ViewModal from "../Modals/ViewModal";
-
-const OrganizationResolverAddress =
-  "0xaaCf8d59AF3e6404D7473d2275dbe89f5F01f11f";
-
+import { createOrganizationResolverContract } from "../../utils/contractUtils";
 export default () => {
   const { isConnected } = useAccount();
   const [action, setAction] = useState("add");
@@ -37,18 +32,6 @@ export default () => {
   const [openError, setOpenError] = useState(false);
   const [openSuccess, setOpenSuccess] = useState(false);
   const [viewModal, setViewModal] = useState(false);
-
-  const createContract = async () => {
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    const signer = await provider.getSigner();
-
-    const contract = new ethers.Contract(
-      OrganizationResolverAddress,
-      OrganizationResolverAbi,
-      signer
-    );
-    return contract;
-  };
 
   const handleErrors = (error, message) => {
     setErrorMessage(message);
@@ -107,7 +90,7 @@ export default () => {
     }
 
     try {
-      const contract = await createContract();
+      const contract = await createOrganizationResolverContract();
       let member;
 
       setIsLoading(true);
@@ -135,7 +118,7 @@ export default () => {
   const [allMembers, setAllMembers] = useState([]);
   const handleGetAllMembers = async () => {
     try {
-      const contract = await createContract();
+      const contract = await createOrganizationResolverContract();
 
       const allMembers = await contract.getAllMembers();
       if (!allMembers) return;

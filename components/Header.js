@@ -3,10 +3,9 @@ import Link from "next/link";
 import Headroom from "headroom.js";
 import { useContext, useEffect, useState } from "react";
 const IMG = "/logo.png";
-import { parse } from "url";
 import { Input } from "@mui/material";
 import { useRouter } from "next/router";
-import { createContract } from "../utils/contractUtils";
+import { createBlockBadgeBNSContract } from "../utils/contractUtils";
 import { ContractContext } from "../Constants/Context/ContractContext";
 
 export default () => {
@@ -24,7 +23,7 @@ export default () => {
     if (searchQuery.startsWith("0x")) {
       // Navigate directly to the profile page of the address
       const profileUrl = `/Profile?id=${searchQuery}`;
-      const contract = await createContract();
+      const contract = await createBlockBadgeBNSContract();
       const resolvedName = await contract.resolveAddress(searchQuery);
       if (resolvedName) {
         setAddressFromSearchbar(searchQuery);
@@ -41,7 +40,7 @@ export default () => {
     }
 
     // Integrate with the BlockBadgeBNS contract to resolve the BNS name to an address
-    const contract = await createContract();
+    const contract = await createBlockBadgeBNSContract();
     const resolvedAddress = await contract.resolveName(formattedQuery);
 
     if (

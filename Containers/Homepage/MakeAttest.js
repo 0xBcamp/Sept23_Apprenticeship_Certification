@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { Fade } from "react-awesome-reveal";
-const MakeAttest = () => {
+export default () => {
   return (
     <main className="flex flex-col gap-3 justify-betweenitems-center">
       <div className="w-full flex items-center justify-between">
@@ -22,4 +22,3 @@ const MakeAttest = () => {
     </main>
   );
 };
-export default MakeAttest;
