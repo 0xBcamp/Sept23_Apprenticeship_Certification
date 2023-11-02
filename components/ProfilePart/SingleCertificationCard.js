@@ -21,9 +21,11 @@ export default ({ item }) => {
 
   const logo = "/logo2.png";
 
-  const organizationName = "orgname"; // Replace with the actual organization name the user entered
+  const easUID = 'easUID' // Replace with the actual EASUID
 
-  const easAttestationUrl = "easattestationurl"; // Replace with the actual EAS attestation URL that is output upon transaction completion
+  const easAttestationUrl = " https://sepolia.easscan.org/attestation/view/${easURL}"; 
+
+  const organizationName = "orgname"; // Replace with the actual organization name the user entered
 
   const transactionHash = "transactionhash"; // Replace with the actual transaction hash that is output upon transaction completion
 
