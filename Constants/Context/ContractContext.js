@@ -1,12 +1,15 @@
 import { EAS } from "@ethereum-attestation-service/eas-sdk";
 import { ethers } from "ethers";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import dotenv from "dotenv";
 import { gql } from "@apollo/client";
 dotenv.config();
 
 export const ContractContext = createContext();
 export const ContractContextProvider = ({ children }) => {
+  const [addressFromSearchbar, setAddressFromSearchbar] = useState("");
+  const [bnsFromSearchbar, setBNSFromSearchbar] = useState("");
+
   // async function makeOnChainAttestationWithoutClicking(
   //   schemaID,
   //   recipientAddress,
@@ -158,6 +161,10 @@ export const ContractContextProvider = ({ children }) => {
   return (
     <ContractContext.Provider
       value={{
+        addressFromSearchbar,
+        setAddressFromSearchbar,
+        bnsFromSearchbar,
+        setBNSFromSearchbar,
         // makeOnChainAttestation,
         // makeOffChainAttestation,
         // // makeOnChainMultiAttestation,
