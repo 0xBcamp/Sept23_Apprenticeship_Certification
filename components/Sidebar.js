@@ -1,14 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { EASSlicedAddress } from "./Commons";
 import { useAccount } from "wagmi";
+import { ContractContext } from "../Constants/Context/ContractContext";
 
 export default ({ children }) => {
-  const { address } = useAccount();
+  const { addressFromSearchbar, bnsFromSearchbar } =
+    useContext(ContractContext);
+
+  // const { address } = useAccount();
 
   const [account, setAccount] = useState("");
   useEffect(() => {
-    setAccount(address);
-  }, [address]);
+    setAccount(addressFromSearchbar);
+  }, [addressFromSearchbar]);
   const [windowWidth, setWindowWidth] = useState(0);
   const [collapse, setCollapse] = useState(false);
   const getWindowSize = () => {
@@ -32,9 +36,16 @@ export default ({ children }) => {
       <nav className="h-full flex flex-col shadow-sm">
         <div className="bigCard border-b-black border-b-8 border-t-2 border-l-2 shadow-2xl p-4 pb-2 flex justify-between items-center">
           <img className="w-20" src="/logo2.png" alt="" />
-
-          <h1 className="text-xl font-bold">My Account</h1>
-          <EASSlicedAddress Address={account} />
+          {bnsFromSearchbar ? (
+            <>
+              <h1 className="text-xl font-bold">{bnsFromSearchbar}</h1>
+              <EASSlicedAddress Address={account} />
+            </>
+          ) : (
+            <div className="text-xl font-bold">
+              <EASSlicedAddress Address={account} />
+            </div>
+          )}
         </div>
         <div className="p-4 pb-2 flex flex-col  items-center">
           {/* <div className="border">

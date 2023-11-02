@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import Link from "next/link";
 import { SkeletonTextModal, ErrorPage } from "/components/Commons";
@@ -12,8 +12,13 @@ import { useAccount } from "wagmi";
 const seeMore = 3;
 
 export default () => {
-  const { GET_ATTESTATIONS_QUERY } = useContext(ContractContext);
-  const { address } = useAccount();
+  const { GET_ATTESTATIONS_QUERY, addressFromSearchbar } =
+    useContext(ContractContext);
+  const [address, setAddress] = useState("");
+
+  useEffect(() => {
+    setAddress(addressFromSearchbar);
+  }, [addressFromSearchbar]);
 
   const schema =
     "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f";
