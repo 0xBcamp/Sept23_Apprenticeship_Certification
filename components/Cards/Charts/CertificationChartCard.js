@@ -21,7 +21,7 @@ export default () => {
   }, [addressFromSearchbar]);
 
   const schema =
-    "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f";
+    "0xef1043622639b4317241f788ff4ad352e80a3b7b3e67e39cf03b7b59d550fe1d";
   const by = "id";
 
   const attesterCount = useQuery(GET_ATTESTER_REPUTATION_QUERY, {
