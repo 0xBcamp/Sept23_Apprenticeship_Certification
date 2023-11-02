@@ -21,7 +21,7 @@ export default () => {
   //   "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f";
 
   const schema =
-    "0xd9858bc0a0b8b31f7547972c42827839baad9ac33bc43fb6499e58a2ddb56f8c";
+    "0xef1043622639b4317241f788ff4ad352e80a3b7b3e67e39cf03b7b59d550fe1d";
   // const accountAddress = "0x6A5951dA6E9F0871e7Fa4D4EE785db0B3489eBb6";
 
   const {

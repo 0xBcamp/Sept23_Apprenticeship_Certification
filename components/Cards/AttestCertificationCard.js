@@ -21,7 +21,7 @@ import BlockBadgeSBTAbi from "../../Constants/BlockBadgeSBT.json";
 import GereratePNGModal from "../Modals/IPFS/GereratePNGModal";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
-const BlockBadgeSBTAddress = "0xCfA89b1B05033725e2d0949c10902269122DeA5f";
+const BlockBadgeSBTAddress = "0xc2DCE87f1073006535df3162AaAb2a64F3B7Bb14";
 
 export default () => {
   const { isConnected } = useAccount();
@@ -80,7 +80,7 @@ export default () => {
       await transaction.wait();
 
       const schemaUID =
-        "0xd9858bc0a0b8b31f7547972c42827839baad9ac33bc43fb6499e58a2ddb56f8c";
+        "0xef1043622639b4317241f788ff4ad352e80a3b7b3e67e39cf03b7b59d550fe1d";
 
       const schemaEncoder = new SchemaEncoder(
         "string Name,string CertificateName,bool Completed"

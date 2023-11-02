@@ -10,8 +10,12 @@ async function main() {
   // let args = [
   //   "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
   //   "Bcamp",
-  //   ["0xB0739AaF97B5F12D3529ec6C109fbE1A9c9F6bAe"],
-  //   "0xCfA89b1B05033725e2d0949c10902269122DeA5f",
+  //   [
+  //     "0xB0739AaF97B5F12D3529ec6C109fbE1A9c9F6bAe",
+  //     "0x2bf2FE4Ec99F6AF6d84a26222B65E16214F69596",
+  //     "0x49c1f89C53AeD52d6b67B97e56beC081245143CB",
+  //   ],
+  //   "0xc2DCE87f1073006535df3162AaAb2a64F3B7Bb14",
   // ];
   // const OrganizationResolver = await ethers.deployContract(
   //   "OrganizationResolver",
@@ -24,9 +28,9 @@ async function main() {
   // // BlockBadgeBNS
   // verify("0x353998eF92fE5990cDa2551AFC8967b5c2749adC", []);
   // // BlockBadgeSBT
-  // verify("0xCfA89b1B05033725e2d0949c10902269122DeA5f", []);
+  // verify("0xc2DCE87f1073006535df3162AaAb2a64F3B7Bb14", []);
   // // OrganizationResolver
-  // verify("0x3c6dc01cf382eBe5460B7346340c6Ae41f8269d2", args);
+  // verify("0xd0Cc2f9fAd06c7F5012aDebC65D4f299453d6F76", args);
 }
 
 const verify = async (contractAddress, args) => {
