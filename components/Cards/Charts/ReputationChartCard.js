@@ -3,15 +3,23 @@ import { Pie } from "react-chartjs-2";
 
 import { useQuery } from "@apollo/client";
 import { SkeletonImageModal, ErrorPage } from "/components/Commons";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ContractContext } from "/Constants/Context/ContractContext";
 import { useAccount } from "wagmi";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 export default () => {
-  const { address } = useAccount();
-  const { GET_ATTESTER_REPUTATION_QUERY, GET_RECIPIENT_REPUTATION_QUERY } =
-    useContext(ContractContext);
+  const {
+    GET_ATTESTER_REPUTATION_QUERY,
+    GET_RECIPIENT_REPUTATION_QUERY,
+    addressFromSearchbar,
+  } = useContext(ContractContext);
+  const [address, setAddress] = useState("");
+
+  useEffect(() => {
+    setAddress(addressFromSearchbar);
+  }, [addressFromSearchbar]);
+
   const schema =
     "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f";
   const by = "id";
