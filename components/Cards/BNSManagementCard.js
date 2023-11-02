@@ -15,6 +15,7 @@ import SuccessModal from "../Modals/SuccessModal";
 import ErrorModal from "../Modals/ErrorModal";
 import DisplayLottie from "../DisplayLottie";
 import WaitModal from "../Modals/WaitModal";
+import { createContract } from "../../utils/contractUtils";
 
 import BlockBadgeBNSAbi from "../../Constants/BlockBadgeBNS.json";
 
@@ -36,17 +37,17 @@ export default () => {
   const [openError, setOpenError] = useState(false);
   const [openSuccess, setOpenSuccess] = useState(false);
 
-  const createContract = async () => {
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    const signer = await provider.getSigner();
+  // const createContract = async () => {
+  //   const provider = new ethers.BrowserProvider(window.ethereum);
+  //   const signer = await provider.getSigner();
 
-    const contract = new ethers.Contract(
-      BlockBadgeBNS,
-      BlockBadgeBNSAbi,
-      signer
-    );
-    return contract;
-  };
+  //   const contract = new ethers.Contract(
+  //     BlockBadgeBNS,
+  //     BlockBadgeBNSAbi,
+  //     signer
+  //   );
+  //   return contract;
+  // };
 
   const isValidName = (name) => {
     const newName = name.toLocaleLowerCase().trim();

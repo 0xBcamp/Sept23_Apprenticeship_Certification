@@ -3,7 +3,16 @@ import Sidebar from "/components/Sidebar";
 import { useEffect, useState } from "react";
 import { useAccount, useEnsAddress } from "wagmi";
 import ShowItem from "./ShowItem";
+import { useRouter } from 'next/router';
+
 export default () => {
+  const router = useRouter();
+  const { addressOrBNS } = router.query;
+
+  const isEthereumAddress = addressOrBNS && addressOrBNS.startsWith("0x");
+  const bnsName = isEthereumAddress ? null : addressOrBNS;
+  const address = isEthereumAddress ? addressOrBNS : null;
+
   const { isConnected } = useAccount();
   const [connectionStat, setConnectionStat] = useState(false);
 
