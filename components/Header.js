@@ -24,8 +24,13 @@ export default () => {
     if (searchQuery.startsWith("0x")) {
       // Navigate directly to the profile page of the address
       const profileUrl = `/Profile?id=${searchQuery}`;
-      setAddressFromSearchbar(searchQuery);
-      router.push(profileUrl);
+      const contract = await createContract();
+      const resolvedName = await contract.resolveAddress(searchQuery);
+      if (resolvedName) {
+        setAddressFromSearchbar(searchQuery);
+        setBNSFromSearchbar(resolvedName);
+        router.push(profileUrl);
+      }
       return;
     }
 
