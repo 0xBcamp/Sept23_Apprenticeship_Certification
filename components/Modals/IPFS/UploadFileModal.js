@@ -14,7 +14,7 @@ const style = {
   p: 4,
 };
 
-export default ({ file }) => {
+export default ({ file, name, certification }) => {
   const [open, setOpen] = useState(false);
   const [saveToIPFS, setSaveToIPFS] = useState(false);
   const [fileUploaded, setFileUploaded] = useState("");
@@ -34,7 +34,7 @@ export default ({ file }) => {
     <div>
       {saveToIPFS && fileUploaded && (
         <UploadFileToIPFSModal
-          name={fileUploaded.name}
+          name={name}
           date={"1000"}
           uploadFile={fileUploaded}
           onClose={(e) => {

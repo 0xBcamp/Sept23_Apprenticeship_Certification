@@ -67,7 +67,7 @@ export default ({ file, logo = "/logo.png", name, certification }) => {
     <div>
       {saveToIPFS && fileUploaded && (
         <UploadFileToIPFSModal
-          name={fileUploaded.name}
+          name={name}
           date={"1000"}
           uploadFile={fileUploaded}
           onClose={(e) => {
