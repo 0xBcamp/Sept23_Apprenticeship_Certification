@@ -42,13 +42,18 @@ export default ({ item }) => {
     window.open(linkedinUrl, "_blank");
   };
 
+  const handleClickNav = () => {
+    const easAttestationUrlToEASScan = `https://sepolia.easscan.org/attestation/view/${id}`; // Replace with the actual EAS attestation URL that is output upon transaction completion
+    window.open(easAttestationUrlToEASScan, "_blank");
+  };
   return (
     <>
       <Fade bottom duration={2000}>
         <div className="flex" style={{ width: "100%" }}>
           <div
-            className="card card-body flex text-white"
+            className="card card-body flex text-white cursor-pointer"
             style={{ width: "75%" }}
+            onClick={handleClickNav}
           >
             <div className="flex text-center justify-between space-x-2">
               <div>

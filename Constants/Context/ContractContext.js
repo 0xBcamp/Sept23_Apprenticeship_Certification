@@ -149,11 +149,12 @@ export const ContractContextProvider = ({ children }) => {
           recipient: { equals: $account }
         }
       ) {
-        # id
+        id
         # recipient
         decodedDataJson
         attester
         # time
+        txid
         timeCreated
       }
     }
