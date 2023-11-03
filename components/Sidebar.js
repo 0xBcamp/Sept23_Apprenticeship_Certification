@@ -1,36 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { EASSlicedAddress } from "./Commons";
-import { useAccount } from "wagmi";
 import { ContractContext } from "../Constants/Context/ContractContext";
 
 export default ({ children }) => {
   const { addressFromSearchbar, bnsFromSearchbar } =
     useContext(ContractContext);
-
-  // const { address } = useAccount();
-
   const [account, setAccount] = useState("");
   useEffect(() => {
     setAccount(addressFromSearchbar);
   }, [addressFromSearchbar]);
-  const [windowWidth, setWindowWidth] = useState(0);
-  const [collapse, setCollapse] = useState(false);
-  const getWindowSize = () => {
-    setWindowWidth(window.innerWidth);
-    console.log(window.innerWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", getWindowSize);
-    if (windowWidth < 400) {
-      setCollapse(true);
-    } else {
-      setCollapse(false);
-    }
-    return () => {
-      window.removeEventListener("resize", getWindowSize);
-    };
-  }, [windowWidth]);
   return (
     <aside className="bigCard h-[80vh]">
       <nav className="h-full flex flex-col shadow-sm">
@@ -72,38 +50,5 @@ export default ({ children }) => {
         </div>
       </nav>
     </aside>
-
-    // <nav className="Sidebar">
-    //   <Sidebar collapsed={collapse}>
-    //     <Menu>
-    //       <MenuItem component={<Link href="/BBP/Attestations" />}>
-    //         Documentation
-    //       </MenuItem>
-    //       <MenuItem component={<Link href="/BBP/Attestations" />}>
-    //         Documentation
-    //       </MenuItem>
-    //     </Menu>
-    //     <Menu
-    //     //   menuItemStyles={{
-    //     //     button: {
-    //     //       // the active class will be added automatically by react router
-    //     //       // so we can use it to style the active menu item
-    //     //       [`&.active`]: {
-    //     //         backgroundColor: "#00000",
-    //     //         color: "#b6c8d9",
-    //     //       },
-    //     //     },
-    //     //   }}
-    //     >
-    //       <MenuItem component={<Link href="/BBP/Attestations" />}>
-    //         Documentation
-    //       </MenuItem>
-    //       <MenuItem component={<Link href="/BBP/AllCert" />}>Calendar</MenuItem>
-    //       <MenuItem component={<Link href="/BBP/AllRep" />}>
-    //         E-commerce
-    //       </MenuItem>
-    //     </Menu>
-    //   </Sidebar>
-    // </nav>
   );
 };
