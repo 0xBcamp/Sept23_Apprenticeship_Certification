@@ -5,15 +5,17 @@ import { SkeletonTextModal, ErrorPage } from "/components/Commons";
 import SingleReputationCard from "./SingleReputationCard";
 import { ContractContext } from "/Constants/Context/ContractContext";
 
-const seeMore = 3;
-
-export default () => {
+export default ({ seeMoreRepu }) => {
   const { GET_ATTESTATIONS_QUERY, addressFromSearchbar } =
     useContext(ContractContext);
   const [address, setAddress] = useState("");
+  const [seeMore, setSeeMore] = useState(3);
 
   useEffect(() => {
     setAddress(addressFromSearchbar);
+    if (seeMoreRepu == 0) {
+      setSeeMore(undefined);
+    }
   }, [addressFromSearchbar]);
 
   const schema =
