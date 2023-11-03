@@ -5,14 +5,16 @@ import { SkeletonTextModal, ErrorPage } from "/components/Commons";
 import SingleCertificationCard from "./SingleCertificationCard";
 import { ContractContext } from "/Constants/Context/ContractContext";
 
-const seeMore = 3;
-export default () => {
+export default ({ seeMoreCert }) => {
   const { GET_ATTESTATIONS_QUERY, addressFromSearchbar } =
     useContext(ContractContext);
   const [address, setAddress] = useState("");
-
+  const [seeMore, setSeeMore] = useState(2);
   useEffect(() => {
     setAddress(addressFromSearchbar);
+    if (seeMoreCert == 0) {
+      setSeeMore(undefined);
+    }
   }, [addressFromSearchbar]);
   const schema =
     "0xef1043622639b4317241f788ff4ad352e80a3b7b3e67e39cf03b7b59d550fe1d";

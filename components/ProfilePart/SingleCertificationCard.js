@@ -1,12 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import {
-  EASDate,
-  EASSlicedAddress,
-  EASMessage,
-  EASImage,
-} from "/components/Commons";
+import { EASDate, EASSlicedAddress, EASMessage } from "/components/Commons";
 import { Fade } from "react-awesome-reveal";
 import { ContractContext } from "../../Constants/Context/ContractContext";
+import { useAccount } from "wagmi";
 
 export default ({ item }) => {
   const { decodedDataJson, attester, timeCreated, txid, id } = item;
@@ -14,7 +10,7 @@ export default ({ item }) => {
   const [certName, setCertName] = useState("");
 
   const { addressFromSearchbar } = useContext(ContractContext);
-
+  const { address } = useAccount();
   useEffect(() => {
     try {
       const jsonArray = JSON.parse(decodedDataJson);
@@ -88,14 +84,16 @@ export default ({ item }) => {
               </div>
             </div>
           </div>
-          <div
-            style={{ width: "25%", marginLeft: "10px" }}
-            className="card card-body flex text-white"
-          >
-            <button onClick={handleCertificationClick}>
-              Add Certification to My LinkedIn
-            </button>
-          </div>
+          {address == addressFromSearchbar && (
+            <div
+              style={{ width: "25%", marginLeft: "10px" }}
+              className="card card-body flex text-white"
+            >
+              <button onClick={handleCertificationClick}>
+                Add Certification to My LinkedIn
+              </button>
+            </div>
+          )}
         </div>
       </Fade>
     </>

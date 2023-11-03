@@ -26,10 +26,13 @@ export default () => {
       const contract = await createBlockBadgeBNSContract();
       const resolvedName = await contract.resolveAddress(searchQuery);
       if (resolvedName) {
-        setAddressFromSearchbar(searchQuery);
         setBNSFromSearchbar(resolvedName);
-        router.push(profileUrl);
+      } else {
+        setBNSFromSearchbar("");
       }
+
+      setAddressFromSearchbar(searchQuery);
+      router.push(profileUrl);
       return;
     }
 

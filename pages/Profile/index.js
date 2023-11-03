@@ -6,6 +6,8 @@ import ShowItem from "./ShowItem";
 import { useRouter } from "next/router";
 import { ContractContext } from "../../Constants/Context/ContractContext";
 
+import { createBlockBadgeBNSContract } from "/utils/contractUtils";
+
 export default () => {
   const router = useRouter();
   const { isConnected, address: myAddress } = useAccount();
@@ -15,11 +17,22 @@ export default () => {
     useContext(ContractContext);
 
   const { addressOrBNS } = router.query;
-  const { id } = router.query;
-  if (!id) {
-    setAddressFromSearchbar(myAddress);
-    setBNSFromSearchbar("");
-  }
+  useEffect(() => {
+    const checkURL = async () => {
+      const { id } = router.query;
+      if (!id) {
+        const contract = await createBlockBadgeBNSContract();
+        const resolvedName = await contract.resolveAddress(myAddress);
+        if (resolvedName) {
+          setBNSFromSearchbar(resolvedName);
+        } else {
+          setBNSFromSearchbar("");
+        }
+        setAddressFromSearchbar(myAddress);
+      }
+    };
+    checkURL();
+  }, []);
 
   const isEthereumAddress = addressOrBNS && addressOrBNS.startsWith("0x");
   const bnsName = isEthereumAddress ? null : addressOrBNS;
