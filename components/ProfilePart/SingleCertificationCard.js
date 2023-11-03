@@ -36,6 +36,8 @@ export default ({ item }) => {
 
   const easAttestationUrlToEASScan = `https://sepolia.easscan.org/attestation/view/${id}`; // Replace with the actual EAS attestation URL that is output upon transaction completion
 
+  const organizationName = "orgname"; // Replace with the actual organization name the user entered
+
   const transactionHash = txid; // Replace with the actual transaction hash that is output upon transaction completion
 
   const transactionHashToEtherscan = `https://sepolia.etherscan.io/tx/${txid}`; // Replace with the actual transaction hash that is output upon transaction completion
