@@ -3,7 +3,7 @@ import { EASDate, EASSlicedAddress, EASMessage } from "/components/Commons";
 import { Fade } from "react-awesome-reveal";
 
 export default ({ item }) => {
-  const { decodedDataJson, attester, timeCreated } = item;
+  const { decodedDataJson, attester, timeCreated, id, txid } = item;
   const [decodedDataJsonArr, setDecodedDataJsonArr] = useState([]);
   useEffect(() => {
     try {
@@ -14,11 +14,20 @@ export default ({ item }) => {
     }
   }, [decodedDataJson]);
   const logo = "/logo2.png";
+
+  const handleClickNav = () => {
+    const easAttestationUrlToEASScan = `https://sepolia.easscan.org/attestation/view/${id}`; // Replace with the actual EAS attestation URL that is output upon transaction completion
+    window.open(easAttestationUrlToEASScan, "_blank");
+  };
+
   return (
     <>
       <Fade bottom duration={2000}>
         <div className="bg-slate-900 text-white my-1 py-2 px-4 rounded-xl border border-gray-900">
-          <div className="flex text-center justify-between ">
+          <div
+            className="flex text-center justify-between cursor-pointer"
+            onClick={handleClickNav}
+          >
             <div>
               <img src={logo} alt="" className="w-14 h-14" />
             </div>
