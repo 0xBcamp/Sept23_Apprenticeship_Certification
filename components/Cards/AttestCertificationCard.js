@@ -18,6 +18,8 @@ import WaitModal from "../Modals/WaitModal";
 import UploadFileModal from "../Modals/IPFS/UploadFileModal";
 import GereratePNGModal from "../Modals/IPFS/GereratePNGModal";
 import { ethers } from "ethers";
+import { createBlockBadgeSBTContract } from "../../utils/contractUtils";
+const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
 export default () => {
   const { isConnected } = useAccount();

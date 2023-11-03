@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   EASDate,
   EASSlicedAddress,
@@ -6,14 +6,23 @@ import {
   EASImage,
 } from "/components/Commons";
 import { Fade } from "react-awesome-reveal";
+import { ContractContext } from "../../Constants/Context/ContractContext";
 
 export default ({ item }) => {
-  const { decodedDataJson, attester, timeCreated } = item;
+  const { decodedDataJson, attester, timeCreated, txid, id } = item;
   const [decodedDataJsonArr, setDecodedDataJsonArr] = useState([]);
+  const [certName, setCertName] = useState("");
+
+  const { addressFromSearchbar } = useContext(ContractContext);
+
   useEffect(() => {
     try {
       const jsonArray = JSON.parse(decodedDataJson);
       setDecodedDataJsonArr(jsonArray);
+      for (let i of jsonArray) {
+        if (i.value.name.toLowerCase() == "certificatename")
+          setCertName(i.value.value);
+      }
     } catch (error) {
       console.error("Error parsing JSON:", error);
     }
@@ -21,16 +30,19 @@ export default ({ item }) => {
 
   const logo = "/logo2.png";
 
-  const easUID = 'easUID' // Replace with the actual EASUID
+  const organizationName = certName; // Replace with the actual organization name the user entered
 
-  const easAttestationUrl = " https://sepolia.easscan.org/attestation/view/${easURL}"; 
+  const easAttestationUrl = id; // Replace with the actual EAS attestation URL that is output upon transaction completion
 
-  const organizationName = "orgname"; // Replace with the actual organization name the user entered
+  const easAttestationUrlToEASScan = `https://sepolia.easscan.org/attestation/view/${id}`; // Replace with the actual EAS attestation URL that is output upon transaction completion
 
-  const transactionHash = "transactionhash"; // Replace with the actual transaction hash that is output upon transaction completion
+  const transactionHash = txid; // Replace with the actual transaction hash that is output upon transaction completion
+
+  const transactionHashToEtherscan = `https://sepolia.etherscan.io/tx/${txid}`; // Replace with the actual transaction hash that is output upon transaction completion
 
   const handleCertificationClick = () => {
-    const linkedinUrl = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${organizationName}&organizationName=${organizationName}&certUrl=${easAttestationUrl}&certId=${transactionHash}`;
+    const linkedinUrl = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${organizationName}&organizationName=${organizationName}&certId=${easAttestationUrl}&certUrl=${transactionHashToEtherscan}`;
+
     window.open(linkedinUrl, "_blank");
   };
 
@@ -51,17 +63,25 @@ export default ({ item }) => {
                 <EASDate date={timeCreated} />
               </div>
               <div>
-                <p>Attested</p>
                 <p>
                   {decodedDataJsonArr.map((item, i) => {
                     return (
-                      <EASMessage
-                        key={i}
-                        Message={
-                          item.value.name.toLowerCase() == "message" &&
-                          item.value.value
-                        }
-                      />
+                      <>
+                        <EASMessage
+                          key={i}
+                          Message={
+                            item.value.name.toLowerCase() == "name" &&
+                            item.value.value
+                          }
+                        />
+                        <EASMessage
+                          key={i}
+                          Message={
+                            item.value.name.toLowerCase() ==
+                              "certificatename" && item.value.value
+                          }
+                        />
+                      </>
                     );
                   })}
                 </p>
