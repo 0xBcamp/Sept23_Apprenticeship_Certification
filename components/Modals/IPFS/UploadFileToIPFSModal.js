@@ -6,10 +6,18 @@ dotenv.config();
 import { Web3Storage } from "web3.storage";
 import WaitModal from "../WaitModal";
 import SuccessModal from "../SuccessMarkModal";
+import { createBlockBadgeSBTContract } from "../../../utils/contractUtils";
 
 export default ({ name, date, uploadFile, onClose }) => {
   const [open, setOpen] = useState(true);
   const [showSuccess, setShowSuccess] = useState(false);
+  const getLastID = async () => {
+    const contract = await createBlockBadgeSBTContract();
+    const lastID = await contract.getLastTokenId();
+
+    return Number(lastID);
+  };
+
   if (!uploadFile) return;
   /**
    * CID Section
@@ -27,6 +35,7 @@ export default ({ name, date, uploadFile, onClose }) => {
 
   let cid;
   const metadataTemplate = {
+    id: "",
     name: "",
     description: "",
     image: "",
@@ -51,8 +60,9 @@ export default ({ name, date, uploadFile, onClose }) => {
 
     console.log(`Working on ${uploadFile.name}...`);
     console.log(uploadFile.name);
-
-    metadata.name = name;
+    const lastID = await getLastID();
+    metadata.id = lastID;
+    metadata.name = lastID + "-" + name;
     metadata.date = date;
     metadata.image = `${prefixIPFS}${cid}`;
 

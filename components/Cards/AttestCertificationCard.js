@@ -19,6 +19,7 @@ import UploadFileModal from "../Modals/IPFS/UploadFileModal";
 import GereratePNGModal from "../Modals/IPFS/GereratePNGModal";
 import { ethers } from "ethers";
 import { createBlockBadgeSBTContract } from "../../utils/contractUtils";
+import UploadFileToIPFSModal from "../Modals/IPFS/UploadFileToIPFSModal";
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
 export default () => {
@@ -201,7 +202,11 @@ export default () => {
                   />
                 </Grow>
                 <div className="p-2 mt-4">
-                  <UploadFileModal file={setImageURL} />
+                  <UploadFileModal
+                    file={setImageURL}
+                    name={apprenticeName}
+                    certification={certificateName}
+                  />
                 </div>
                 <div className="p-2 mt-4">
                   <GereratePNGModal
