@@ -28,11 +28,11 @@ export default () => {
         } else {
           setBNSFromSearchbar("");
         }
-        setAddressFromSearchbar(myAddress);
       }
+      setAddressFromSearchbar(myAddress);
     };
     checkURL();
-  }, []);
+  }, [myAddress]);
 
   const isEthereumAddress = addressOrBNS && addressOrBNS.startsWith("0x");
   const bnsName = isEthereumAddress ? null : addressOrBNS;
