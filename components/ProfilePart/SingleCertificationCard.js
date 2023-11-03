@@ -49,10 +49,9 @@ export default ({ item }) => {
   return (
     <>
       <Fade bottom duration={2000}>
-        <div className="flex" style={{ width: "100%" }}>
+      <div className="flex items-center gap-2 justify-between w-full">
           <div
-            className="card card-body flex text-white cursor-pointer"
-            style={{ width: "75%" }}
+            className="cursor-pointer w-full bg-slate-900 text-white my-1 py-2 px-4 rounded-xl border border-gray-900"
             onClick={handleClickNav}
           >
             <div className="flex text-center justify-between space-x-2">
@@ -90,14 +89,10 @@ export default ({ item }) => {
             </div>
           </div>
           {address == addressFromSearchbar && (
-            <div
-              style={{ width: "25%", marginLeft: "10px" }}
-              className="card card-body flex text-white"
-            >
-              <button onClick={handleCertificationClick}>
-                Add Certification to My LinkedIn
-              </button>
-            </div>
+           
+           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold w-1/3 py-4 px-2 border border-blue-700 rounded" onClick={handleCertificationClick}>
+            LinkedIn
+          </button>
           )}
         </div>
       </Fade>
