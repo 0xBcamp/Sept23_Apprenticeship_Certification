@@ -12,7 +12,7 @@ import { reputationSchemaUID } from "../../utils/contractUtils";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
-export default () => {
+export default ({ addressFromProfile }) => {
   const { isConnected } = useAccount();
   const [connectionStat, setConnectionStat] = useState(false);
 
@@ -73,11 +73,7 @@ export default () => {
       setAddress("");
       setMessage("");
     } catch (error) {
-      if (error.message.toLowerCase().includes("not listed"))
-        setErrorMessage(
-          "This address is not in the whitelist, please add it to the whitelist."
-        );
-      else if (error.message.toLowerCase().includes("user rejected")) {
+      if (error.message.toLowerCase().includes("user rejected")) {
         setErrorMessage(
           "MetaMask Tx Signature: User denied transaction signature"
         );
@@ -106,7 +102,7 @@ export default () => {
               className="text-white w-72 p-2 mt-4"
               type="text"
               placeholder="Enter an address to attest..."
-              value={address}
+              value={addressFromProfile ? addressFromProfile : address}
               onChange={(e) => setAddress(e.target.value)}
             />
           </Grow>

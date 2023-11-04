@@ -1,12 +1,16 @@
 import { useContext, useEffect, useState } from "react";
 import { EASSlicedAddress } from "./Commons";
 import { ContractContext } from "../Constants/Context/ContractContext";
+import { useAccount } from "wagmi";
+import { Tooltip } from "@mui/material";
+import { useRouter } from "next/router";
 
 export default ({ children }) => {
   const { addressFromSearchbar, bnsFromSearchbar } =
     useContext(ContractContext);
   const [account, setAccount] = useState("");
   const [copyImage, setCopyImage] = useState("/images/copy.svg");
+  const { address } = useAccount();
 
   const copyAddress = async () => {
     await navigator.clipboard.writeText(addressFromSearchbar);
@@ -15,7 +19,11 @@ export default ({ children }) => {
     }, 2000);
     setCopyImage("/images/copySuccess.svg");
   };
+  const router = useRouter();
 
+  const handleAttestThisWallet = async () => {
+    router.push(`/Home/AttestMessage?id=${addressFromSearchbar}`);
+  };
   useEffect(() => {
     setAccount(addressFromSearchbar);
   }, [addressFromSearchbar]);
@@ -49,12 +57,28 @@ export default ({ children }) => {
         >
           <div className="flex justify-between items-center w-52 ml-3">
             <div className="leading-4">
-              <img src="/images/Vector.svg" alt="" className="w-10" />
-              <h6 className="font-semibold">Attest This Wallet</h6>
-              <span className="text-xs text-gray-600">
-                Let others know you
-                <br /> know this person
-              </span>
+              {address == account ? (
+                <div className="h-16">
+                  <h6 className="font-semibold">My Profile</h6>
+                  <span className="text-xs text-gray-600">
+                    Welcome to your Profile
+                  </span>
+                </div>
+              ) : (
+                <div>
+                  <img src="/images/Vector.svg" alt="" className="w-10" />
+                  <h6
+                    onClick={handleAttestThisWallet}
+                    className="font-semibold cursor-pointer"
+                  >
+                    Attest This Wallet
+                  </h6>
+                  <span className="text-xs text-gray-600">
+                    Let others know you
+                    <br /> know this person
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
