@@ -5,6 +5,7 @@ import { SkeletonTextModal, ErrorPage } from "/components/Commons";
 import SingleReputationCard from "./SingleReputationCard";
 import { ContractContext } from "/Constants/Context/ContractContext";
 import { reputationSchemaUID } from "../../utils/contractUtils";
+import { Paper } from "@mui/material";
 
 export default ({ seeMoreRepu }) => {
   const { GET_ATTESTATIONS_QUERY, addressFromSearchbar } =
@@ -42,14 +43,16 @@ export default ({ seeMoreRepu }) => {
           <SkeletonTextModal />
         </div>
       ) : (
-        <div className="flex flex-col">
-          {eas.attestations.slice(0, seeMore).map((item, index) => {
-            return <SingleReputationCard key={index} item={item} />;
-          })}
-          {eas.attestations.length === 0 && (
-            <div>There are no any Reputation yet.</div>
-          )}
-        </div>
+        <Paper className="bg-transparent max-h-[80vh] overflow-auto">
+          <div className="flex flex-col">
+            {eas.attestations.slice(0, seeMore).map((item, index) => {
+              return <SingleReputationCard key={index} item={item} />;
+            })}
+            {eas.attestations.length === 0 && (
+              <div className="text-white">There are no any Reputation yet.</div>
+            )}
+          </div>
+        </Paper>
       )}
       {eas?.attestations.length > seeMore && (
         <>
