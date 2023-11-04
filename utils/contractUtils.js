@@ -13,7 +13,13 @@ export const BlockBadgeBNS = "0x353998eF92fE5990cDa2551AFC8967b5c2749adC";
 
 export const OrganizationResolverAddress =
   "0xd0Cc2f9fAd06c7F5012aDebC65D4f299453d6F76";
-
+/*
+Schemas
+*/
+export const certificationSchemaUID =
+  "0xef1043622639b4317241f788ff4ad352e80a3b7b3e67e39cf03b7b59d550fe1d";
+export const reputationSchemaUID =
+  "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f";
 export const createBlockBadgeSBTContract = async () => {
   const provider = new ethers.BrowserProvider(window.ethereum);
   const signer = await provider.getSigner();

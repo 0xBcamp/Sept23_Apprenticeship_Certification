@@ -8,6 +8,7 @@ import { Button, Grow, Input } from "@mui/material";
 import DisplayLottie from "../DisplayLottie";
 import WaitModal from "../Modals/WaitModal";
 import { TypeWriterOnce } from "../Commons";
+import { reputationSchemaUID } from "../../utils/contractUtils";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
@@ -54,8 +55,7 @@ export default () => {
       ]);
 
       const tx = await eas.attest({
-        schema:
-          "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f",
+        schema: reputationSchemaUID,
         data: {
           recipient: address,
           expirationTime: 0,
