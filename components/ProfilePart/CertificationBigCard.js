@@ -5,6 +5,7 @@ import { SkeletonTextModal, ErrorPage } from "/components/Commons";
 import SingleCertificationCard from "./SingleCertificationCard";
 import { ContractContext } from "/Constants/Context/ContractContext";
 import { certificationSchemaUID } from "../../utils/contractUtils";
+import { Paper } from "@mui/material";
 
 export default ({ seeMoreCert }) => {
   const { GET_ATTESTATIONS_QUERY, addressFromSearchbar } =
@@ -43,14 +44,16 @@ export default ({ seeMoreCert }) => {
           <SkeletonTextModal />
         </div>
       ) : (
-        <div className="flex flex-col">
-          {eas.attestations.slice(0, seeMore).map((item, index) => {
-            return <SingleCertificationCard key={index} item={item} />;
-          })}
-          {eas.attestations?.length === 0 && (
-            <div>There are no any certificates.</div>
-          )}
-        </div>
+        <Paper className="bg-transparent max-h-[80vh] overflow-auto">
+          <div className="flex flex-col">
+            {eas.attestations.slice(0, seeMore).map((item, index) => {
+              return <SingleCertificationCard key={index} item={item} />;
+            })}
+            {eas.attestations?.length === 0 && (
+              <div className="text-white">There are no any certificates.</div>
+            )}
+          </div>
+        </Paper>
       )}
       {eas?.attestations?.length > seeMore && (
         <Link href="/Profile?page=Certifications" className="underline">
