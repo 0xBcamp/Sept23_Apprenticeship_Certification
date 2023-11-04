@@ -53,7 +53,7 @@ export default ({ seeMoreRepu }) => {
       )}
       {eas?.attestations.length > seeMore && (
         <>
-          <Link href="/Profile/Reputations" className="underline">
+          <Link href="/Profile?page=Reputations" className="underline">
             More Reputation
           </Link>
         </>

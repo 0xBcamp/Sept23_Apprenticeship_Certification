@@ -182,12 +182,6 @@ export default () => {
         return;
       }
 
-      const ownedName = await isOwnedName(recipientName);
-      if (ownedName) {
-        handleErrors("", "BNS name is already taken.");
-        return;
-      }
-
       setIsLoading(true);
       const formatedName = formatName(recipientName);
 
