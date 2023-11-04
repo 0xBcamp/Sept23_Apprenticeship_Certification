@@ -1,7 +1,20 @@
 import AttestMessageCard from "/components/Cards/AttestMessageCard";
 import Link from "next/link";
 import GreetingLottie from "/components/DisplayLottie";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 export default () => {
+  const router = useRouter();
+  const [address, setAddress] = useState("");
+  useEffect(() => {
+    const { id } = router.query;
+    const checkURL = async () => {
+      if (id) {
+        setAddress(id);
+      }
+    };
+    checkURL();
+  }, [router.query.id]);
   return (
     <>
       <Link href={"/Home/Attestations"} className="Link__Back">
@@ -17,7 +30,7 @@ export default () => {
               <GreetingLottie animationPath="/lottie/Attesting.json" />
             </div>
             <div>
-              <AttestMessageCard />
+              <AttestMessageCard addressFromProfile={address} />
             </div>
           </div>
         </main>
