@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SkeletonTextModal, ErrorPage } from "/components/Commons";
 import SingleCertificationCard from "./SingleCertificationCard";
 import { ContractContext } from "/Constants/Context/ContractContext";
+import { certificationSchemaUID } from "../../utils/contractUtils";
 
 export default ({ seeMoreCert }) => {
   const { GET_ATTESTATIONS_QUERY, addressFromSearchbar } =
@@ -16,8 +17,8 @@ export default ({ seeMoreCert }) => {
       setSeeMore(undefined);
     }
   }, [addressFromSearchbar]);
-  const schema =
-    "0xef1043622639b4317241f788ff4ad352e80a3b7b3e67e39cf03b7b59d550fe1d";
+
+  const schema = certificationSchemaUID;
 
   const {
     loading,

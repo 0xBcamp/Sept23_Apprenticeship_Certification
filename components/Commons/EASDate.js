@@ -12,7 +12,7 @@ export default ({ date }) => {
       // hour: "2-digit",
       // minute: "2-digit",
       // hour12: true,
-      timeZoneName: "short",
+      // timeZoneName: "short",
     };
 
     setFormattedDate(eventDate.toLocaleDateString("en-US", timeSettings));

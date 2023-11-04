@@ -18,8 +18,10 @@ import WaitModal from "../Modals/WaitModal";
 import UploadFileModal from "../Modals/IPFS/UploadFileModal";
 import GereratePNGModal from "../Modals/IPFS/GereratePNGModal";
 import { ethers } from "ethers";
-import { createBlockBadgeSBTContract } from "../../utils/contractUtils";
-import UploadFileToIPFSModal from "../Modals/IPFS/UploadFileToIPFSModal";
+import {
+  certificationSchemaUID,
+  createBlockBadgeSBTContract,
+} from "../../utils/contractUtils";
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
 export default () => {
@@ -73,8 +75,7 @@ export default () => {
       const transaction = await contract._setTokenURI(ImageURL);
       await transaction.wait();
 
-      const schemaUID =
-        "0xef1043622639b4317241f788ff4ad352e80a3b7b3e67e39cf03b7b59d550fe1d";
+      const schemaUID = certificationSchemaUID;
 
       const schemaEncoder = new SchemaEncoder(
         "string Name,string CertificateName,bool Completed"

@@ -4,12 +4,13 @@ import Link from "next/link";
 import { SkeletonTextModal, ErrorPage } from "/components/Commons";
 import SingleReputationCard from "./SingleReputationCard";
 import { ContractContext } from "/Constants/Context/ContractContext";
+import { reputationSchemaUID } from "../../utils/contractUtils";
 
 export default ({ seeMoreRepu }) => {
   const { GET_ATTESTATIONS_QUERY, addressFromSearchbar } =
     useContext(ContractContext);
   const [address, setAddress] = useState("");
-  const [seeMore, setSeeMore] = useState(3);
+  const [seeMore, setSeeMore] = useState(2);
 
   useEffect(() => {
     setAddress(addressFromSearchbar);
@@ -18,9 +19,7 @@ export default ({ seeMoreRepu }) => {
     }
   }, [addressFromSearchbar]);
 
-  const schema =
-    "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f";
-
+  const schema = reputationSchemaUID;
   const {
     loading,
     error,

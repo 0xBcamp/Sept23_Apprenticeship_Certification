@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/client";
 import { SkeletonImageModal, ErrorPage } from "/components/Commons";
 import { useContext, useEffect, useState } from "react";
 import { ContractContext } from "/Constants/Context/ContractContext";
-import { useAccount } from "wagmi";
+import { reputationSchemaUID } from "../../../utils/contractUtils";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 export default () => {
@@ -20,8 +20,7 @@ export default () => {
     setAddress(addressFromSearchbar);
   }, [addressFromSearchbar]);
 
-  const schema =
-    "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f";
+  const schema = reputationSchemaUID;
   const by = "id";
 
   const attesterCount = useQuery(GET_ATTESTER_REPUTATION_QUERY, {

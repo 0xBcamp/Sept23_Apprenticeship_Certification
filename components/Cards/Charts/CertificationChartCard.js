@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/client";
 import { SkeletonImageModal, ErrorPage } from "/components/Commons";
 import { useContext, useEffect, useState } from "react";
 import { ContractContext } from "/Constants/Context/ContractContext";
-import { useAccount } from "wagmi";
+import { certificationSchemaUID } from "../../../utils/contractUtils";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 export default () => {
@@ -20,8 +20,7 @@ export default () => {
     setAddress(addressFromSearchbar);
   }, [addressFromSearchbar]);
 
-  const schema =
-    "0xef1043622639b4317241f788ff4ad352e80a3b7b3e67e39cf03b7b59d550fe1d";
+  const schema = certificationSchemaUID;
   const by = "id";
 
   const attesterCount = useQuery(GET_ATTESTER_REPUTATION_QUERY, {
@@ -70,7 +69,7 @@ export default () => {
           <Pie data={data} />
           {recipient === 0 && attester === 0 && <p>There is no data</p>}
           <p>
-            <b>Reuptation Attestation</b>
+            <b>Certification Attestation</b>
           </p>
         </div>
       )}
