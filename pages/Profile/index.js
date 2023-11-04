@@ -18,8 +18,8 @@ export default () => {
 
   const { addressOrBNS } = router.query;
   useEffect(() => {
+    const { id } = router.query;
     const checkURL = async () => {
-      const { id } = router.query;
       if (!id) {
         const contract = await createBlockBadgeBNSContract();
         const resolvedName = await contract.resolveAddress(myAddress);
@@ -31,8 +31,22 @@ export default () => {
       }
       setAddressFromSearchbar(myAddress);
     };
+
     checkURL();
   }, [myAddress]);
+  useEffect(() => {
+    const { page } = router.query;
+
+    if (page == "Certifications") {
+      setShowTable("Certifications");
+      return;
+    }
+
+    if (page == "Reputations") {
+      setShowTable("Reputations");
+      return;
+    }
+  }, [router.query.page]);
 
   const isEthereumAddress = addressOrBNS && addressOrBNS.startsWith("0x");
   const bnsName = isEthereumAddress ? null : addressOrBNS;

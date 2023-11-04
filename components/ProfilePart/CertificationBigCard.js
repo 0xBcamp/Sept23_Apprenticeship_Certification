@@ -53,7 +53,7 @@ export default ({ seeMoreCert }) => {
         </div>
       )}
       {eas?.attestations?.length > seeMore && (
-        <Link href="/Profile/Certifications" className="underline">
+        <Link href="/Profile?page=Certifications" className="underline">
           More Certificates
         </Link>
       )}
