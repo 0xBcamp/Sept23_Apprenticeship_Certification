@@ -6,26 +6,36 @@ export default ({ children }) => {
   const { addressFromSearchbar, bnsFromSearchbar } =
     useContext(ContractContext);
   const [account, setAccount] = useState("");
+  const [copyImage, setCopyImage] = useState("/images/copy.svg");
+
+  const copyAddress = async () => {
+    await navigator.clipboard.writeText(addressFromSearchbar);
+    setTimeout(function () {
+      setCopyImage("/images/copy.svg");
+    }, 2000);
+    setCopyImage("/images/copySuccess.svg");
+  };
+
   useEffect(() => {
     setAccount(addressFromSearchbar);
   }, [addressFromSearchbar]);
+
   return (
     <aside className="bigCard h-[80vh]">
       <nav className="h-full flex flex-col shadow-sm">
         <div className="bigCard border-b-black border-b-8 border-t-2 border-l-2 shadow-2xl p-4 pb-2 flex justify-between items-center">
           <img className="w-20" src="/logo2.png" alt="" />
-          {bnsFromSearchbar ? (
-            <>
-              <h1 className="text-xl font-bold">{bnsFromSearchbar}</h1>
-              <EASSlicedAddress Address={account} />
-            </>
-          ) : (
-            <div className="text-xl font-bold">
-              <EASSlicedAddress Address={account} />
-            </div>
+          {bnsFromSearchbar && (
+            <h1 className="text-xl font-bold">{bnsFromSearchbar}</h1>
           )}
+          <div className="text-xl font-bold">
+            <div className="flex gap-2" onClick={copyAddress}>
+              <EASSlicedAddress Address={account} />
+              <img src={copyImage} className="w-5" />
+            </div>
+          </div>
         </div>
-        <div className="p-4 pb-2 flex flex-col  items-center">
+        <div className="p-4 pb-2 flex flex-col items-center">
           {/* <div className="border">
           <ENSAvatar address={accountAddress} size={100} />
         </div> */}
