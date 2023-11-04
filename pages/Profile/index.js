@@ -41,6 +41,10 @@ export default () => {
       setShowTable("Certifications");
       return;
     }
+    if (page == "Overview") {
+      setShowTable("Overview");
+      return;
+    }
 
     if (page == "Reputations") {
       setShowTable("Reputations");
@@ -64,17 +68,17 @@ export default () => {
             <Sidebar>
               <SidebarItems
                 text="Overview"
-                onClickFunc={() => setShowTable("Overview")}
+                onClickFunc={() => router.push("/Profile?page=Overview")}
                 active={showTable == "Overview" ? true : false}
               />
               <SidebarItems
                 text="Certifications"
-                onClickFunc={() => setShowTable("Certifications")}
+                onClickFunc={() => router.push("/Profile?page=Certifications")}
                 active={showTable == "Certifications" ? true : false}
               />
               <SidebarItems
                 text="Reputations"
-                onClickFunc={() => setShowTable("Reputations")}
+                onClickFunc={() => router.push("/Profile?page=Reputations")}
                 active={showTable == "Reputations" ? true : false}
               />
             </Sidebar>
