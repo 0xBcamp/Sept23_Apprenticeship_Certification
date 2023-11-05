@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { EASDate, EASSlicedAddress, EASMessage } from "/components/Commons";
+import {
+  EASDate,
+  EASSlicedAddress,
+  EASMessage,
+  EasEnsAvatar,
+} from "/components/Commons";
 import { Fade } from "react-awesome-reveal";
 
 export default ({ item }) => {
@@ -29,7 +34,7 @@ export default ({ item }) => {
             onClick={handleClickNav}
           >
             <div>
-              <img src={logo} alt="" className="w-14 h-14" />
+              <EasEnsAvatar address={attester} size={50} />
             </div>
 
             <div>

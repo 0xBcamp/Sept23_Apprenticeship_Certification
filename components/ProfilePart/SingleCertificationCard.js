@@ -1,5 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { EASDate, EASSlicedAddress, EASMessage } from "/components/Commons";
+import {
+  EASDate,
+  EASSlicedAddress,
+  EASMessage,
+  EasEnsAvatar,
+} from "/components/Commons";
 import { Fade } from "react-awesome-reveal";
 import { ContractContext } from "../../Constants/Context/ContractContext";
 import { useAccount } from "wagmi";
@@ -49,14 +54,14 @@ export default ({ item }) => {
   return (
     <>
       <Fade bottom duration={2000}>
-      <div className="flex items-center gap-2 justify-between w-full">
+        <div className="flex items-center gap-2 justify-between w-full">
           <div
             className="cursor-pointer w-full bg-slate-900 text-white my-1 py-2 px-4 rounded-xl border border-gray-900"
             onClick={handleClickNav}
           >
             <div className="flex text-center justify-between space-x-2">
               <div>
-                <img src={logo} alt="" className="w-14 h-14" />
+                <EasEnsAvatar address={attester} size={50} />
               </div>
               <div>
                 <EASSlicedAddress Address={attester} />
@@ -89,10 +94,12 @@ export default ({ item }) => {
             </div>
           </div>
           {address == addressFromSearchbar && (
-           
-           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold w-1/3 py-4 px-2 border border-blue-700 rounded" onClick={handleCertificationClick}>
-            LinkedIn
-          </button>
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold w-1/3 py-4 px-2 border border-blue-700 rounded"
+              onClick={handleCertificationClick}
+            >
+              LinkedIn
+            </button>
           )}
         </div>
       </Fade>

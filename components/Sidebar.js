@@ -1,8 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { EASSlicedAddress } from "./Commons";
+import { EASSlicedAddress, EasEnsAvatar } from "./Commons";
 import { ContractContext } from "../Constants/Context/ContractContext";
 import { useAccount } from "wagmi";
-import { Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
 
 export default ({ children }) => {
@@ -32,7 +31,9 @@ export default ({ children }) => {
     <aside className="bigCard h-[80vh]">
       <nav className="h-full flex flex-col shadow-sm">
         <div className="bigCard border-b-black border-b-8 border-t-2 border-l-2 shadow-2xl p-4 pb-2 flex justify-between items-center">
-          <img className="w-20" src="/logo2.png" alt="" />
+          <div className="p-2">
+            <EasEnsAvatar address={account} size={100} />
+          </div>
           {bnsFromSearchbar && (
             <h1 className="text-xl font-bold">{bnsFromSearchbar}</h1>
           )}
@@ -43,11 +44,11 @@ export default ({ children }) => {
             </div>
           </div>
         </div>
-        <div className="p-4 pb-2 flex flex-col items-center">
+        {/* <div className="p-4 pb-2 flex flex-col items-center">
           {/* <div className="border">
           <ENSAvatar address={accountAddress} size={100} />
+        </div> 
         </div> */}
-        </div>
 
         <ul className="flex-1 px-3">{children}</ul>
 
