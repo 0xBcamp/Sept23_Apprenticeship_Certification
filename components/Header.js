@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 const IMG = "/logo.png";
 import { Input } from "@mui/material";
 import { useRouter } from "next/router";
-import { createBlockBadgeBNSContract } from "../utils/contractUtils";
+import { AddressToBNS, BNSToAddress } from "../utils/contractUtils";
 import { ContractContext } from "../Constants/Context/ContractContext";
 
 export default () => {
@@ -18,47 +18,21 @@ export default () => {
 
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
-
-    // Check if the search query looks like an Ethereum address
     if (searchQuery.startsWith("0x")) {
-      // Navigate directly to the profile page of the address
       const profileUrl = `/Profile?id=${searchQuery}`;
-      const contract = await createBlockBadgeBNSContract();
-      const resolvedName = await contract.resolveAddress(searchQuery);
-      if (resolvedName) {
-        setBNSFromSearchbar(resolvedName);
-      } else {
-        setBNSFromSearchbar("");
-      }
-
+      const a = await AddressToBNS(searchQuery);
+      setBNSFromSearchbar(a);
       setAddressFromSearchbar(searchQuery);
+
       router.push(profileUrl);
       return;
     }
 
-    // If not an Ethereum address, treat it as a BNS name
-    let formattedQuery = searchQuery;
-    if (!searchQuery.endsWith(".blockbadge")) {
-      formattedQuery += ".blockbadge";
-    }
-
-    // Integrate with the BlockBadgeBNS contract to resolve the BNS name to an address
-    const contract = await createBlockBadgeBNSContract();
-    const resolvedAddress = await contract.resolveName(formattedQuery);
-
-    if (
-      resolvedAddress &&
-      resolvedAddress !== "0x0000000000000000000000000000000000000000"
-    ) {
-      // Navigate to the profile page of the resolved address
-      const profileUrl = `/Profile?id=${resolvedAddress}`;
-      setAddressFromSearchbar(resolvedAddress);
-      setBNSFromSearchbar(formattedQuery);
-      router.push(profileUrl);
-    } else {
-      // Handle the case where the BNS name doesn't exist
-      console.log("BNS name not found");
-    }
+    const b = await BNSToAddress(searchQuery);
+    setBNSFromSearchbar(b.formattedQuery);
+    setAddressFromSearchbar(b.resolvedAddress);
+    const profileUrl = `/Profile?id=${b.resolvedAddress}`;
+    router.push(profileUrl);
   };
 
   useEffect(() => {

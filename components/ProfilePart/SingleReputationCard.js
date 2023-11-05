@@ -6,14 +6,21 @@ import {
   EasEnsAvatar,
 } from "/components/Commons";
 import { Fade } from "react-awesome-reveal";
+import { AddressToBNS } from "/utils/contractUtils";
 
 export default ({ item }) => {
   const { decodedDataJson, attester, timeCreated, id, txid } = item;
   const [decodedDataJsonArr, setDecodedDataJsonArr] = useState([]);
+  const [BNSName, setBnsName] = useState("");
+  const getBNSName = async () => {
+    const bnsName = await AddressToBNS(attester);
+    setBnsName(bnsName);
+  };
   useEffect(() => {
     try {
       const jsonArray = JSON.parse(decodedDataJson);
       setDecodedDataJsonArr(jsonArray);
+      getBNSName();
     } catch (error) {
       console.error("Error parsing JSON:", error);
     }
@@ -38,7 +45,7 @@ export default ({ item }) => {
             </div>
 
             <div>
-              <EASSlicedAddress Address={attester} />
+              {BNSName ? BNSName : <EASSlicedAddress Address={attester} />}
               <EASDate date={timeCreated} />
             </div>
 

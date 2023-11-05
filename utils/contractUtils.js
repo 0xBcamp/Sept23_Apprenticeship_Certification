@@ -30,12 +30,14 @@ export const createBlockBadgeSBTContract = async () => {
   );
   return contract;
 };
+
 export const createBlockBadgeBNSContract = async () => {
   const provider = new ethers.BrowserProvider(window.ethereum);
   const signer = await provider.getSigner();
   const contract = new ethers.Contract(BlockBadgeBNS, BlockBadgeBNSAbi, signer);
   return contract;
 };
+
 export const createOrganizationResolverContract = async () => {
   const provider = new ethers.BrowserProvider(window.ethereum);
   const signer = await provider.getSigner();
@@ -46,4 +48,32 @@ export const createOrganizationResolverContract = async () => {
     signer
   );
   return contract;
+};
+
+export const AddressToBNS = async (searchQuery) => {
+  const contract = await createBlockBadgeBNSContract();
+
+  // Check if the search query looks like an Ethereum address
+  const resolvedName = await contract.resolveAddress(searchQuery);
+  if (!resolvedName) return;
+  return resolvedName;
+};
+
+export const BNSToAddress = async (searchQuery) => {
+  const contract = await createBlockBadgeBNSContract();
+
+  // If not an Ethereum address, treat it as a BNS name
+  let formattedQuery = searchQuery;
+  if (!searchQuery.endsWith(".blockbadge")) {
+    formattedQuery += ".blockbadge";
+  }
+  // Integrate with the BlockBadgeBNS contract to resolve the BNS name to an address
+  const resolvedAddress = await contract.resolveName(formattedQuery);
+
+  if (
+    resolvedAddress &&
+    resolvedAddress !== "0x0000000000000000000000000000000000000000"
+  ) {
+    return { formattedQuery, resolvedAddress };
+  }
 };
