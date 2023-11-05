@@ -5,6 +5,8 @@ import {
   EASMessage,
   EasEnsAvatar,
 } from "/components/Commons";
+import { AddressToBNS } from "/utils/contractUtils";
+
 import { Fade } from "react-awesome-reveal";
 import { ContractContext } from "../../Constants/Context/ContractContext";
 import { useAccount } from "wagmi";
@@ -13,9 +15,14 @@ export default ({ item }) => {
   const { decodedDataJson, attester, timeCreated, txid, id } = item;
   const [decodedDataJsonArr, setDecodedDataJsonArr] = useState([]);
   const [certName, setCertName] = useState("");
+  const [BNSName, setBnsName] = useState("");
 
   const { addressFromSearchbar } = useContext(ContractContext);
   const { address } = useAccount();
+  const getBNSName = async () => {
+    const bnsName = await AddressToBNS(attester);
+    setBnsName(bnsName);
+  };
   useEffect(() => {
     try {
       const jsonArray = JSON.parse(decodedDataJson);
@@ -24,6 +31,7 @@ export default ({ item }) => {
         if (i.value.name.toLowerCase() == "certificatename")
           setCertName(i.value.value);
       }
+      getBNSName();
     } catch (error) {
       console.error("Error parsing JSON:", error);
     }
@@ -31,7 +39,7 @@ export default ({ item }) => {
 
   const logo = "/logo2.png";
 
-  const organizationName = certName; // Replace with the actual organization name the user entered
+  const organizationName = certName + " Certification"; // Replace with the actual organization name the user entered
 
   const easAttestationUrl = id; // Replace with the actual EAS attestation URL that is output upon transaction completion
 
@@ -64,7 +72,7 @@ export default ({ item }) => {
                 <EasEnsAvatar address={attester} size={50} />
               </div>
               <div>
-                <EASSlicedAddress Address={attester} />
+                {BNSName ? BNSName : <EASSlicedAddress Address={attester} />}
                 <EASDate date={timeCreated} />
               </div>
               <div>
