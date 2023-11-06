@@ -69,7 +69,7 @@ export default () => {
           <Pie data={data} />
           {recipient === 0 && attester === 0 && <p>There is no data</p>}
           <p>
-            <b>Reuptation Attestation</b>
+            <b>Reputation Attestation</b>
           </p>
         </div>
       )}
