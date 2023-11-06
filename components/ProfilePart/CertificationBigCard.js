@@ -11,7 +11,7 @@ export default ({ seeMoreCert }) => {
   const { GET_ATTESTATIONS_QUERY, addressFromSearchbar } =
     useContext(ContractContext);
   const [address, setAddress] = useState("");
-  const [seeMore, setSeeMore] = useState(2);
+  const [seeMore, setSeeMore] = useState(3);
   useEffect(() => {
     setAddress(addressFromSearchbar);
     if (seeMoreCert == 0) {
