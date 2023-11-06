@@ -90,6 +90,9 @@ export default ({ addressFromProfile }) => {
   useEffect(() => {
     setConnectionStat(isConnected);
   }, [isConnected]);
+  useEffect(() => {
+    if (addressFromProfile) setAddress(addressFromProfile);
+  }, [addressFromProfile]);
   return (
     <>
       {connectionStat ? (
@@ -102,7 +105,7 @@ export default ({ addressFromProfile }) => {
               className="text-white w-72 p-2 mt-4"
               type="text"
               placeholder="Enter an address to attest..."
-              value={addressFromProfile ? addressFromProfile : address}
+              value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
           </Grow>
