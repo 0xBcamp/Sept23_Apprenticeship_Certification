@@ -50,7 +50,7 @@ export default ({ item }) => {
   const transactionHashToEtherscan = `https://sepolia.etherscan.io/tx/${txid}`; // Replace with the actual transaction hash that is output upon transaction completion
 
   const handleCertificationClick = () => {
-    const linkedinUrl = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${organizationName}&organizationName=${organizationName}&certId=${easAttestationUrl}&certUrl=${transactionHashToEtherscan}`;
+    const linkedinUrl = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${organizationName}&organizationName=${organizationName}&certId=${easAttestationUrl}&certUrl=${easAttestationUrlToEASScan}`;
 
     window.open(linkedinUrl, "_blank");
   };
