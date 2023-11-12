@@ -48,20 +48,22 @@ export default function View() {
   });
 
   useEffect(() => {
-    try {
-      setTxToEtherscan(eas.attestation.txid);
+    if (eas) {
+      try {
+        setTxToEtherscan(eas.attestation.txid);
 
-      const jsonArray = JSON.parse(eas.attestation.decodedDataJson);
-      for (let i of jsonArray) {
-        if (i.value.name.toLowerCase() == "ipfshash") {
-          setipfshash(i.value.value);
+        const jsonArray = JSON.parse(eas.attestation.decodedDataJson);
+        for (let i of jsonArray) {
+          if (i.value.name.toLowerCase() == "ipfshash") {
+            setipfshash(i.value.value);
+          }
         }
-      }
-      const modifiedURL = ipfshash.replace(prefixIPFS, "https://") + suffix;
+        const modifiedURL = ipfshash.replace(prefixIPFS, "https://") + suffix;
 
-      fetchDataFromIPFS(modifiedURL);
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
+        fetchDataFromIPFS(modifiedURL);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
     }
   }, [eas]);
 
