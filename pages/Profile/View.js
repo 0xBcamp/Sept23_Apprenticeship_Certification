@@ -53,12 +53,14 @@ export default function View() {
         setTxToEtherscan(eas.attestation.txid);
 
         const jsonArray = JSON.parse(eas.attestation.decodedDataJson);
+        let modifiedURL;
         for (let i of jsonArray) {
           if (i.value.name.toLowerCase() == "ipfshash") {
             setipfshash(i.value.value);
+            modifiedURL =
+              i.value.value.replace(prefixIPFS, "https://") + suffix;
           }
         }
-        const modifiedURL = ipfshash.replace(prefixIPFS, "https://") + suffix;
 
         fetchDataFromIPFS(modifiedURL);
       } catch (error) {
