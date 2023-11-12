@@ -37,7 +37,7 @@ export default () => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
-  const [Passed, setPassed] = useState("");
+  const [IPFSHash, setIPFSHash] = useState("");
   const [ImageURL, setImageURL] = useState("");
 
   const [recipientAddress, setAddress] = useState("");
@@ -84,7 +84,7 @@ export default () => {
       const schemaUID = certificationSchemaUID;
 
       const schemaEncoder = new SchemaEncoder(
-        "string Name,string CertificateName,bool Completed"
+        "string Name,string CertificateName,string IPFSHash"
       );
 
       // const completed = Passed ? "Yes" : "No";
@@ -92,7 +92,7 @@ export default () => {
       const encodedData = schemaEncoder.encodeData([
         { name: "Name", value: apprenticeName, type: "string" },
         { name: "CertificateName", value: certificateName, type: "string" },
-        { name: "Completed", value: Passed, type: "bool" },
+        { name: "IPFSHash", value: ImageURL, type: "string " },
       ]);
 
       const tx = await eas.attest({
@@ -114,7 +114,6 @@ export default () => {
       setApprenticeName("");
       setCertificateName("");
       setImageURL("");
-      setPassed(false);
       setAddress("");
     } catch (error) {
       if (error.message.toLowerCase().includes("not listed"))
@@ -135,10 +134,7 @@ export default () => {
       setShowWait(false);
     }
   };
-  const handleChange = (event) => {
-    if (event.target.value == 1) setPassed(true);
-    else setPassed(false);
-  };
+
   useEffect(() => {
     setConnectionStat(isConnected);
   }, [isConnected]);

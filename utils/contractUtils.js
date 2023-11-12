@@ -17,7 +17,7 @@ export const OrganizationResolverAddress =
 Schemas
 */
 export const certificationSchemaUID =
-  "0xef1043622639b4317241f788ff4ad352e80a3b7b3e67e39cf03b7b59d550fe1d";
+  "0xab7e8c710f58f652b3aadec134cc30f24c0c8cd23cbf135192233f9605f8317c";
 export const reputationSchemaUID =
   "0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f";
 export const createBlockBadgeSBTContract = async () => {
