@@ -16,13 +16,24 @@ export default ({ item }) => {
   const [decodedDataJsonArr, setDecodedDataJsonArr] = useState([]);
   const [certName, setCertName] = useState("");
   const [BNSName, setBnsName] = useState("");
-
+  const [ipfshash, setipfshash] = useState("");
   const { addressFromSearchbar } = useContext(ContractContext);
   const { address } = useAccount();
+
   const getBNSName = async () => {
     const bnsName = await AddressToBNS(attester);
     setBnsName(bnsName);
   };
+
+  const [year, setYear] = useState(null);
+  const [month, setMonth] = useState(null);
+
+  useEffect(() => {
+    const date = new Date(timeCreated * 1000); // Multiply by 1000 to convert seconds to milliseconds
+    setYear(date.getFullYear());
+    setMonth(date.getMonth() + 1); // Months are zero-indexed, so we add 1 to get the real month number
+  }, [timeCreated]);
+
   useEffect(() => {
     try {
       const jsonArray = JSON.parse(decodedDataJson);
@@ -30,28 +41,33 @@ export default ({ item }) => {
       for (let i of jsonArray) {
         if (i.value.name.toLowerCase() == "certificatename")
           setCertName(i.value.value);
+        if (i.value.name.toLowerCase() == "ipfshash") {
+          setipfshash(i.value.value);
+        }
       }
+
       getBNSName();
     } catch (error) {
       console.error("Error parsing JSON:", error);
     }
   }, [decodedDataJson]);
 
-  const logo = "/logo2.png";
+  // const logo = "/logo2.png";
 
-  const organizationName = certName + " Certification"; // Replace with the actual organization name the user entered
+  // const organizationName = certName + " Certification"; // Replace with the actual organization name the user entered
 
   const easAttestationUrl = id; // Replace with the actual EAS attestation URL that is output upon transaction completion
 
-  const easAttestationUrlToEASScan = `https://sepolia.easscan.org/attestation/view/${id}`; // Replace with the actual EAS attestation URL that is output upon transaction completion
+  // const easAttestationUrlToEASScan = `https://sepolia.easscan.org/attestation/view/${id}`; // Replace with the actual EAS attestation URL that is output upon transaction completion
+  const easAttestationUrlToEASScan = `https://blockbadge.vercel.app/Profile/View?id%3D${id}`; // Replace with the actual EAS attestation URL that is output upon transaction completion
 
-  const transactionHash = txid; // Replace with the actual transaction hash that is output upon transaction completion
+  // const transactionHash = txid; // Replace with the actual transaction hash that is output upon transaction completion
 
-  const transactionHashToEtherscan = `https://sepolia.etherscan.io/tx/${txid}`; // Replace with the actual transaction hash that is output upon transaction completion
+  // const transactionHashToEtherscan = `https://sepolia.etherscan.io/tx/${txid}`; // Replace with the actual transaction hash that is output upon transaction completion
 
   const handleCertificationClick = () => {
-    const linkedinUrl = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${organizationName}&organizationName=${organizationName}&certId=${easAttestationUrl}&certUrl=${easAttestationUrlToEASScan}`;
-
+    // const linkedinUrll = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${organizationName}&organizationName=${organizationName}&certId=${easAttestationUrl}&certUrl=${easAttestationUrlToEASScan}`;
+    const linkedinUrl = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${certName}&organizationId=90410715&certId=${easAttestationUrl}&certUrl=${easAttestationUrlToEASScan}&isFromA2p=true&issueMonth=${month}&issueYear=${year}`;
     window.open(linkedinUrl, "_blank");
   };
 

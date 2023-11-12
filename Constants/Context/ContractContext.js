@@ -159,6 +159,17 @@ export const ContractContextProvider = ({ children }) => {
       }
     }
   `;
+
+  const GET_ATTESTATION_QUERY = gql`
+    query Attestation($id: String) {
+      attestation(where: { id: $id }) {
+        decodedDataJson
+        timeCreated
+        txid
+      }
+    }
+  `;
+
   return (
     <ContractContext.Provider
       value={{
@@ -166,11 +177,7 @@ export const ContractContextProvider = ({ children }) => {
         setAddressFromSearchbar,
         bnsFromSearchbar,
         setBNSFromSearchbar,
-        // makeOnChainAttestation,
-        // makeOffChainAttestation,
-        // // makeOnChainMultiAttestation,
-        // makeOnChainAttestationWithoutClicking,
-        // getOnChainAttestation,
+        GET_ATTESTATION_QUERY,
         GET_ATTESTATIONS_QUERY,
         GET_ATTESTER_QUERY,
         GET_RECIPIENT_QUERY,
