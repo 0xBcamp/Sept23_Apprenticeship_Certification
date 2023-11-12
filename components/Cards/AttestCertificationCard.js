@@ -31,6 +31,12 @@ export default () => {
   const [apprenticeName, setApprenticeName] = useState("");
 
   const [certificateName, setCertificateName] = useState("");
+  const [projectName, setProjectName] = useState("");
+  const [projectURL, setProjectURL] = useState("");
+  const [cumulativeRate, setCumulativeRate] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+
   const [Passed, setPassed] = useState("");
   const [ImageURL, setImageURL] = useState("");
 
@@ -139,90 +145,114 @@ export default () => {
   return (
     <>
       {connectionStat ? (
-        <div className="container h-screen">
-          <div className="flex flex-col grid-cols-2 items-center">
-            <h1 className="text-xl font-bold">
-              <TypeWriterOnce text="Add a Certificate" />
-            </h1>
-            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
-              <Input
-                className="text-white w-72 p-2 mt-4"
-                type="text"
-                placeholder="Enter apprentice name..."
-                value={apprenticeName}
-                onChange={(e) => setApprenticeName(e.target.value)}
-              />
-            </Grow>
+        <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+          <div className="container h-screen">
+            <div className="flex flex-col grid-cols-3  items-center">
+              <h1 className="text-xl font-bold">
+                <TypeWriterOnce text="Add a Certificate" />
+              </h1>
+              <div className="flex gap-2">
+                <Input
+                  className="text-white w-50 p-2 mt-2"
+                  type="text"
+                  placeholder="Enter apprentice name..."
+                  value={apprenticeName}
+                  onChange={(e) => setApprenticeName(e.target.value)}
+                />
+                <Input
+                  className="text-white w-50 p-2 mt-2"
+                  type="text"
+                  placeholder="Enter recipient address..."
+                  value={recipientAddress}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </div>
+              <div className="flex gap-2">
+                <Input
+                  className="text-white w-50 p-2 mt-2"
+                  type="text"
+                  placeholder="Enter certification name..."
+                  value={certificateName}
+                  onChange={(e) => setCertificateName(e.target.value)}
+                />
 
-            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
-              <Input
-                className="text-white w-72 p-2 mt-4"
-                type="text"
-                placeholder="Enter certification name..."
-                value={certificateName}
-                onChange={(e) => setCertificateName(e.target.value)}
-              />
-            </Grow>
-            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
-              <Input
-                className="text-white w-72 p-2 mt-4"
-                type="text"
-                placeholder="Enter recipient address..."
-                value={recipientAddress}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-            </Grow>
-
-            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
-              <FormControl fullWidth className="w-72 p-2 mt-4">
-                <InputLabel className="text-white">Passed</InputLabel>
-                <Select
-                  className="text-white"
-                  value={Passed ? 1 : 2}
-                  label="Passed"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={1}>Yes</MenuItem>
-                  <MenuItem value={2}>No</MenuItem>
-                </Select>
-              </FormControl>
-            </Grow>
-            {Passed && (
-              <>
-                <Grow
-                  in={true}
-                  style={{ transformOrigin: "0 0 0" }}
-                  timeout={1000}
-                >
+                <Input
+                  className="text-white w-50 p-2 mt-2"
+                  type="text"
+                  placeholder="Enter Project Name..."
+                  value={projectName}
+                  onChange={(e) => setProjectName(e.target.value)}
+                />
+              </div>
+              <div className="flex gap-2">
+                <label className="text-white w-50 p-2 mt-2">Cohort Dates</label>
+                <input
+                  className="bg-transparent"
+                  onChange={(e) => setFromDate(e.target.value)}
+                  type="date"
+                />
+                <input
+                  className="bg-transparent"
+                  onChange={(e) => setToDate(e.target.value)}
+                  type="date"
+                />
+              </div>
+              <div className="flex gap-2">
+                <Input
+                  className="text-white w-50 p-2 mt-2"
+                  type="text"
+                  placeholder="Enter Project URL..."
+                  value={projectURL}
+                  onChange={(e) => setProjectURL(e.target.value)}
+                />
+                <Input
+                  className="text-white w-50 p-2 mt-2"
+                  type="text"
+                  placeholder="Enter Cumulative project rating..."
+                  value={cumulativeRate}
+                  onChange={(e) => setCumulativeRate(e.target.value)}
+                />
+              </div>
+              {false && (
+                <div className="flex gap-2">
                   <Input
-                    className="text-white w-72 p-2 mt-4"
+                    className="text-white w-50 p-2 mt-2"
                     type="text"
                     placeholder="Enter ImageURL..."
                     value={ImageURL}
                     onChange={(e) => setImageURL(e.target.value)}
                   />
-                </Grow>
-                <div className="p-2 mt-4">
-                  <UploadFileModal
-                    file={setImageURL}
-                    name={apprenticeName}
-                    certification={certificateName}
-                  />
                 </div>
-                <div className="p-2 mt-4">
-                  <GereratePNGModal
-                    file={setImageURL}
-                    name={apprenticeName}
-                    certification={certificateName}
-                  />
-                </div>
-              </>
-            )}
-            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+              )}
+              <div className="m-2">
+                <UploadFileModal
+                  file={setImageURL}
+                  name={apprenticeName}
+                  certification={certificateName}
+                  projectName={projectName}
+                  projectURL={projectURL}
+                  cumulativeRate={cumulativeRate}
+                  fromDate={fromDate}
+                  toDate={toDate}
+                />
+              </div>
+              <div>
+                <GereratePNGModal
+                  file={setImageURL}
+                  name={apprenticeName}
+                  certification={certificateName}
+                  projectName={projectName}
+                  projectURL={projectURL}
+                  cumulativeRate={cumulativeRate}
+                  fromDate={fromDate}
+                  toDate={toDate}
+                />
+              </div>
+
               <Button
                 disabled={isLoading}
                 onClick={handleSubmit}
-                className="w-72 p-2 mt-4 button "
+                className="w-50 p-2 mt-2 button"
               >
                 <div>
                   {isLoading ? (
@@ -235,25 +265,25 @@ export default () => {
                   )}
                 </div>
               </Button>
-            </Grow>
 
-            {openError && (
-              <ErrorModal
-                message={errorMessage}
-                open={openError}
-                onClose={() => setOpenError(false)}
-              />
-            )}
-            {attestUID && (
-              <SuccessModal
-                message={attestUID}
-                open={openSuccess}
-                onClose={() => setOpenSuccess(false)}
-              />
-            )}
-            {showWait && <WaitModal open={showWait} onClose={showWait} />}
+              {openError && (
+                <ErrorModal
+                  message={errorMessage}
+                  open={openError}
+                  onClose={() => setOpenError(false)}
+                />
+              )}
+              {attestUID && (
+                <SuccessModal
+                  message={attestUID}
+                  open={openSuccess}
+                  onClose={() => setOpenSuccess(false)}
+                />
+              )}
+              {showWait && <WaitModal open={showWait} onClose={showWait} />}
+            </div>
           </div>
-        </div>
+        </Grow>
       ) : (
         <>Please connect your wallet</>
       )}

@@ -17,7 +17,17 @@ const style = {
   p: 4,
 };
 
-export default ({ file, logo = "/logo.png", name, certification }) => {
+export default ({
+  file,
+  logo = "/48681_BCAMP_RB_JK-01.png",
+  name,
+  certification,
+  projectName,
+  projectURL,
+  cumulativeRate,
+  fromDate,
+  toDate,
+}) => {
   const captureRef = useRef();
   const [open, setOpen] = useState(false);
   const [saveToIPFS, setSaveToIPFS] = useState(false);
@@ -68,7 +78,12 @@ export default ({ file, logo = "/logo.png", name, certification }) => {
       {saveToIPFS && fileUploaded && (
         <UploadFileToIPFSModal
           name={name}
-          date={"1000"}
+          certification={certification}
+          projectName={projectName}
+          projectURL={projectURL}
+          cumulativeRate={cumulativeRate}
+          fromDate={fromDate}
+          toDate={toDate}
           uploadFile={fileUploaded}
           onClose={(e) => {
             file(e);
@@ -88,6 +103,20 @@ export default ({ file, logo = "/logo.png", name, certification }) => {
             <img src={logo} alt="" width={80} />
             <h2>Name: {name}</h2>
             <p className="text-white">Certification: {certification}</p>
+            {projectName && (
+              <p className="text-white">Project Name: {projectName}</p>
+            )}
+            {projectURL && (
+              <p className="text-white">Project URL: {projectURL}</p>
+            )}
+            {cumulativeRate && (
+              <p className="text-white">CumulativeRate: {cumulativeRate} / 5</p>
+            )}
+            {fromDate && toDate && (
+              <p className="text-white">
+                From: {fromDate} To: {toDate}
+              </p>
+            )}
           </div>
 
           <Button onClick={handleCapture}>Ok</Button>
