@@ -8,7 +8,17 @@ import WaitModal from "../WaitModal";
 import SuccessModal from "../SuccessMarkModal";
 import { createBlockBadgeSBTContract } from "../../../utils/contractUtils";
 
-export default ({ name, date, uploadFile, onClose }) => {
+export default ({
+  name,
+  certification,
+  projectName,
+  projectURL,
+  cumulativeRate,
+  fromDate,
+  toDate,
+  uploadFile,
+  onClose,
+}) => {
   const [open, setOpen] = useState(true);
   const [showSuccess, setShowSuccess] = useState(false);
   const getLastID = async () => {
@@ -37,8 +47,12 @@ export default ({ name, date, uploadFile, onClose }) => {
   const metadataTemplate = {
     id: "",
     name: "",
-    description: "",
     image: "",
+    certification: "",
+    projectName: "",
+    projectURL: "",
+    cumulativeRate: "",
+    cohortDate: "",
   };
 
   async function createNewEvent() {
@@ -63,8 +77,13 @@ export default ({ name, date, uploadFile, onClose }) => {
     const lastID = await getLastID();
     metadata.id = lastID;
     metadata.name = lastID + "-" + name;
-    metadata.date = date;
     metadata.image = `${prefixIPFS}${cid}`;
+
+    metadata.certification = certification;
+    metadata.projectName = projectName;
+    metadata.projectURL = projectURL;
+    metadata.cumulativeRate = cumulativeRate + " / 5";
+    metadata.cohortDate = `From: ${fromDate} To: ${toDate}`;
 
     await setJsonFile(metadata);
   }
