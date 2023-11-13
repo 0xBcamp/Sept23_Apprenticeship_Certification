@@ -51,7 +51,7 @@ export default ({
     certification: "",
     projectName: "",
     projectURL: "",
-    cumulativeRate: "",
+    projectCumulativeRate: "",
     cohortDate: "",
   };
 
@@ -82,7 +82,7 @@ export default ({
     metadata.certification = certification;
     metadata.projectName = projectName;
     metadata.projectURL = projectURL;
-    metadata.cumulativeRate = cumulativeRate + " / 5";
+    metadata.projectCumulativeRate = cumulativeRate + " / 5";
     metadata.cohortDate = `From: ${fromDate} To: ${toDate}`;
 
     await setJsonFile(metadata);

@@ -111,7 +111,7 @@ export default ({
             )}
             {cumulativeRate && (
               <p className="text-white">
-                Cumulative Rate: {cumulativeRate} / 5
+                Project Cumulative Rate: {cumulativeRate} / 5
               </p>
             )}
             {fromDate && toDate && (

@@ -112,7 +112,7 @@ export default () => {
       setAttestUID(newAttestId);
       setOpenSuccess(true);
       setApprenticeName("");
-      setCertificateName("");
+      // setCertificateName("");
       setImageURL("");
       setAddress("");
     } catch (error) {
@@ -181,7 +181,7 @@ export default () => {
                 />
               </div>
               <div className="flex gap-2">
-                <label className="text-white w-50 p-2 mt-2">Cohort Dates</label>
+                <label className="text-white w-50 p-2 mt-2">Cohort Date</label>
                 <input
                   className="bg-transparent"
                   onChange={(e) => setFromDate(e.target.value)}
