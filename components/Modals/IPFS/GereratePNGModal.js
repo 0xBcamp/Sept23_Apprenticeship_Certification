@@ -104,8 +104,10 @@ export default ({
             ref={captureRef}
           >
             <div className="flex justify-between">
-              <img src={logo} alt="logg" width={80} />
-              {mvpAwarded && <img src={logo} alt="mvpAwarded" width={80} />}
+              <img src={logo} alt="logg" width={120} height={60} />
+              {mvpAwarded && (
+                <img src={"/MVPAward.png"} alt="mvpAwarded" width={30} />
+              )}
             </div>
             <h2>Name: {name}</h2>
             <p className="text-white">Certification: {certification}</p>
