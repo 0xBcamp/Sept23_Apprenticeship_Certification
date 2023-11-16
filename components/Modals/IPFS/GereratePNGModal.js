@@ -27,6 +27,8 @@ export default ({
   cumulativeRate,
   fromDate,
   toDate,
+  mvpAwarded,
+  mvpAwardUrl,
 }) => {
   const captureRef = useRef();
   const [open, setOpen] = useState(false);
@@ -84,6 +86,7 @@ export default ({
           cumulativeRate={cumulativeRate}
           fromDate={fromDate}
           toDate={toDate}
+          mvpAwardUrl={mvpAwardUrl}
           uploadFile={fileUploaded}
           onClose={(e) => {
             file(e);
@@ -100,7 +103,10 @@ export default ({
             style={{ width: "400px", backgroundColor: "#2E2E48" }}
             ref={captureRef}
           >
-            <img src={logo} alt="" width={80} />
+            <div className="flex justify-between">
+              <img src={logo} alt="logg" width={80} />
+              {mvpAwarded && <img src={logo} alt="mvpAwarded" width={80} />}
+            </div>
             <h2>Name: {name}</h2>
             <p className="text-white">Certification: {certification}</p>
             {projectName && (

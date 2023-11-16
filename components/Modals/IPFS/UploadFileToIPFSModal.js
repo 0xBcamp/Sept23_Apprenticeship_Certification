@@ -16,6 +16,7 @@ export default ({
   cumulativeRate,
   fromDate,
   toDate,
+  mvpAwardUrl,
   uploadFile,
   onClose,
 }) => {
@@ -52,7 +53,8 @@ export default ({
     projectName: "",
     projectURL: "",
     projectCumulativeRate: "",
-    cohortDate: "",
+    date: "",
+    MVPAwardURL: "",
   };
 
   async function createNewEvent() {
@@ -83,7 +85,8 @@ export default ({
     metadata.projectName = projectName;
     metadata.projectURL = projectURL;
     metadata.projectCumulativeRate = cumulativeRate + " / 5";
-    metadata.cohortDate = `From: ${fromDate} To: ${toDate}`;
+    metadata.date = `From: ${fromDate} To: ${toDate}`;
+    metadata.MVPAwardURL = mvpAwardUrl;
 
     await setJsonFile(metadata);
   }

@@ -14,7 +14,17 @@ const style = {
   p: 4,
 };
 
-export default ({ file, name, certification }) => {
+export default ({
+  file,
+  name,
+  certification,
+  projectName,
+  projectURL,
+  cumulativeRate,
+  fromDate,
+  toDate,
+  mvpAwardUrl,
+}) => {
   const [open, setOpen] = useState(false);
   const [saveToIPFS, setSaveToIPFS] = useState(false);
   const [fileUploaded, setFileUploaded] = useState("");
@@ -35,7 +45,13 @@ export default ({ file, name, certification }) => {
       {saveToIPFS && fileUploaded && (
         <UploadFileToIPFSModal
           name={name}
-          date={"1000"}
+          certification={certification}
+          projectName={projectName}
+          projectURL={projectURL}
+          cumulativeRate={cumulativeRate}
+          fromDate={fromDate}
+          toDate={toDate}
+          mvpAwardUrl={mvpAwardUrl}
           uploadFile={fileUploaded}
           onClose={(e) => {
             file(e);

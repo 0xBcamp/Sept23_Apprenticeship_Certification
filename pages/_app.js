@@ -6,7 +6,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { ContractContextProvider } from "/Constants/Context/ContractContext";
 import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react";
 import { WagmiConfig } from "wagmi";
-import { sepolia, mainnet } from "wagmi/chains";
+import { sepolia, mainnet, optimism, optimismSepolia } from "wagmi/chains";
 const projectId = "2af24b72969c73477047998d06c8dff1";
 
 const metadata = {
@@ -16,7 +16,7 @@ const metadata = {
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
-const chains = [mainnet, sepolia];
+const chains = [mainnet, optimism, sepolia, optimismSepolia];
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
 
 createWeb3Modal({ wagmiConfig, projectId, chains });

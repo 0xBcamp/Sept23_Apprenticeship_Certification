@@ -2,15 +2,7 @@ import { useEffect, useState } from "react";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { useAccount } from "wagmi";
 import { TypeWriterOnce } from "../Commons";
-import {
-  Button,
-  FormControl,
-  Grow,
-  Input,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { Button, Checkbox, Grow, Input } from "@mui/material";
 import SuccessModal from "../Modals/SuccessModal";
 import ErrorModal from "../Modals/ErrorModal";
 import DisplayLottie from "../DisplayLottie";
@@ -36,8 +28,9 @@ export default () => {
   const [cumulativeRate, setCumulativeRate] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [mvpAwardUrl, setMvpAwardUrl] = useState("");
 
-  const [IPFSHash, setIPFSHash] = useState("");
+  const [mvpAwarded, setMVPAwarded] = useState(false);
   const [ImageURL, setImageURL] = useState("");
 
   const [recipientAddress, setAddress] = useState("");
@@ -65,7 +58,7 @@ export default () => {
       alert("Please enter a certificate name!");
       return;
     }
-
+    if (!mvpAwarded) setMvpAwardUrl("");
     setIsLoading(false);
 
     try {
@@ -84,7 +77,7 @@ export default () => {
       const schemaUID = certificationSchemaUID;
 
       const schemaEncoder = new SchemaEncoder(
-        "string Name,string CertificateName,string IPFSHash"
+        "string Name,string CertificateName,string IPFSHash, string MVPAward"
       );
 
       // const completed = Passed ? "Yes" : "No";
@@ -92,7 +85,8 @@ export default () => {
       const encodedData = schemaEncoder.encodeData([
         { name: "Name", value: apprenticeName, type: "string" },
         { name: "CertificateName", value: certificateName, type: "string" },
-        { name: "IPFSHash", value: ImageURL, type: "string " },
+        { name: "IPFSHash", value: ImageURL, type: "string" },
+        { name: "MVPAward", value: mvpAwardUrl, type: "string" },
       ]);
 
       const tx = await eas.attest({
@@ -112,7 +106,8 @@ export default () => {
       setAttestUID(newAttestId);
       setOpenSuccess(true);
       setApprenticeName("");
-      // setCertificateName("");
+      setMvpAwardUrl("");
+      setMVPAwarded(false);
       setImageURL("");
       setAddress("");
     } catch (error) {
@@ -145,74 +140,91 @@ export default () => {
           <div className="container h-screen">
             <div className="flex flex-col grid-cols-3  items-center">
               <h1 className="text-xl font-bold">
-                <TypeWriterOnce text="Add a Certificate" />
+                <TypeWriterOnce text="Certify Participant" />
               </h1>
               <div className="flex gap-2">
                 <Input
-                  className="text-white w-50 p-2 mt-2"
+                  className="text-white w-52 p-2 mt-2"
                   type="text"
-                  placeholder="Enter apprentice name..."
+                  placeholder="Participant name..."
                   value={apprenticeName}
                   onChange={(e) => setApprenticeName(e.target.value)}
                 />
                 <Input
-                  className="text-white w-50 p-2 mt-2"
+                  className="text-white w-52 p-2 mt-2"
                   type="text"
-                  placeholder="Enter recipient address..."
+                  placeholder="Participant address..."
                   value={recipientAddress}
                   onChange={(e) => setAddress(e.target.value)}
                 />
               </div>
               <div className="flex gap-2">
                 <Input
-                  className="text-white w-50 p-2 mt-2"
+                  className="text-white w-52 p-2 mt-2"
                   type="text"
-                  placeholder="Enter certification name..."
+                  placeholder="Certification name..."
                   value={certificateName}
                   onChange={(e) => setCertificateName(e.target.value)}
                 />
 
                 <Input
-                  className="text-white w-50 p-2 mt-2"
+                  className="text-white w-52 p-2 mt-2"
                   type="text"
-                  placeholder="Enter Project Name..."
+                  placeholder="Project name..."
                   value={projectName}
                   onChange={(e) => setProjectName(e.target.value)}
                 />
               </div>
               <div className="flex gap-2">
-                <label className="text-white w-50 p-2 mt-2">Cohort Date</label>
+                <Input
+                  className="text-white w-52 p-2 mt-2"
+                  type="text"
+                  placeholder="Project URL..."
+                  value={projectURL}
+                  onChange={(e) => setProjectURL(e.target.value)}
+                />
+                <Input
+                  className="text-white w-52 p-2 mt-2"
+                  type="text"
+                  placeholder="Cumulative project rate..."
+                  value={cumulativeRate}
+                  onChange={(e) => setCumulativeRate(e.target.value)}
+                />
+              </div>
+              <div className="flex gap-2">
+                <label className="text-white text-base p-2 mt-2">Date: </label>
                 <input
                   className="bg-transparent"
                   onChange={(e) => setFromDate(e.target.value)}
                   type="date"
                 />
+                <label className="text-white text-base p-2 mt-2">to: </label>
                 <input
                   className="bg-transparent"
                   onChange={(e) => setToDate(e.target.value)}
                   type="date"
                 />
               </div>
+
               <div className="flex gap-2">
-                <Input
-                  className="text-white w-50 p-2 mt-2"
-                  type="text"
-                  placeholder="Enter Project URL..."
-                  value={projectURL}
-                  onChange={(e) => setProjectURL(e.target.value)}
+                <Checkbox
+                  className="p-2 mt-2"
+                  value={mvpAwarded}
+                  onChange={(e) => setMVPAwarded(e.target.checked)}
                 />
                 <Input
-                  className="text-white w-50 p-2 mt-2"
+                  className="text-white w-52 p-2 mt-2"
                   type="text"
-                  placeholder="Enter Cumulative project rating..."
-                  value={cumulativeRate}
-                  onChange={(e) => setCumulativeRate(e.target.value)}
+                  placeholder="MVP Award URL..."
+                  value={mvpAwardUrl}
+                  disabled={!mvpAwarded}
+                  onChange={(e) => setMvpAwardUrl(e.target.value)}
                 />
               </div>
               {false && (
                 <div className="flex gap-2">
                   <Input
-                    className="text-white w-50 p-2 mt-2"
+                    className="text-white w-52 p-2 mt-2"
                     type="text"
                     placeholder="Enter ImageURL..."
                     value={ImageURL}
@@ -230,6 +242,7 @@ export default () => {
                   cumulativeRate={cumulativeRate}
                   fromDate={fromDate}
                   toDate={toDate}
+                  mvpAwardUrl={mvpAwardUrl}
                 />
               </div>
               <div>
@@ -242,13 +255,15 @@ export default () => {
                   cumulativeRate={cumulativeRate}
                   fromDate={fromDate}
                   toDate={toDate}
+                  mvpAwarded={mvpAwarded}
+                  mvpAwardUrl={mvpAwardUrl}
                 />
               </div>
 
               <Button
                 disabled={isLoading}
                 onClick={handleSubmit}
-                className="w-50 p-2 mt-2 button"
+                className="w-52 p-2 mt-2 button"
               >
                 <div>
                   {isLoading ? (
