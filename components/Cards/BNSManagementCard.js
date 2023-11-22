@@ -268,9 +268,9 @@ export default () => {
               </Button> */}
               <Button
                 onClick={handleResolveAddress}
-                className="w-72 p-2 mt-4 button text-black underline"
+                className="w-72 p-2 mt-4 button"
               >
-                What's my BNS Name
+                <p className="text-black underline">What's my BNS Name</p>
               </Button>
               <Tooltip title="Register">
                 <button

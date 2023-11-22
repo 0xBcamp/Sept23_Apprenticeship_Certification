@@ -16,11 +16,8 @@ export default () => {
             <p className="text-3xl font-bold">Manage the BNS</p>
             <p className="text-xl">Manage your BNS</p>
 
-            <Button
-              href="/Home/BNSManagement"
-              className="w-72 mt-4 button font-semibold text-black"
-            >
-              Manage it
+            <Button href="/Home/BNSManagement" className="w-72 mt-4 button">
+              <p className="font-semibold text-black">Manage it</p>
             </Button>
           </Fade>
         </div>

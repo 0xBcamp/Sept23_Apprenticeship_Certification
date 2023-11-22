@@ -121,21 +121,26 @@ export default function View() {
       ) : (
         <div className="items-center p-2 m-2">
           <div className="flex gap-2 p-2 m-2">
-            <Button onClick={openOpensea} className="font-semibold text-black">
-              Opensea <OpenInNew />
+            <Button onClick={openOpensea}>
+              <p className="font-semibold text-black">
+                Opensea <OpenInNew />
+              </p>
             </Button>
-            <Button onClick={openEASScan} className="font-semibold text-black">
-              EASScan <OpenInNew />
+            <Button onClick={openEASScan}>
+              <p className="font-semibold text-black">
+                EASScan <OpenInNew />
+              </p>
             </Button>
-            <Button
-              onClick={openEtherscan}
-              className="font-semibold text-black"
-            >
-              Etherscan <OpenInNew />
+            <Button onClick={openEtherscan}>
+              <p className="font-semibold text-black">
+                Etherscan <OpenInNew />
+              </p>
             </Button>
             {mvp && (
-              <Button onClick={openMVP} className="font-semibold text-black">
-                MVP Link <OpenInNew />
+              <Button onClick={openMVP}>
+                <p className="font-semibold text-black">
+                  MVP Link <OpenInNew />
+                </p>
               </Button>
             )}
           </div>

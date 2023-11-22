@@ -15,11 +15,8 @@ export default () => {
             <p className="text-3xl font-bold">Manage the Mentor Members</p>
             <p className="text-xl">Manage the Mentors Members</p>
 
-            <Button
-              href="/Home/MentorsManagement"
-              className="w-72 mt-4 button font-semibold text-black"
-            >
-              Manage Now
+            <Button href="/Home/MentorsManagement" className="w-72 mt-4 button">
+              <p className="font-semibold text-black">Manage Now</p>
             </Button>
           </Fade>
         </div>

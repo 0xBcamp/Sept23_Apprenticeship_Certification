@@ -13,9 +13,9 @@ export default () => {
 
             <Button
               href="/Home/AttestCertification"
-              className="w-72 mt-4 button font-semibold text-black"
+              className="w-72 mt-4 button"
             >
-              Attest Now
+              <p className="font-semibold text-black">Attest Now</p>
             </Button>
           </Fade>
         </div>
