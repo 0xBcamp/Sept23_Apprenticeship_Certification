@@ -1,6 +1,7 @@
-import { Box, Button, Modal } from "@mui/material";
+import { Box, Button, Modal, Tooltip } from "@mui/material";
 import UploadFileToIPFSModal from "./UploadFileToIPFSModal";
 import { useState } from "react";
+import { CloudUpload } from "@mui/icons-material";
 
 const style = {
   position: "absolute",
@@ -59,7 +60,15 @@ export default ({
           }}
         />
       )}
-      <Button onClick={handleOpen}>Upload an Image</Button>
+      <Tooltip title="Upload an Image">
+        <button
+          className="m-1 p-3 bg-slate-200 hover:bg-slate-400 rounded"
+          onClick={handleOpen}
+        >
+          <CloudUpload color="info" />
+        </button>
+      </Tooltip>
+      {/* <Button onClick={handleOpen}>Upload an Image</Button> */}
       <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
           <h2>Upload a File</h2>

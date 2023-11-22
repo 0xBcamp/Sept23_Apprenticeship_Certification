@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { useAccount } from "wagmi";
 import { TypeWriterOnce } from "../Commons";
-import { Button, Checkbox, Grow, Input } from "@mui/material";
+import { Button, Checkbox, Grow, Input, Tooltip } from "@mui/material";
 import SuccessModal from "../Modals/SuccessModal";
 import ErrorModal from "../Modals/ErrorModal";
 import DisplayLottie from "../DisplayLottie";
@@ -14,6 +14,7 @@ import {
   certificationSchemaUID,
   createBlockBadgeSBTContract,
 } from "../../utils/contractUtils";
+import { Save } from "@mui/icons-material";
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
 export default () => {
@@ -224,7 +225,7 @@ export default () => {
               {false && (
                 <div className="flex gap-2">
                   <Input
-                    className="text-white w-52 p-2 mt-2"
+                    className="text-white w-72 p-2 mt-2"
                     type="text"
                     placeholder="Enter ImageURL..."
                     value={ImageURL}
@@ -232,38 +233,60 @@ export default () => {
                   />
                 </div>
               )}
-              <div className="m-2">
-                <UploadFileModal
-                  file={setImageURL}
-                  name={apprenticeName}
-                  certification={certificateName}
-                  projectName={projectName}
-                  projectURL={projectURL}
-                  cumulativeRate={cumulativeRate}
-                  fromDate={fromDate}
-                  toDate={toDate}
-                  mvpAwardUrl={mvpAwardUrl}
-                />
+              <div className="flex mt-2">
+                <div className="m-2">
+                  <UploadFileModal
+                    file={setImageURL}
+                    name={apprenticeName}
+                    certification={certificateName}
+                    projectName={projectName}
+                    projectURL={projectURL}
+                    cumulativeRate={cumulativeRate}
+                    fromDate={fromDate}
+                    toDate={toDate}
+                    mvpAwardUrl={mvpAwardUrl}
+                  />
+                </div>
+                <div className="m-2">
+                  <GereratePNGModal
+                    file={setImageURL}
+                    name={apprenticeName}
+                    certification={certificateName}
+                    projectName={projectName}
+                    projectURL={projectURL}
+                    cumulativeRate={cumulativeRate}
+                    fromDate={fromDate}
+                    toDate={toDate}
+                    mvpAwarded={mvpAwarded}
+                    mvpAwardUrl={mvpAwardUrl}
+                  />
+                </div>
+                <div className="m-2">
+                  <Tooltip title="Attest">
+                    <button
+                      className="m-1 p-3 bg-slate-200 hover:bg-slate-400 rounded"
+                      onClick={handleSubmit}
+                      disabled={isLoading}
+                    >
+                      <div>
+                        {isLoading ? (
+                          <DisplayLottie
+                            width={"100%"}
+                            animationPath="/lottie/LoadingBlue.json"
+                          />
+                        ) : (
+                          <Save color="info" />
+                        )}
+                      </div>
+                    </button>
+                  </Tooltip>
+                </div>
               </div>
-              <div>
-                <GereratePNGModal
-                  file={setImageURL}
-                  name={apprenticeName}
-                  certification={certificateName}
-                  projectName={projectName}
-                  projectURL={projectURL}
-                  cumulativeRate={cumulativeRate}
-                  fromDate={fromDate}
-                  toDate={toDate}
-                  mvpAwarded={mvpAwarded}
-                  mvpAwardUrl={mvpAwardUrl}
-                />
-              </div>
-
+              {/* 
               <Button
                 disabled={isLoading}
                 onClick={handleSubmit}
-                className="w-52 p-2 mt-2 button"
+                className="w-72 mt-2 button font-semibold text-black"
               >
                 <div>
                   {isLoading ? (
@@ -272,10 +295,10 @@ export default () => {
                       animationPath="/lottie/LoadingBlue.json"
                     />
                   ) : (
-                    <p className="text-indigo-400">Attest</p>
+                    <>Attest</>
                   )}
                 </div>
-              </Button>
+              </Button> */}
 
               {openError && (
                 <ErrorModal

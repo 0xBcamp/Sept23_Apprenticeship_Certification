@@ -9,6 +9,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Tooltip,
 } from "@mui/material";
 import { ethers } from "ethers";
 import SuccessModal from "../Modals/SuccessModal";
@@ -16,6 +17,7 @@ import ErrorModal from "../Modals/ErrorModal";
 import DisplayLottie from "../DisplayLottie";
 import WaitModal from "../Modals/WaitModal";
 import { createBlockBadgeBNSContract } from "../../utils/contractUtils";
+import { HowToReg, MoveDown, Save } from "@mui/icons-material";
 
 export default () => {
   const { isConnected, address: myAddress } = useAccount();
@@ -213,12 +215,12 @@ export default () => {
   return (
     <>
       {connectionStat ? (
-        <div className="container h-screen">
-          <div className="flex flex-col grid-cols-2 items-center">
-            <h1 className="text-xl font-bold">
-              <TypeWriterOnce text="BNS Management" />
-            </h1>
-            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+        <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+          <div className="container h-screen">
+            <div className="flex flex-col grid-cols-2 items-center">
+              <h1 className="text-xl font-bold">
+                <TypeWriterOnce text="BNS Management" />
+              </h1>
               <Input
                 className="text-white w-80 p-2 mt-4"
                 type="text"
@@ -226,29 +228,20 @@ export default () => {
                 value={recipientName}
                 onChange={(e) => setRecipientName(e.target.value)}
               />
-            </Grow>
-
-            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
               <FormControl fullWidth className="w-72 p-2 mt-4">
                 <InputLabel className="text-white">Transfer Name</InputLabel>
                 <Select
                   className="text-white"
                   value={transfer ? 1 : 2}
-                  label="transfer"
+                  label="Transfer Name"
                   onChange={handleChange}
                 >
                   <MenuItem value={1}>Yes</MenuItem>
                   <MenuItem value={2}>No</MenuItem>
                 </Select>
               </FormControl>
-            </Grow>
 
-            {transfer && (
-              <Grow
-                in={true}
-                style={{ transformOrigin: "0 0 0" }}
-                timeout={1000}
-              >
+              {transfer && (
                 <Input
                   className="text-white w-80 p-2 mt-4"
                   type="text"
@@ -256,10 +249,8 @@ export default () => {
                   value={toAddress}
                   onChange={(e) => setToAddress(e.target.value)}
                 />
-              </Grow>
-            )}
-            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
-              <Button
+              )}
+              {/* <Button
                 disabled={isLoading}
                 onClick={handleRegisterName}
                 className="w-72 p-2 mt-4 button "
@@ -274,26 +265,18 @@ export default () => {
                     <p className="text-indigo-400">Register</p>
                   )}
                 </div>
-              </Button>
-            </Grow>
-            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+              </Button> */}
               <Button
                 onClick={handleResolveAddress}
-                className="w-72 p-2 mt-4 button "
+                className="w-72 p-2 mt-4 button text-black underline"
               >
-                <p className="text-indigo-400">What's my BNS Name</p>
+                What's my BNS Name
               </Button>
-            </Grow>
-            {transfer && (
-              <Grow
-                in={true}
-                style={{ transformOrigin: "0 0 0" }}
-                timeout={1000}
-              >
-                <Button
+              <Tooltip title="Register">
+                <button
+                  className="mt-4 p-3 bg-slate-200 hover:bg-slate-400 rounded"
+                  onClick={handleRegisterName}
                   disabled={isLoading}
-                  onClick={handleTransferName}
-                  className="w-72 p-2 mt-4 button "
                 >
                   <div>
                     {isLoading ? (
@@ -302,28 +285,65 @@ export default () => {
                         animationPath="/lottie/LoadingBlue.json"
                       />
                     ) : (
-                      <p className="text-indigo-400">Transfer to new address</p>
+                      <HowToReg color="info" />
                     )}
                   </div>
-                </Button>
-              </Grow>
-            )}
-            {openError && (
-              <ErrorModal
-                message={errorMessage}
-                open={openError}
-                onClose={() => setOpenError(false)}
-              />
-            )}
-            {openSuccess && (
-              <SuccessModal
-                open={false}
-                onClose={() => setOpenSuccess(false)}
-              />
-            )}
-            {showWait && <WaitModal open={showWait} onClose={showWait} />}
+                </button>
+              </Tooltip>
+
+              {transfer && (
+                // <Button
+                //   disabled={isLoading}
+                //   onClick={handleTransferName}
+                //   className="w-72 p-2 mt-4 button "
+                // >
+                //   <div>
+                //     {isLoading ? (
+                //       <DisplayLottie
+                //         width={"100%"}
+                //         animationPath="/lottie/LoadingBlue.json"
+                //       />
+                //     ) : (
+                //       <p className="text-indigo-400">Transfer to new address</p>
+                //     )}
+                //   </div>
+                // </Button>
+                <Tooltip title="Transfer to new address">
+                  <button
+                    className="mt-4 p-3 bg-slate-200 hover:bg-slate-400 rounded"
+                    onClick={handleTransferName}
+                    disabled={isLoading}
+                  >
+                    <div>
+                      {isLoading ? (
+                        <DisplayLottie
+                          width={"100%"}
+                          animationPath="/lottie/LoadingBlue.json"
+                        />
+                      ) : (
+                        <MoveDown color="info" />
+                      )}
+                    </div>
+                  </button>
+                </Tooltip>
+              )}
+              {openError && (
+                <ErrorModal
+                  message={errorMessage}
+                  open={openError}
+                  onClose={() => setOpenError(false)}
+                />
+              )}
+              {openSuccess && (
+                <SuccessModal
+                  open={false}
+                  onClose={() => setOpenSuccess(false)}
+                />
+              )}
+              {showWait && <WaitModal open={showWait} onClose={showWait} />}
+            </div>
           </div>
-        </div>
+        </Grow>
       ) : (
         <>Please connect your wallet</>
       )}

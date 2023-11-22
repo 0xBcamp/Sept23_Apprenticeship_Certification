@@ -20,7 +20,6 @@ export default () => {
       <How />
       <ProblemsWeSolve />
       <Footer />
-      {/* </div> */}
     </div>
   );
 };

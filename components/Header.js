@@ -3,10 +3,12 @@ import Link from "next/link";
 import Headroom from "headroom.js";
 import { useContext, useEffect, useState } from "react";
 const IMG = "/logo.png";
-import { Input } from "@mui/material";
+import { IconButton, Input, InputAdornment } from "@mui/material";
 import { useRouter } from "next/router";
 import { AddressToBNS, BNSToAddress } from "../utils/contractUtils";
 import { ContractContext } from "../Constants/Context/ContractContext";
+import { Search } from "@mui/icons-material";
+import { ethers } from "ethers";
 
 export default () => {
   const router = useRouter();
@@ -18,22 +20,43 @@ export default () => {
 
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
-    if (searchQuery.startsWith("0x")) {
-      const profileUrl = `/Profile?id=${searchQuery}`;
-      const a = await AddressToBNS(searchQuery);
-      setBNSFromSearchbar(a);
-      setAddressFromSearchbar(searchQuery);
+    try {
+      if (searchQuery.startsWith("0x")) {
+        const profileUrl = `/Profile?id=${searchQuery}`;
+        const a = await AddressToBNS(searchQuery);
+        setBNSFromSearchbar(a);
+        setAddressFromSearchbar(searchQuery);
 
+        router.push(profileUrl);
+        return;
+      }
+
+      const b = await BNSToAddress(searchQuery);
+      if (!b) {
+        alert("This name not registered to BNS system.");
+        return;
+      }
+      setBNSFromSearchbar(b.formattedQuery);
+      setAddressFromSearchbar(b.resolvedAddress);
+      const profileUrl = `/Profile?id=${b.resolvedAddress}`;
       router.push(profileUrl);
-      return;
+    } catch (error) {
+      console.log(error);
+      alert("Error occurred while processing.");
     }
-
-    const b = await BNSToAddress(searchQuery);
-    setBNSFromSearchbar(b.formattedQuery);
-    setAddressFromSearchbar(b.resolvedAddress);
-    const profileUrl = `/Profile?id=${b.resolvedAddress}`;
-    router.push(profileUrl);
   };
+  useEffect(() => {
+    const checkChainID = async () => {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const chainID = (await provider.getNetwork()).chainId;
+      console.log(chainID);
+      if (chainID.toString() != "11155111") {
+        alert("Please switch to Sepolia testnet.");
+        return;
+      }
+    };
+    checkChainID();
+  }, []);
 
   useEffect(() => {
     let headroom = new Headroom(document.getElementById("navbar-main"));
@@ -48,17 +71,19 @@ export default () => {
     >
       {/* Logo */}
       <div className="flex items-center">
-        <img src={IMG} alt="Logo" className="h-10 w-auto mr-20" />
+        <Link href={"/"}>
+          <img src={IMG} alt="Logo" className="h-10 w-auto mr-20" />
+        </Link>
         <div className="flex font-bold flex-row items-center">
-          <Link className="mr-4 p-3 " href="/Home/">
+          <Link className="mr-2 p-3 " href="/Home/">
             Home
           </Link>
 
-          <Link className="mr-4 p-3 " href="/Home/Attestations">
+          <Link className="mr-2 p-3 " href="/Home/Attestations">
             Attestations
           </Link>
 
-          <Link className="mr-4 p-3 " href="/Profile">
+          <Link className="mr-2 p-3 " href="/Profile">
             Profile
           </Link>
         </div>
@@ -71,8 +96,20 @@ export default () => {
           placeholder="Search accounts, 0x or name.Blockbadge..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                disabled={!searchQuery}
+                className="font-bold text-black"
+                onClick={handleSearchSubmit}
+                edge={"end"}
+              >
+                <Search />
+              </IconButton>
+            </InputAdornment>
+          }
         />
-        <button type="submit" className="hidden"></button>{" "}
+        <button type="submit" className="hidden"></button>
         {/* Hidden submit button to handle form submission */}
         <w3m-button />
       </form>

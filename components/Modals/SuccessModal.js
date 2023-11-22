@@ -10,7 +10,7 @@ export default ({ message, open, onClose }) => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 300,
-    bgcolor: "#312e81",
+    bgcolor: "#1171ef",
     // border: "2px solid #fff",
     boxShadow: 24,
     p: 2,
