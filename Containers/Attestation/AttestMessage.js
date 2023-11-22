@@ -11,11 +11,8 @@ export default () => {
             <p className="text-xl">
               What is your evaluation of this apprentice?
             </p>
-            <Button
-              href="/Home/AttestMessage"
-              className="w-72 mt-4 button font-semibold text-black"
-            >
-              Attest Now
+            <Button href="/Home/AttestMessage" className="w-72 mt-4 button">
+              <p className="font-semibold text-black">Attest Now</p>
             </Button>
           </Fade>
         </div>

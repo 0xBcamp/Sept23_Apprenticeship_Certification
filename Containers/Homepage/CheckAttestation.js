@@ -10,11 +10,8 @@ export default () => {
             <p className="text-xl">
               Check who attested to you and whom you have attested
             </p>
-            <Button
-              className="w-72 mt-4 button font-semibold text-black"
-              href="/Profile"
-            >
-              Check Attestation
+            <Button className="w-72 mt-4 button" href="/Profile">
+              <p className="font-semibold text-black">Check Attestation</p>
             </Button>
           </Fade>
         </div>
