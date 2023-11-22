@@ -7,12 +7,15 @@ import {
 } from "../../utils/contractUtils";
 import { ContractContext } from "../../Constants/Context/ContractContext";
 import { useQuery } from "@apollo/client";
+import { OpenInNew } from "@mui/icons-material";
 
 export default function View() {
   const router = useRouter();
   const { GET_ATTESTATION_QUERY } = useContext(ContractContext);
 
   const [url, setURL] = useState("");
+
+  const [mvp, setMVP] = useState("");
 
   const [certification, setCertification] = useState("");
   const [cohortDate, setCohortDate] = useState("");
@@ -60,6 +63,9 @@ export default function View() {
             modifiedURL =
               i.value.value.replace(prefixIPFS, "https://") + suffix;
           }
+          if (i.value.name.toLowerCase() == "mvpaward") {
+            setMVP(i.value.value);
+          }
         }
 
         fetchDataFromIPFS(modifiedURL);
@@ -103,19 +109,37 @@ export default function View() {
     const link = `https://sepolia.etherscan.io/tx/${txToEtherscan}`;
     window.open(link, "_blank");
   };
+  const openMVP = () => {
+    const link = mvp;
+    window.open(link, "_blank");
+  };
   return (
     <div className="container h-screen">
       <h1>Check the Certification</h1>
       {loading ? (
-        <p>loading</p>
+        <p>loading...</p>
       ) : (
         <div className="items-center p-2 m-2">
           <div className="flex gap-2 p-2 m-2">
-            <Button onClick={openOpensea}>View on Opensea</Button>
-            <Button onClick={openEASScan}>View on EASScan</Button>
-            <Button onClick={openEtherscan}>View on Etherscan</Button>
+            <Button onClick={openOpensea} className="font-semibold text-black">
+              Opensea <OpenInNew />
+            </Button>
+            <Button onClick={openEASScan} className="font-semibold text-black">
+              EASScan <OpenInNew />
+            </Button>
+            <Button
+              onClick={openEtherscan}
+              className="font-semibold text-black"
+            >
+              Etherscan <OpenInNew />
+            </Button>
+            {mvp && (
+              <Button onClick={openMVP} className="font-semibold text-black">
+                MVP Link <OpenInNew />
+              </Button>
+            )}
           </div>
-          <img src={image} />
+          <img src={image} className="p-2 m-2" />
         </div>
       )}
     </div>

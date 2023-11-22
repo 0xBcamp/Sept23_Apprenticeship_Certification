@@ -61,7 +61,7 @@ export default () => {
     setConnectionStat(isConnected);
   }, [isConnected]);
   return (
-    <main className="flex items-center justify-center">
+    <main className="flex items-center justify-center h-screen">
       {connectionStat ? (
         <div className="flex h-full gap-6">
           <div className="absolute left-24">

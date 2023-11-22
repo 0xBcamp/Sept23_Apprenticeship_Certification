@@ -13,8 +13,11 @@ export default () => {
           <Fade bottom duration={2000}>
             <h3 className=" font-bold">Make Attestation</h3>
             <p className="text-xl">Attest your friends</p>
-            <Button className="w-72 mt-4 button" href="/Home/Attestations">
-              <p className="text-indigo-400">Attest Now</p>
+            <Button
+              className="w-72 mt-4 button font-semibold text-black"
+              href="/Home/Attestations"
+            >
+              Attest Now
             </Button>
           </Fade>
         </div>

@@ -4,11 +4,12 @@ import { ethers } from "ethers";
 import ErrorModal from "../Modals/ErrorModal";
 import SuccessModal from "../Modals/SuccessModal";
 import { useAccount } from "wagmi";
-import { Button, Grow, Input } from "@mui/material";
+import { Button, Grow, Input, Tooltip } from "@mui/material";
 import DisplayLottie from "../DisplayLottie";
 import WaitModal from "../Modals/WaitModal";
 import { TypeWriterOnce } from "../Commons";
 import { reputationSchemaUID } from "../../utils/contractUtils";
+import { FactCheck } from "@mui/icons-material";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
@@ -96,11 +97,11 @@ export default ({ addressFromProfile }) => {
   return (
     <>
       {connectionStat ? (
-        <div className="flex flex-col grid-cols-2 items-center">
-          <h1 className="text-xl font-bold">
-            <TypeWriterOnce text="Attest who you know" />
-          </h1>
-          <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+        <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+          <div className="flex flex-col grid-cols-2 items-center">
+            <h1 className="text-xl font-bold">
+              <TypeWriterOnce text="Attest who you know" />
+            </h1>
             <Input
               className="text-white w-72 p-2 mt-4"
               type="text"
@@ -108,8 +109,6 @@ export default ({ addressFromProfile }) => {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
-          </Grow>
-          <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
             <Input
               className="text-white w-72 p-2 mt-4"
               type="text"
@@ -117,9 +116,7 @@ export default ({ addressFromProfile }) => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
-          </Grow>
-          <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
-            <Button
+            {/* <Button
               disabled={isLoading}
               onClick={handleSubmit}
               className="w-72 p-2 mt-4 button"
@@ -134,24 +131,42 @@ export default ({ addressFromProfile }) => {
                   <p className="text-indigo-400">Attest</p>
                 )}
               </div>
-            </Button>
-          </Grow>
-          {openError && (
-            <ErrorModal
-              message={errorMessage}
-              open={openError}
-              onClose={() => setOpenError(false)}
-            />
-          )}
-          {attestUID && (
-            <SuccessModal
-              message={attestUID}
-              open={openSuccess}
-              onClose={() => setOpenSuccess(false)}
-            />
-          )}
-          {showWait && <WaitModal open={showWait} onClose={showWait} />}
-        </div>
+            </Button> */}
+            <Tooltip title="Attest">
+              <button
+                className="mt-4 p-3 bg-slate-200 hover:bg-slate-400 rounded"
+                onClick={handleSubmit}
+                disabled={isLoading}
+              >
+                <div>
+                  {isLoading ? (
+                    <DisplayLottie
+                      width={"100%"}
+                      animationPath="/lottie/LoadingBlue.json"
+                    />
+                  ) : (
+                    <FactCheck color="info" />
+                  )}
+                </div>
+              </button>
+            </Tooltip>
+            {openError && (
+              <ErrorModal
+                message={errorMessage}
+                open={openError}
+                onClose={() => setOpenError(false)}
+              />
+            )}
+            {attestUID && (
+              <SuccessModal
+                message={attestUID}
+                open={openSuccess}
+                onClose={() => setOpenSuccess(false)}
+              />
+            )}
+            {showWait && <WaitModal open={showWait} onClose={showWait} />}
+          </div>
+        </Grow>
       ) : (
         <>Please connect your wallet</>
       )}

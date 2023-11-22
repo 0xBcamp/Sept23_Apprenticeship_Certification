@@ -1,4 +1,4 @@
-import { Box, Button, List, ListItemText, Modal } from "@mui/material";
+import { Box, Button, List, ListItemText, Modal, Paper } from "@mui/material";
 
 export default ({ members, open, onClose }) => {
   const style = {
@@ -6,8 +6,8 @@ export default ({ members, open, onClose }) => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 450,
-    bgcolor: "#312e81",
+    width: 470,
+    bgcolor: "#1171ef",
     // border: "2px solid #fff",
     boxShadow: 24,
     p: 2,
@@ -18,16 +18,22 @@ export default ({ members, open, onClose }) => {
         <div className="bg-transparent text-black p-2 text-3xl font-bold">
           All Members
         </div>
-        <div className="bg-transparent text-blue-200 p-2 text-xl">
-          <p className="mt-4">
+        <Paper className="bg-transparent max-h-[50vh] overflow-auto">
+          <div className="bg-transparent text-blue-200 p-2 text-xl">
+            {/* <div className="mt-4"> */}
             <List sx={{ width: "100%" }}>
               {members.map((member, index) => {
-                return <ListItemText id={index} primary={member} />;
+                return (
+                  <ListItemText id={index} primary={member} className="pl-2" />
+                );
               })}
             </List>
-          </p>
-        </div>
-        <Button onClick={onClose}>Close</Button>
+            {/* </div> */}
+          </div>
+        </Paper>
+        <Button onClick={onClose} className="text-black hover:text-black">
+          Close
+        </Button>
       </Box>
     </Modal>
   );

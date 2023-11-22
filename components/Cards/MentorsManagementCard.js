@@ -9,6 +9,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Tooltip,
 } from "@mui/material";
 import SuccessModal from "../Modals/SuccessModal";
 import ErrorModal from "../Modals/ErrorModal";
@@ -17,6 +18,7 @@ import WaitModal from "../Modals/WaitModal";
 
 import ViewModal from "../Modals/ViewModal";
 import { createOrganizationResolverContract } from "../../utils/contractUtils";
+import { People, Save } from "@mui/icons-material";
 export default () => {
   const { isConnected } = useAccount();
   const [action, setAction] = useState("add");
@@ -140,13 +142,13 @@ export default () => {
   return (
     <>
       {connectionStat ? (
-        <div className="container h-screen">
-          <div className="flex flex-col grid-cols-2 items-center">
-            <h1 className="text-xl font-bold">
-              <TypeWriterOnce text="Mentors Management" />
-            </h1>
+        <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+          <div className="container h-screen">
+            <div className="flex flex-col grid-cols-2 items-center">
+              <h1 className="text-xl font-bold">
+                <TypeWriterOnce text="Mentors Management" />
+              </h1>
 
-            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
               <Input
                 className="text-white w-80 p-2 mt-4"
                 type="text"
@@ -154,8 +156,6 @@ export default () => {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
               />
-            </Grow>
-            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
               <FormControl fullWidth className="w-72 p-2 mt-4">
                 <InputLabel className="text-white">
                   Add / Remove Address
@@ -170,10 +170,8 @@ export default () => {
                   <MenuItem value={"remove"}>Remove</MenuItem>
                 </Select>
               </FormControl>
-            </Grow>
 
-            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
-              <Button
+              {/* <Button
                 disabled={isLoading}
                 onClick={handleConfirm}
                 className="w-72 p-2 mt-4 button "
@@ -188,39 +186,75 @@ export default () => {
                     <p className="text-indigo-400">Confirm</p>
                   )}
                 </div>
-              </Button>
-            </Grow>
-            <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
-              <Button
+              </Button> */}
+              <div className="flex gap-2">
+                <Tooltip title="Confirm">
+                  <button
+                    className="mt-4 p-3 bg-slate-200 hover:bg-slate-400 rounded"
+                    onClick={handleConfirm}
+                    disabled={isLoading}
+                  >
+                    <div>
+                      {isLoading ? (
+                        <DisplayLottie
+                          width={"100%"}
+                          animationPath="/lottie/LoadingBlue.json"
+                        />
+                      ) : (
+                        <Save color="info" />
+                      )}
+                    </div>
+                  </button>
+                </Tooltip>
+                {/* <Button
                 onClick={handleGetAllMembers}
                 className="w-72 p-2 mt-4 button "
               >
                 <p className="text-indigo-400">All members</p>
-              </Button>
-            </Grow>
-            {viewModal && (
-              <ViewModal
-                members={allMembers}
-                open={viewModal}
-                onClose={() => setViewModal(false)}
-              />
-            )}
-            {openError && (
-              <ErrorModal
-                message={errorMessage}
-                open={openError}
-                onClose={() => setOpenError(false)}
-              />
-            )}
-            {openSuccess && (
-              <SuccessModal
-                open={false}
-                onClose={() => setOpenSuccess(false)}
-              />
-            )}
-            {showWait && <WaitModal open={showWait} onClose={showWait} />}
+              </Button> */}
+                <Tooltip title="All members">
+                  <button
+                    className="mt-4 p-3 bg-slate-200 hover:bg-slate-400 rounded"
+                    onClick={handleGetAllMembers}
+                    disabled={isLoading}
+                  >
+                    <div>
+                      {isLoading ? (
+                        <DisplayLottie
+                          width={"100%"}
+                          animationPath="/lottie/LoadingBlue.json"
+                        />
+                      ) : (
+                        <People color="info" />
+                      )}
+                    </div>
+                  </button>
+                </Tooltip>
+              </div>
+              {viewModal && (
+                <ViewModal
+                  members={allMembers}
+                  open={viewModal}
+                  onClose={() => setViewModal(false)}
+                />
+              )}
+              {openError && (
+                <ErrorModal
+                  message={errorMessage}
+                  open={openError}
+                  onClose={() => setOpenError(false)}
+                />
+              )}
+              {openSuccess && (
+                <SuccessModal
+                  open={false}
+                  onClose={() => setOpenSuccess(false)}
+                />
+              )}
+              {showWait && <WaitModal open={showWait} onClose={showWait} />}
+            </div>
           </div>
-        </div>
+        </Grow>
       ) : (
         <>Please connect your wallet</>
       )}

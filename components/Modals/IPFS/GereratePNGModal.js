@@ -1,7 +1,8 @@
-import { Box, Button, Modal } from "@mui/material";
+import { Box, Button, Modal, Tooltip } from "@mui/material";
 import UploadFileToIPFSModal from "./UploadFileToIPFSModal";
 import { useRef, useState } from "react";
 import html2canvas from "html2canvas";
+import { WifiProtectedSetup } from "@mui/icons-material";
 
 const fileType = "image/png";
 
@@ -94,7 +95,15 @@ export default ({
           }}
         />
       )}
-      <Button onClick={handleOpen}>Don't have image, Generate One</Button>
+      <Tooltip title="Don't have image, Generate One">
+        <button
+          className="m-1 p-3 bg-slate-200 hover:bg-slate-400 rounded"
+          onClick={handleOpen}
+        >
+          <WifiProtectedSetup color="info" />
+        </button>
+      </Tooltip>
+      {/* <Button onClick={handleOpen}>Don't have image, Generate One</Button> */}
       <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
           <h2>Generated Image</h2>
