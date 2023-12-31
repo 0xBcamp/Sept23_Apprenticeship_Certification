@@ -22,6 +22,7 @@ contract bbAdminWhitelist is AccessControl, ReentrancyGuard {
         require(account != address(0), "Invalid address");
         if (!hasRole(ADMIN_ROLE, account)) {
             grantRole(ADMIN_ROLE, account);
+            allUsers.push(account);
             emit AdminRoleGranted(account, block.timestamp);
         }
     }
@@ -30,6 +31,7 @@ contract bbAdminWhitelist is AccessControl, ReentrancyGuard {
         require(account != address(0), "Invalid address");
         if (hasRole(ADMIN_ROLE, account)) {
             revokeRole(ADMIN_ROLE, account);
+            _removeUser(account);
             //emit AdminRoleRevoked(account, block.timestamp);
         }
     }
@@ -39,6 +41,7 @@ contract bbAdminWhitelist is AccessControl, ReentrancyGuard {
             require(accounts[i] != address(0), "Invalid address");
             if (!hasRole(ADMIN_ROLE, accounts[i])) {
                 grantRole(ADMIN_ROLE, accounts[i]);
+                allUsers.push(accounts[i]);  // Corrected this line
                 //emit AdminRoleGranted(accounts[i], block.timestamp);
             }
         }
@@ -49,7 +52,18 @@ contract bbAdminWhitelist is AccessControl, ReentrancyGuard {
             require(accounts[i] != address(0), "Invalid address");
             if (hasRole(ADMIN_ROLE, accounts[i])) {
                 revokeRole(ADMIN_ROLE, accounts[i]);
+                _removeUser(accounts[i]);
                 //emit AdminRoleRevoked(accounts[i], block.timestamp);
+            }
+        }
+    }
+
+    function _removeUser(address account) private {
+        for (uint256 i = 0; i < allUsers.length; i++) {
+            if (allUsers[i] == account) {
+                allUsers[i] = allUsers[allUsers.length - 1];
+                allUsers.pop();
+                break;
             }
         }
     }
@@ -65,10 +79,12 @@ contract bbAdminWhitelist is AccessControl, ReentrancyGuard {
         }
 
         // Resize the array to fit actual number of admins
-        bytes memory resizedArray = new bytes(adminCount * 20);
-        assembly { mstore(admins, adminCount) }
+        address[] memory resizedAdmins = new address[](adminCount);
+        for (uint256 i = 0; i < adminCount; i++) {
+            resizedAdmins[i] = admins[i];
+        }
 
-        return admins;
+        return resizedAdmins;
     }
 
     function getAllNonAdmins() public view returns (address[] memory) {
@@ -82,15 +98,15 @@ contract bbAdminWhitelist is AccessControl, ReentrancyGuard {
         }
 
         // Resize the array to fit actual number of non-admins
-        bytes memory resizedArray = new bytes(nonAdminCount * 20);
-        assembly { mstore(nonAdmins, nonAdminCount) }
+        address[] memory resizedNonAdmins = new address[](nonAdminCount);
+        for (uint256 i = 0; i < nonAdminCount; i++) {
+            resizedNonAdmins[i] = nonAdmins[i];
+        }
 
-        return nonAdmins;
+        return resizedNonAdmins;
     }
 
     function isAdmin(address account) public view returns (bool) {
         return hasRole(ADMIN_ROLE, account);
     }
-
-    
 }
