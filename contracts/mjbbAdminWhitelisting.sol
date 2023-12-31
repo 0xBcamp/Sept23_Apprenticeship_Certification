@@ -72,24 +72,7 @@ contract bbAdminWhitelist is AccessControl, ReentrancyGuard {
         return allUsers;
     }
 
-    function getAllNonAdmins() public view returns (address[] memory) {
-        address[] memory nonAdmins = new address[](allUsers.length);
-        uint256 nonAdminCount = 0;
-        for (uint256 i = 0; i < allUsers.length; i++) {
-            if (!hasRole(ADMIN_ROLE, allUsers[i])) {
-                nonAdmins[nonAdminCount] = allUsers[i];
-                nonAdminCount++;
-            }
-        }
-
-        // Resize the array to fit actual number of non-admins
-        address[] memory resizedNonAdmins = new address[](nonAdminCount);
-        for (uint256 i = 0; i < nonAdminCount; i++) {
-            resizedNonAdmins[i] = nonAdmins[i];
-        }
-
-        return resizedNonAdmins;
-    }
+ 
 
     function isAdmin(address account) public view returns (bool) {
         return hasRole(ADMIN_ROLE, account);
