@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract bbAdminWhitelist is AccessControl, ReentrancyGuard {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
+    address[] private allUsers;
 
     event AdminRoleGranted(address indexed account, uint256 timestamp);
     event AdminRoleRevoked(address indexed account, uint256 timestamp);
@@ -14,7 +15,7 @@ contract bbAdminWhitelist is AccessControl, ReentrancyGuard {
         _grantRole(DEFAULT_ADMIN_ROLE, root);
         _setRoleAdmin(ADMIN_ROLE, DEFAULT_ADMIN_ROLE);
         _grantRole(ADMIN_ROLE, root);
-        
+        allUsers.push(root);  // Add root to allUsers array
     }
 
     function addAdmin(address account) public nonReentrant onlyRole(DEFAULT_ADMIN_ROLE) {
@@ -51,6 +52,40 @@ contract bbAdminWhitelist is AccessControl, ReentrancyGuard {
                 //emit AdminRoleRevoked(accounts[i], block.timestamp);
             }
         }
+    }
+
+    function getAllAdmins() public view returns (address[] memory) {
+        address[] memory admins = new address[](allUsers.length);
+        uint256 adminCount = 0;
+        for (uint256 i = 0; i < allUsers.length; i++) {
+            if (hasRole(ADMIN_ROLE, allUsers[i])) {
+                admins[adminCount] = allUsers[i];
+                adminCount++;
+            }
+        }
+
+        // Resize the array to fit actual number of admins
+        bytes memory resizedArray = new bytes(adminCount * 20);
+        assembly { mstore(admins, adminCount) }
+
+        return admins;
+    }
+
+    function getAllNonAdmins() public view returns (address[] memory) {
+        address[] memory nonAdmins = new address[](allUsers.length);
+        uint256 nonAdminCount = 0;
+        for (uint256 i = 0; i < allUsers.length; i++) {
+            if (!hasRole(ADMIN_ROLE, allUsers[i])) {
+                nonAdmins[nonAdminCount] = allUsers[i];
+                nonAdminCount++;
+            }
+        }
+
+        // Resize the array to fit actual number of non-admins
+        bytes memory resizedArray = new bytes(nonAdminCount * 20);
+        assembly { mstore(nonAdmins, nonAdminCount) }
+
+        return nonAdmins;
     }
 
     function isAdmin(address account) public view returns (bool) {
