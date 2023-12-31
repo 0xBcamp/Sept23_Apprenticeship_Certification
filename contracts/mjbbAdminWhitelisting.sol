@@ -32,7 +32,7 @@ contract bbAdminWhitelist is AccessControl, ReentrancyGuard {
         if (hasRole(ADMIN_ROLE, account)) {
             revokeRole(ADMIN_ROLE, account);
             _removeUser(account);
-            //emit AdminRoleRevoked(account, block.timestamp);
+            emit AdminRoleRevoked(account, block.timestamp);
         }
     }
 
@@ -42,7 +42,7 @@ contract bbAdminWhitelist is AccessControl, ReentrancyGuard {
             if (!hasRole(ADMIN_ROLE, accounts[i])) {
                 grantRole(ADMIN_ROLE, accounts[i]);
                 allUsers.push(accounts[i]);  // Corrected this line
-                //emit AdminRoleGranted(accounts[i], block.timestamp);
+                emit AdminRoleGranted(accounts[i], block.timestamp);
             }
         }
     }
@@ -53,7 +53,7 @@ contract bbAdminWhitelist is AccessControl, ReentrancyGuard {
             if (hasRole(ADMIN_ROLE, accounts[i])) {
                 revokeRole(ADMIN_ROLE, accounts[i]);
                 _removeUser(accounts[i]);
-                //emit AdminRoleRevoked(accounts[i], block.timestamp);
+                emit AdminRoleRevoked(accounts[i], block.timestamp);
             }
         }
     }
@@ -69,22 +69,7 @@ contract bbAdminWhitelist is AccessControl, ReentrancyGuard {
     }
 
     function getAllAdmins() public view returns (address[] memory) {
-        address[] memory admins = new address[](allUsers.length);
-        uint256 adminCount = 0;
-        for (uint256 i = 0; i < allUsers.length; i++) {
-            if (hasRole(ADMIN_ROLE, allUsers[i])) {
-                admins[adminCount] = allUsers[i];
-                adminCount++;
-            }
-        }
-
-        // Resize the array to fit actual number of admins
-        address[] memory resizedAdmins = new address[](adminCount);
-        for (uint256 i = 0; i < adminCount; i++) {
-            resizedAdmins[i] = admins[i];
-        }
-
-        return resizedAdmins;
+        return allUsers;
     }
 
     function getAllNonAdmins() public view returns (address[] memory) {
