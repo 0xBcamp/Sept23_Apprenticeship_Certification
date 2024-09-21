@@ -2,13 +2,13 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 describe("OrganizationResolver", function () {
-  let OrganizationResolver,
-    organizationResolver,
-    owner,
-    addr1,
-    addr2,
-    addr3,
-    IEAS;
+  let OrganizationResolver: any,
+    organizationResolver: any,
+    owner: any,
+    addr1: any,
+    addr2: any,
+    addr3: any,
+    IEAS: any;
 
   beforeEach(async function () {
     // Assuming you also have an IEAS mock or actual contract to deploy.
