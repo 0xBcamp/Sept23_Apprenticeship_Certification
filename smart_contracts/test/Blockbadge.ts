@@ -19,7 +19,7 @@ describe("OrganizationResolver", function () {
     OrganizationResolver = await ethers.getContractFactory(
       "OrganizationResolver"
     );
-    [owner, addr1, addr2, addr3, ...addrs] = await ethers.getSigners();
+    [owner, addr1, addr2, addr3] = await ethers.getSigners();
 
     // Deploying contract with initial members
     organizationResolver = await OrganizationResolver.deploy(
