@@ -8,6 +8,7 @@ describe("OrganizationResolver", function () {
     addr1: any,
     addr2: any,
     addr3: any,
+    addrs: any[],
     IEAS: any;
 
   beforeEach(async function () {
@@ -19,7 +20,7 @@ describe("OrganizationResolver", function () {
     OrganizationResolver = await ethers.getContractFactory(
       "OrganizationResolver"
     );
-    [owner, addr1, addr2, addr3] = await ethers.getSigners();
+    [owner, addr1, addr2, addr3, ...addrs] = await ethers.getSigners();
 
     // Deploying contract with initial members
     organizationResolver = await OrganizationResolver.deploy(
