@@ -1,24 +1,40 @@
-import AttestMessageCard from "@/components/Cards/AttestMessageCard";
+import AttestMessageCard from "/components/Cards/AttestMessageCard";
 import Link from "next/link";
-import { TypeWriterOnce } from "@/components/Commons";
+import GreetingLottie from "/components/DisplayLottie";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 export default () => {
+  const router = useRouter();
+  const [address, setAddress] = useState("");
+  useEffect(() => {
+    const { id } = router.query;
+    const checkURL = async () => {
+      if (id) {
+        setAddress(id);
+      }
+    };
+    checkURL();
+  }, [router.query.id]);
   return (
     <>
       <Link href={"/Home/Attestations"} className="Link__Back">
         Back
       </Link>
-      <main className="flex flex-col gap-2 items-center p-12 ">
-        {/* <h2 className="flex items-center justify-center gap-2">
-          <EASImage name={"Logo"} imageSrc={IMG} ImgWidth={200} />
-        </h2>
-        <span className="mt-3 font-bold">
-          Proof of Excellence, Verified Securely
-        </span> */}
-        <h1 className="text-xl font-bold">
-          <TypeWriterOnce text="What's your feedback" />
-        </h1>
-        <AttestMessageCard />
-      </main>
+      <div className="container h-screen">
+        <main className="flex flex-col gap-3 justify-center items-center">
+          <div className="grid grid-cols-2">
+            <div
+              className="flex flex-col grid-cols-1 items-center"
+              style={{ width: "100%" }}
+            >
+              <GreetingLottie animationPath="/lottie/Attesting.json" />
+            </div>
+            <div>
+              <AttestMessageCard addressFromProfile={address} />
+            </div>
+          </div>
+        </main>
+      </div>
     </>
   );
 };

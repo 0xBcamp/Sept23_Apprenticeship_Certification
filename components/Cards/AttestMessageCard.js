@@ -1,27 +1,35 @@
-import { useContext, useState } from "react";
-import { SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { useMoralis } from "react-moralis";
-import Link from "next/link";
-import { ContractContext } from "@/pages/Context/ContractContext";
+import { useEffect, useState } from "react";
+import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
+import { ethers } from "ethers";
+import ErrorModal from "../Modals/ErrorModal";
+import SuccessModal from "../Modals/SuccessModal";
+import { useAccount } from "wagmi";
+import { Button, Grow, Input, Tooltip } from "@mui/material";
+import DisplayLottie from "../DisplayLottie";
+import WaitModal from "../Modals/WaitModal";
+import { TypeWriterOnce } from "../Commons";
+import { reputationSchemaUID } from "../../utils/contractUtils";
+import { FactCheck } from "@mui/icons-material";
 
-export default () => {
-  const { makeOnChainAttestation, getOnChainAttestation } =
-    useContext(ContractContext);
-  const { isWeb3Enabled } = useMoralis();
-  const [address, setAddress] = useState(
-    "0x728e124340b2807eD0cc5B2104eD5c07cceFa0Ec"
-  );
+const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
+
+export default ({ addressFromProfile }) => {
+  const { isConnected } = useAccount();
+  const [connectionStat, setConnectionStat] = useState(false);
+
+  const [address, setAddress] = useState("");
   const [message, setMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [attestUID, setAttestUID] = useState("");
 
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [showWait, setShowWait] = useState(false);
+
+  const [openError, setOpenError] = useState(false);
+  const [openSuccess, setOpenSuccess] = useState(false);
+
   const handleSubmit = async () => {
-    // console.log(
-    //   await getOnChainAttestation(
-    //     "0x78b53af05a9ab1ac5ec5a3f9fe7e977a96a2a6e1b32b9f1504d6b1459dab1f43"
-    //   )
-    // );
-    // return;
     if (!address) {
       alert("Please enter an address!");
       return;
@@ -31,73 +39,134 @@ export default () => {
       return;
     }
     setIsLoading(false);
+    setOpenError(false);
 
-    const schemaEncoder = new SchemaEncoder("string Message");
-    const encodeData = schemaEncoder.encodeData([
-      { name: "Message", value: message, type: "string" },
-    ]);
+    try {
+      const eas = new EAS(EASContractAddress);
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
 
-    const tx = await makeOnChainAttestation(
-      "0xef178a6053ee7a49ae4fa1fc43585f6bc5f88818f13248cd26a2587df0af5b10",
-      address,
-      false,
-      encodeData
-    );
+      eas.connect(signer);
 
-    console.log(tx);
-    setAttestUID(tx);
-    // setAddress();
-    // setMessage();
+      setIsLoading(true);
+
+      const schemaEncoder = new SchemaEncoder("string message");
+      const encodedData = schemaEncoder.encodeData([
+        { name: "message", value: message, type: "string" },
+      ]);
+
+      const tx = await eas.attest({
+        schema: reputationSchemaUID,
+        data: {
+          recipient: address,
+          expirationTime: 0,
+          revocable: true,
+          data: encodedData,
+        },
+      });
+
+      setShowWait(true);
+      const newAttestId = await tx.wait();
+      setShowWait(false);
+      setIsLoading(false);
+      setAttestUID(newAttestId);
+      setOpenSuccess(true);
+      setAddress("");
+      setMessage("");
+    } catch (error) {
+      if (error.message.toLowerCase().includes("user rejected")) {
+        setErrorMessage(
+          "MetaMask Tx Signature: User denied transaction signature"
+        );
+      } else {
+        setErrorMessage("Error occurred while processing.");
+      }
+      setOpenError(true);
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+      setShowWait(false);
+    }
   };
-
+  useEffect(() => {
+    setConnectionStat(isConnected);
+  }, [isConnected]);
+  useEffect(() => {
+    if (addressFromProfile) setAddress(addressFromProfile);
+  }, [addressFromProfile]);
   return (
     <>
-      {isWeb3Enabled ? (
-        <div className="flex flex-col grid-cols-2 items-center">
-          {/* <p>
-        Schema id:
-        <b>
-          {" "}
-          0x3969bb076acfb992af54d51274c5c868641ca5344e1aacd0b1f5e4f80ac0822f
-        </b>
-      </p>
-      <p>
-        Schema:<b> string message</b>
-      </p> */}
-          <input
-            className="w-72 p-2 mt-4 Primary__Text border"
-            type="text"
-            placeholder="Enter an address to attest..."
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <input
-            className="w-72 p-2 mt-4 Primary__Text"
-            type="text"
-            placeholder="Your Message..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <button
-            onClick={handleSubmit}
-            className="w-72 p-2 mt-4 Primary__Click"
-          >
-            Submit
-          </button>
-          {isLoading && <p className="mt-4">Wait...</p>}
-          {attestUID && (
-            <p className="mt-4">
-              New Attest UID:
-              <Link
-                href={`https://sepolia.easscan.org/attestation/view/${attestUID}`}
-                target="_blank"
-                className="underline"
+      {connectionStat ? (
+        <Grow in={true} style={{ transformOrigin: "0 0 0" }} timeout={1000}>
+          <div className="flex flex-col grid-cols-2 items-center">
+            <h1 className="text-xl font-bold">
+              <TypeWriterOnce text="Attest who you know" />
+            </h1>
+            <Input
+              className="text-white w-72 p-2 mt-4"
+              type="text"
+              placeholder="Enter an address to attest..."
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <Input
+              className="text-white w-72 p-2 mt-4"
+              type="text"
+              placeholder="Your Message..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            {/* <Button
+              disabled={isLoading}
+              onClick={handleSubmit}
+              className="w-72 p-2 mt-4 button"
+            >
+              <div>
+                {isLoading ? (
+                  <DisplayLottie
+                    width={"100%"}
+                    animationPath="/lottie/LoadingBlue.json"
+                  />
+                ) : (
+                  <p className="text-indigo-400">Attest</p>
+                )}
+              </div>
+            </Button> */}
+            <Tooltip title="Attest">
+              <button
+                className="mt-4 p-3 bg-slate-200 hover:bg-slate-400 rounded"
+                onClick={handleSubmit}
+                disabled={isLoading}
               >
-                {`https://sepolia.easscan.org/attestation/view/${attestUID}`}
-              </Link>
-            </p>
-          )}
-        </div>
+                <div>
+                  {isLoading ? (
+                    <DisplayLottie
+                      width={"100%"}
+                      animationPath="/lottie/LoadingBlue.json"
+                    />
+                  ) : (
+                    <FactCheck color="info" />
+                  )}
+                </div>
+              </button>
+            </Tooltip>
+            {openError && (
+              <ErrorModal
+                message={errorMessage}
+                open={openError}
+                onClose={() => setOpenError(false)}
+              />
+            )}
+            {attestUID && (
+              <SuccessModal
+                message={attestUID}
+                open={openSuccess}
+                onClose={() => setOpenSuccess(false)}
+              />
+            )}
+            {showWait && <WaitModal open={showWait} onClose={showWait} />}
+          </div>
+        </Grow>
       ) : (
         <>Please connect your wallet</>
       )}
